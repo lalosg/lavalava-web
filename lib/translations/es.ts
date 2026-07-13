@@ -8,7 +8,8 @@ export const es = {
   hero: {
     eyebrow:          '01 — Lavandería · Tintorería · Distrito Tec',
     headline:         'Más tiempo\npara ti.',
-    subhead:          'Lavandería y tintorería premium en Distrito Tec, Monterrey. El cuidado que tu ropa merece.',
+    subheadStrong:    'Lavandería y tintorería premium',
+    subheadTertiary:  'Servicio profesional de lavandería, tintorería y ropa delicada en Distrito Tec, Monterrey. Retiro y entrega a domicilio disponibles.',
     ctaPrimary:       'Escríbenos',
     ctaSecondary:     'Cómo llegar →',
     whatsappMessage:  '¡Hola LAVALAVA! Me gustaría más información.',

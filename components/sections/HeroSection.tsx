@@ -38,59 +38,79 @@ export function HeroSection({ t, locale }: Props) {
         sizes="100vw"
       />
 
-      {/* Content — anchored to top, sitting in the open sky area of both images */}
-      <div className="absolute inset-0 flex items-start">
-        <div className="w-full max-w-6xl mx-auto px-4 md:px-12 pt-10 md:pt-12">
+      {/* Content — three tiers: headline top, SEO stripe + buttons bottom */}
+      <div className="absolute inset-0 flex flex-col pt-10 md:pt-12">
 
-          <RevealOnScroll eager>
-            <WaveMark size="md" className="mb-5 [&_path]:stroke-bone" />
-          </RevealOnScroll>
+        {/* Tier 1 + 2: wave + headline + subheadStrong — anchored top */}
+        <div className="px-4 md:px-12">
+          <div className="max-w-6xl mx-auto">
 
-          <RevealOnScroll eager delay={80}>
-            <p className="hidden md:block font-sans text-[10px] font-semibold tracking-[0.2em] uppercase text-white/70 mb-4 [text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
-              {t.hero.eyebrow}
+            <RevealOnScroll eager>
+              <WaveMark size="md" className="mb-5 [&_path]:stroke-bone" />
+            </RevealOnScroll>
+
+            <RevealOnScroll eager delay={80}>
+              <p className="hidden md:block font-sans text-[10px] font-semibold tracking-[0.2em] uppercase text-white/70 mb-4 [text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
+                {t.hero.eyebrow}
+              </p>
+            </RevealOnScroll>
+
+            <RevealOnScroll eager delay={160}>
+              {/* Tier 1: primary headline */}
+              <h1 className="font-fraunces text-white leading-[1.04] tracking-tight mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)]
+                             text-[4rem] whitespace-pre-line
+                             md:text-4xl md:whitespace-nowrap
+                             lg:text-5xl">
+                {t.hero.headline}
+              </h1>
+            </RevealOnScroll>
+
+            <RevealOnScroll eager delay={240}>
+              {/* Tier 2: service descriptor */}
+              <p className="font-fraunces text-white/90 leading-snug [text-shadow:0_1px_6px_rgba(0,0,0,0.25)]
+                            text-xl md:text-lg">
+                {t.hero.subheadStrong}
+              </p>
+            </RevealOnScroll>
+
+          </div>
+        </div>
+
+        {/* Flex spacer — pushes bottom content down */}
+        <div className="flex-1" />
+
+        {/* Tier 3: SEO/AEO stripe — full-bleed dark band */}
+        <RevealOnScroll eager delay={300}>
+          <div className="w-full bg-navy/55 backdrop-blur-[3px] py-3 md:py-4 px-4 md:px-12">
+            <p className="max-w-6xl mx-auto font-sans text-white/85 text-sm md:text-xs leading-relaxed">
+              {t.hero.subheadTertiary}
             </p>
-          </RevealOnScroll>
+          </div>
+        </RevealOnScroll>
 
-          <RevealOnScroll eager delay={160}>
-            {/* Mobile: large stacked — Desktop: compact single line in the sky space */}
-            <h1 className="font-fraunces text-white leading-[1.04] tracking-tight mb-5 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)]
-                           text-5xl whitespace-pre-line
-                           md:text-4xl md:whitespace-nowrap
-                           lg:text-5xl">
-              {t.hero.headline}
-            </h1>
-          </RevealOnScroll>
-
-          <RevealOnScroll eager delay={240}>
-            <p className="font-sans text-white/80 leading-relaxed mb-8 [text-shadow:0_1px_6px_rgba(0,0,0,0.2)]
-                          text-base max-w-xs
-                          md:text-sm md:max-w-sm">
-              {t.hero.subhead}
-            </p>
-          </RevealOnScroll>
-
-          <RevealOnScroll eager delay={320}>
-            <div className="flex flex-wrap gap-3">
+        {/* Buttons — pinned to very bottom */}
+        <RevealOnScroll eager delay={380}>
+          <div className="px-4 md:px-12 pt-4 pb-10 md:pb-12">
+            <div className="max-w-6xl mx-auto flex flex-wrap gap-3">
               <a
                 href={waLink(t.hero.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-teal text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal/90 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-navy text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-navy/90 transition-colors"
               >
                 <WhatsAppIcon />
                 {t.hero.ctaPrimary}
               </a>
               <a
                 href={`/${locale}/ubicacion`}
-                className="inline-flex items-center justify-center px-7 py-4 border border-white/40 text-white font-sans font-medium text-sm rounded-full hover:border-white/70 transition-colors backdrop-blur-sm"
+                className="inline-flex items-center justify-center px-7 py-4 bg-navy/75 border border-white/25 text-white font-sans font-medium text-sm rounded-full hover:bg-navy/90 transition-colors backdrop-blur-sm"
               >
                 {t.hero.ctaSecondary}
               </a>
             </div>
-          </RevealOnScroll>
+          </div>
+        </RevealOnScroll>
 
-        </div>
       </div>
     </section>
   )

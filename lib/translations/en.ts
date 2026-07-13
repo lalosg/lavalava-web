@@ -10,7 +10,8 @@ export const en: Translations = {
   hero: {
     eyebrow:         '01 — Premium Laundry & Dry Cleaning · Distrito Tec',
     headline:        'More time\nfor you.',
-    subhead:         'Premium laundry & dry cleaning in Distrito Tec, Monterrey. The care your clothes deserve.',
+    subheadStrong:   'Premium laundry & dry cleaning',
+    subheadTertiary: 'Professional laundry, dry cleaning, and delicate garment care in Distrito Tec, Monterrey. Pickup and home delivery available.',
     ctaPrimary:      'Message us',
     ctaSecondary:    'Get directions →',
     whatsappMessage: "Hi LAVALAVA! I'd like more information.",
