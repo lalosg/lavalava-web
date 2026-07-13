@@ -79,18 +79,9 @@ export function HeroSection({ t, locale }: Props) {
         {/* Flex spacer — pushes bottom content down */}
         <div className="flex-1" />
 
-        {/* Tier 3: SEO/AEO stripe — full-bleed dark band */}
+        {/* Buttons — above the stripe */}
         <RevealOnScroll eager delay={300}>
-          <div className="w-full bg-navy/55 backdrop-blur-[3px] py-3 md:py-4 px-4 md:px-12">
-            <p className="max-w-6xl mx-auto font-sans text-white/85 text-sm md:text-xs leading-relaxed">
-              {t.hero.subheadTertiary}
-            </p>
-          </div>
-        </RevealOnScroll>
-
-        {/* Buttons — pinned to very bottom */}
-        <RevealOnScroll eager delay={380}>
-          <div className="px-4 md:px-12 pt-4 pb-10 md:pb-12">
+          <div className="px-4 md:px-12 pb-5 md:pb-6">
             <div className="max-w-6xl mx-auto flex flex-wrap gap-3">
               <a
                 href={waLink(t.hero.whatsappMessage)}
@@ -108,6 +99,15 @@ export function HeroSection({ t, locale }: Props) {
                 {t.hero.ctaSecondary}
               </a>
             </div>
+          </div>
+        </RevealOnScroll>
+
+        {/* Tier 3: SEO/AEO stripe — full-bleed, pinned to very bottom */}
+        <RevealOnScroll eager delay={380}>
+          <div className="w-full bg-navy/60 backdrop-blur-[3px] py-3 md:py-4 px-4 md:px-12">
+            <p className="max-w-6xl mx-auto font-sans text-white/85 text-sm md:text-xs leading-relaxed">
+              {t.hero.subheadTertiary}
+            </p>
           </div>
         </RevealOnScroll>
 
