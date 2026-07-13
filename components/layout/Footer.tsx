@@ -1,24 +1,22 @@
 import Link from 'next/link'
 import { WaveMark } from '@/components/ui/WaveMark'
+import { getT, localePath } from '@/lib/translations'
+import type { Locale } from '@/lib/i18n'
 
 interface Props {
-  locale: string
+  locale: Locale
 }
 
 export function Footer({ locale }: Props) {
-  const isEs = locale === 'es'
+  const t = getT(locale)
 
-  const nav = isEs
-    ? [
-        { label: 'Servicios', href: '/servicios' },
-        { label: 'A domicilio', href: '/a-domicilio' },
-        { label: 'Ubicación', href: '/ubicacion' },
-      ]
-    : [
-        { label: 'Services', href: '/en/services' },
-        { label: 'Pickup & Delivery', href: '/en/pickup-delivery' },
-        { label: 'Location', href: '/en/location' },
-      ]
+  const nav = [
+    { label: t.nav.services,  href: localePath(locale, '/servicios') },
+    { label: t.nav.delivery,  href: localePath(locale, '/a-domicilio') },
+    { label: t.nav.location,  href: localePath(locale, '/ubicacion') },
+  ]
+
+  const copyright = t.footer.copyright.replace('{year}', String(new Date().getFullYear()))
 
   return (
     <footer className="bg-navy text-white/60">
@@ -33,9 +31,8 @@ export function Footer({ locale }: Props) {
                 LAVALAVA
               </span>
             </div>
-            <p className="text-sm leading-relaxed max-w-xs">
-              Lavandería y tintorería premium<br />
-              en Distrito Tec, Monterrey.
+            <p className="text-sm leading-relaxed max-w-xs whitespace-pre-line">
+              {t.footer.tagline}
             </p>
           </div>
 
@@ -54,25 +51,25 @@ export function Footer({ locale }: Props) {
 
           {/* Contact */}
           <div className="flex flex-col gap-3 text-sm">
-            <p>Av. Junco de la Vega, Col. Roma</p>
-            <p>Distrito Tec, Monterrey, NL</p>
+            <p>{t.footer.address}</p>
+            <p>{t.footer.city}</p>
             <a
-              href="mailto:hola@lavalava.vip"
+              href={`mailto:${t.footer.email}`}
               className="hover:text-white/80 transition-colors"
             >
-              hola@lavalava.vip
+              {t.footer.email}
             </a>
             <div className="flex items-center gap-3 mt-2">
               <Link
-                href="/"
-                className={isEs ? 'text-white/80 text-xs font-semibold' : 'text-white/35 text-xs font-semibold hover:text-white/60 transition-colors'}
+                href="/es"
+                className={locale === 'es' ? 'text-white/80 text-xs font-semibold' : 'text-white/35 text-xs font-semibold hover:text-white/60 transition-colors'}
               >
                 ES
               </Link>
               <span className="text-white/20">·</span>
               <Link
                 href="/en"
-                className={!isEs ? 'text-white/80 text-xs font-semibold' : 'text-white/35 text-xs font-semibold hover:text-white/60 transition-colors'}
+                className={locale === 'en' ? 'text-white/80 text-xs font-semibold' : 'text-white/35 text-xs font-semibold hover:text-white/60 transition-colors'}
               >
                 EN
               </Link>
@@ -82,9 +79,7 @@ export function Footer({ locale }: Props) {
 
         <hr className="border-white/10 my-10" />
 
-        <p className="text-xs text-white/30">
-          © {new Date().getFullYear()} LAVALAVA. Todos los derechos reservados.
-        </p>
+        <p className="text-xs text-white/30">{copyright}</p>
       </div>
     </footer>
   )

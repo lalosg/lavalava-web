@@ -17,9 +17,9 @@ export default function LocaleLayout({ children, params }: Props) {
 
   return (
     <>
-      <Header locale={params.locale} />
+      <Header locale={params.locale as Locale} />
       <main>{children}</main>
-      <Footer locale={params.locale} />
+      <Footer locale={params.locale as Locale} />
     </>
   )
 }
