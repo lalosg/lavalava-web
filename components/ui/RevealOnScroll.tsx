@@ -26,6 +26,13 @@ export function RevealOnScroll({ children, className, stagger = false, delay = 0
     const el = ref.current
     if (!el) return
 
+    // If element is already in viewport (e.g. user jumped to anchor), reveal immediately
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setTimeout(() => setVisible(true), delay)
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
