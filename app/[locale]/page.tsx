@@ -1,5 +1,6 @@
 import type { Locale } from '@/lib/i18n'
 import { getT } from '@/lib/translations'
+import { JsonLd } from '@/components/JsonLd'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { WelcomeStrip } from '@/components/sections/WelcomeStrip'
 import { PillarsSection } from '@/components/sections/PillarsSection'
@@ -22,6 +23,7 @@ export default function HomePage({ params }: Props) {
 
   return (
     <>
+      <JsonLd />
       <HeroSection t={t} locale={params.locale} />
       <WelcomeStrip t={t} />
       <PillarsSection t={t} />

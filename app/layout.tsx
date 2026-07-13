@@ -15,13 +15,16 @@ const sourceSans3 = Source_Sans_3({
   display: 'swap',
 })
 
+// Fallback metadata — locale layout overrides per-page
 export const metadata: Metadata = {
   title: 'LAVALAVA — Lavandería y Tintorería Premium en Distrito Tec, Monterrey',
-  description: 'Lavandería y tintorería premium en Distrito Tec, Monterrey. Cuidamos tu ropa con dedicación. Servicio a domicilio disponible.',
+  description: 'Lavandería y tintorería premium en Distrito Tec, Monterrey. Servicio a domicilio disponible.',
+  metadataBase: new URL('https://lavalava.vip'),
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
+    // lang="es" is the primary language; EN pages use hreflang alternates for correct indexing
     <html lang="es" className={`${fraunces.variable} ${sourceSans3.variable}`}>
       <body className="bg-bone text-ink font-sans antialiased">
         {children}
