@@ -61,6 +61,11 @@ body {
 .reveal-stagger.is-visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 320ms; }
 .reveal-stagger.is-visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 400ms; }
 
+/* ── Section horizontal padding — controls gutters site-wide ───────────── */
+.section-px {
+  @apply px-4 md:px-8;
+}
+
 /* ── Hairline divider ───────────────────────────────────────────────────── */
 .hairline {
   border: none;

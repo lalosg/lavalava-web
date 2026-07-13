@@ -7,7 +7,7 @@ interface Props {
 
 export function WelcomeStrip({ t }: Props) {
   return (
-    <div className="bg-sand px-8 py-6 flex items-center gap-4">
+    <div className="bg-sand section-px py-6 flex items-center gap-4">
       <div className="flex-shrink-0">
         <WaveMark size="sm" className="[&_path]:stroke-ink/40" />
       </div>

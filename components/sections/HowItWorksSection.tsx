@@ -9,7 +9,7 @@ export function HowItWorksSection({ t }: Props) {
   const steps = t.howItWorks.steps
 
   return (
-    <section className="bg-bone-alt py-20 px-8">
+    <section className="bg-bone-alt py-20 section-px">
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <p className="eyebrow mb-4">{t.howItWorks.eyebrow}</p>

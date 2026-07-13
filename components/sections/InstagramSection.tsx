@@ -14,7 +14,7 @@ const INSTAGRAM_WIDGET_ID: string | undefined = undefined
 
 export function InstagramSection({ t }: Props) {
   return (
-    <section className="bg-bone py-20 px-8">
+    <section className="bg-bone py-20 section-px">
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <p className="eyebrow mb-4">{t.instagram.eyebrow}</p>

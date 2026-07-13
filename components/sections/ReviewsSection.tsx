@@ -20,7 +20,7 @@ export function ReviewsSection({ t }: Props) {
     <section className="bg-bone-alt py-20">
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
-          <div className="px-8 mb-10">
+          <div className="section-px mb-10">
             <p className="eyebrow mb-4">{t.reviews.eyebrow}</p>
             <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight whitespace-pre-line max-w-sm">
               {t.reviews.headline}
@@ -30,7 +30,7 @@ export function ReviewsSection({ t }: Props) {
 
         {/* Review cards — horizontal scroll on mobile */}
         <RevealOnScroll>
-          <div className="flex gap-4 overflow-x-auto px-8 pb-2 snap-x snap-mandatory
+          <div className="flex gap-4 overflow-x-auto section-px pb-2 snap-x snap-mandatory
                           md:grid md:grid-cols-3 md:overflow-visible">
             {t.reviews.items.map((review) => (
               <div

@@ -8,7 +8,7 @@ export function TrustBar({ t }: Props) {
   const items = [t.trust.rating, t.trust.clients, t.trust.zone]
 
   return (
-    <div className="bg-navy py-6 px-8">
+    <div className="bg-navy py-6 section-px">
       <div className="max-w-6xl mx-auto flex items-center justify-center gap-0">
         {items.map((item, i) => (
           <div key={item} className="flex items-center">

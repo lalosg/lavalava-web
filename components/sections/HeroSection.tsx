@@ -40,7 +40,7 @@ export function HeroSection({ t, locale }: Props) {
 
       {/* Content — anchored to top, sitting in the open sky area of both images */}
       <div className="absolute inset-0 flex items-start">
-        <div className="w-full max-w-6xl mx-auto px-8 md:px-12 pt-10 md:pt-12">
+        <div className="w-full max-w-6xl mx-auto px-4 md:px-12 pt-10 md:pt-12">
 
           <RevealOnScroll eager>
             <WaveMark size="md" className="mb-5 [&_path]:stroke-bone" />

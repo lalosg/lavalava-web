@@ -9,7 +9,7 @@ interface Props {
 export function DeliverySection({ t }: Props) {
   return (
     <section className="bg-navy py-20 flex flex-col">
-      <div className="max-w-6xl mx-auto w-full px-8">
+      <div className="max-w-6xl mx-auto w-full section-px">
         <RevealOnScroll>
           <p className="eyebrow text-teal/70 mb-4">{t.delivery.eyebrow}</p>
           <h2 className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-6 whitespace-pre-line max-w-sm">

@@ -9,7 +9,7 @@ interface Props {
 
 export function FinalCTASection({ t }: Props) {
   return (
-    <section className="bg-navy py-24 px-8 flex flex-col items-center text-center">
+    <section className="bg-navy py-24 section-px flex flex-col items-center text-center">
       <RevealOnScroll>
         <WaveMark size="md" className="mx-auto mb-8 [&_path]:stroke-bone/30" />
       </RevealOnScroll>
