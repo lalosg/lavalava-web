@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { LazyMap } from '@/components/ui/LazyMap'
 import type { Translations } from '@/lib/translations'
 
 interface Props {
@@ -16,16 +17,9 @@ export function LocationSection({ t }: Props) {
           </h2>
         </RevealOnScroll>
 
-        {/* Map placeholder — will be replaced with lazy iframe in Step 5 */}
         <RevealOnScroll>
-          <div
-            className="w-full aspect-video max-w-2xl mb-10 border border-[var(--line)] relative
-                       bg-[repeating-linear-gradient(135deg,rgba(27,37,54,0.05)_0px,rgba(27,37,54,0.05)_2px,transparent_2px,transparent_14px)]
-                       flex items-center justify-center"
-          >
-            {/* Pin dot */}
-            <div className="w-3 h-3 rounded-full bg-teal border-2 border-bone-alt shadow-sm" />
-            <span className="sr-only">Mapa de ubicación LAVALAVA</span>
+          <div className="mb-10">
+            <LazyMap />
           </div>
         </RevealOnScroll>
 

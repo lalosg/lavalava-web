@@ -1,9 +1,16 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { InstagramFeed } from '@/components/ui/InstagramFeed'
 import type { Translations } from '@/lib/translations'
 
 interface Props {
   t: Translations
 }
+
+// TODO: Set INSTAGRAM_WIDGET_ID once Behold.so account is created
+// 1. Go to behold.so → create free account → connect @lavalava.vip
+// 2. Create a new widget → copy the Widget ID
+// 3. Set it here (or in an env var: process.env.NEXT_PUBLIC_BEHOLD_WIDGET_ID)
+const INSTAGRAM_WIDGET_ID: string | undefined = undefined
 
 export function InstagramSection({ t }: Props) {
   return (
@@ -17,24 +24,9 @@ export function InstagramSection({ t }: Props) {
           <p className="font-sans text-sm text-ink/50 mb-10">{t.instagram.description}</p>
         </RevealOnScroll>
 
-        {/* 3-col image grid — placeholder until Instagram widget wired in Step 5 */}
         <RevealOnScroll>
-          <div
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}
-            className="mb-8"
-          >
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="aspect-square bg-sand/40 border border-[var(--line)] flex items-center justify-center"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(27,37,54,0.2)" strokeWidth="1" aria-hidden="true">
-                  <rect x="2" y="2" width="20" height="20" rx="5"/>
-                  <circle cx="12" cy="12" r="4"/>
-                  <circle cx="17.5" cy="6.5" r="1" fill="rgba(27,37,54,0.2)" stroke="none"/>
-                </svg>
-              </div>
-            ))}
+          <div className="mb-8">
+            <InstagramFeed widgetId={INSTAGRAM_WIDGET_ID} />
           </div>
         </RevealOnScroll>
 
