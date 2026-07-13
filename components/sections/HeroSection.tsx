@@ -19,13 +19,22 @@ export function HeroSection({ t, locale }: Props) {
   return (
     <section className="relative mt-16 h-[calc(100vh-64px)] overflow-hidden">
 
-      {/* Background image */}
+      {/* Desktop background image */}
       <Image
-        src="/images/hero.png"
-        alt="Camisas blancas perfectamente dobladas sobre una superficie de madera — LAVALAVA Lavandería Premium"
+        src="/images/hero-desktop.png"
+        alt="Ropa blanca colgada al viento frente al mar — LAVALAVA Lavandería Premium"
         fill
         priority
-        className="object-cover object-center"
+        className="hidden md:block object-cover object-center"
+        sizes="100vw"
+      />
+      {/* Mobile background image */}
+      <Image
+        src="/images/hero-mobile.png"
+        alt="Ropa blanca colgada al viento frente al mar — LAVALAVA Lavandería Premium"
+        fill
+        priority
+        className="block md:hidden object-cover object-center"
         sizes="100vw"
       />
 
