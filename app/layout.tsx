@@ -11,7 +11,7 @@ const fraunces = Fraunces({
 const sourceSans3 = Source_Sans_3({
   subsets: ['latin'],
   variable: '--font-source-sans',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '600'],
   display: 'swap',
 })
 

@@ -14,13 +14,18 @@ interface Props {
 
 export function RevealOnScroll({ children, className, stagger = false, delay = 0, eager = false }: Props) {
   const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
+  // eager elements start visible so SSR paints them immediately — no FCP penalty
+  const [visible, setVisible] = useState(eager)
 
   useEffect(() => {
     if (eager) {
-      // Tiny rAF delay so the browser has painted once before animating in
-      const id = requestAnimationFrame(() => setTimeout(() => setVisible(true), delay))
-      return () => cancelAnimationFrame(id)
+      // Re-trigger staggered fade-in on client for delayed items
+      if (delay > 0) {
+        setVisible(false)
+        const id = setTimeout(() => setVisible(true), delay)
+        return () => clearTimeout(id)
+      }
+      return
     }
 
     const el = ref.current
