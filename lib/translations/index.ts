@@ -11,8 +11,7 @@ export function getT(locale: Locale) {
   return translations[locale] ?? translations.es
 }
 
-// WhatsApp base URL — swap in the real number when confirmed
-export const WA_NUMBER = '52XXXXXXXXXX'
+export const WA_NUMBER = '528118201400'
 
 export function waLink(message: string) {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`
