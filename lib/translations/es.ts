@@ -57,8 +57,8 @@ export const es = {
         description: 'Prendas limpias, perfectamente planchadas y listas para usar.',
       },
       {
-        title:       'Delicados y vestidos',
-        description: 'Cuidado especializado para telas finas, seda, encaje y vestidos de noche.',
+        title:       'Arreglos y Composturas',
+        description: 'Cambio de cierres, pegado de botones, bastillas y pequeños remiendos.',
       },
       {
         title:       'Cobertores y blancos',

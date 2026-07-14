@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import type { Translations } from '@/lib/translations'
 
@@ -5,37 +6,13 @@ interface Props {
   t: Translations
 }
 
-const serviceIcons = [
-  /* Washing machine / kilo */
-  <svg key="kilo" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="2" y="2" width="20" height="20" rx="3"/>
-    <circle cx="12" cy="13" r="4"/>
-    <path d="M6 7h2"/>
-  </svg>,
-  /* Hanger — tintorería */
-  <svg key="dry" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M20.38 18H3.62a1 1 0 01-.7-1.71L12 8l9.08 8.29a1 1 0 01-.7 1.71z"/>
-    <path d="M12 8V5a2 2 0 10-2.45-1.94"/>
-  </svg>,
-  /* Iron — lavado y planchado */
-  <svg key="iron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M5 17H2a1 1 0 01-1-1v-2a9 9 0 019-9h12l-3 12H5z"/>
-    <path d="M8 17v2M12 17v2M16 17v2"/>
-  </svg>,
-  /* Sparkle — delicados */
-  <svg key="delicate" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
-  </svg>,
-  /* Pillow — cobertores */
-  <svg key="blanket" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="2" y="7" width="20" height="10" rx="4"/>
-    <path d="M2 12h20"/>
-  </svg>,
-  /* Shoe — tenis */
-  <svg key="shoe" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M2 17l1.5-5L8 10l4-5 5.5 3L22 17H2z"/>
-    <path d="M8 10l1 7M12 8l1.5 9"/>
-  </svg>,
+const serviceImages = [
+  '/images/services/service_laundry.png',
+  '/images/services/service_drycleaning.png',
+  '/images/services/service_ironing.png',
+  '/images/services/service_fixes.png',
+  '/images/services/service_duvet.png',
+  '/images/services/service_tennis.png',
 ]
 
 export function ServicesSection({ t }: Props) {
@@ -45,6 +22,7 @@ export function ServicesSection({ t }: Props) {
   return (
     <section className="bg-bone py-20 section-px">
       <div className="max-w-6xl mx-auto">
+
         <RevealOnScroll>
           <p className="eyebrow mb-4">{t.services.eyebrow}</p>
           <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 whitespace-pre-line max-w-sm">
@@ -52,45 +30,56 @@ export function ServicesSection({ t }: Props) {
           </h2>
         </RevealOnScroll>
 
-        {/* 2-col service grid with hairline borders */}
-        <RevealOnScroll>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '1px',
-              background: 'rgba(27,37,54,0.1)',
-              border: '1px solid rgba(27,37,54,0.1)',
-            }}
-          >
-            {regularServices.map((item, i) => (
-              <div
-                key={item.title}
-                className="bg-bone p-6 flex flex-col gap-3"
-              >
-                <div className="w-9 h-9 rounded-full border border-[var(--line)] flex items-center justify-center text-ink/40 flex-shrink-0">
-                  {serviceIcons[i]}
-                </div>
-                <div>
-                  <div className="flex items-start gap-2 mb-1">
-                    <h3 className="font-fraunces text-base text-ink leading-snug">{item.title}</h3>
-                    {item.badge && (
-                      <span className="flex-shrink-0 text-[10px] font-sans font-semibold tracking-eyebrow text-teal uppercase mt-0.5">
-                        {item.badge}
-                      </span>
-                    )}
-                  </div>
-                  <p className="font-sans text-xs text-ink/50 leading-relaxed">{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </RevealOnScroll>
+        {/* Image-card grid: 2-col mobile / 3-col desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+          {regularServices.map((item, i) => (
+            <RevealOnScroll key={item.title} delay={i * 60}>
+              <div className="group">
 
-        {/* A domicilio — featured full-width navy card */}
+                {/* Image */}
+                <div className="relative aspect-[3/4] overflow-hidden mb-3">
+                  <Image
+                    src={serviceImages[i]}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                  />
+                  {/* Hover overlay with description — desktop only */}
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 via-navy/40 to-transparent px-4 pt-10 pb-4
+                                  opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block">
+                    <p className="font-sans text-xs text-white/85 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Label */}
+                <div className="flex items-start gap-2 mb-1">
+                  <h3 className="font-fraunces text-sm md:text-base text-ink leading-snug">
+                    {item.title}
+                  </h3>
+                  {item.badge && (
+                    <span className="flex-shrink-0 text-[10px] font-sans font-semibold tracking-eyebrow text-teal uppercase mt-0.5">
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
+
+                {/* Description — mobile always visible, desktop on hover (overlay above) */}
+                <p className="font-sans text-xs text-ink/50 leading-relaxed md:hidden">
+                  {item.description}
+                </p>
+
+              </div>
+            </RevealOnScroll>
+          ))}
+        </div>
+
+        {/* Servicio a domicilio — full-width navy feature */}
         {deliveryService && (
-          <RevealOnScroll delay={100}>
-            <div className="mt-px bg-navy p-6 flex items-center gap-4 border border-navy">
+          <RevealOnScroll delay={80}>
+            <div className="mt-5 bg-navy p-6 flex items-center gap-4">
               <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
@@ -106,17 +95,20 @@ export function ServicesSection({ t }: Props) {
                     </span>
                   )}
                 </div>
-                <p className="font-sans text-xs text-bone/50 leading-relaxed">{deliveryService.description}</p>
+                <p className="font-sans text-xs text-bone/50 leading-relaxed">
+                  {deliveryService.description}
+                </p>
               </div>
             </div>
           </RevealOnScroll>
         )}
 
-        <RevealOnScroll delay={150}>
+        <RevealOnScroll delay={120}>
           <p className="mt-8 font-sans text-xs text-ink/40 hover:text-ink/60 transition-colors cursor-default">
             {t.services.cta}
           </p>
         </RevealOnScroll>
+
       </div>
     </section>
   )

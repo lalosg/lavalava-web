@@ -59,8 +59,8 @@ export const en: Translations = {
         description: 'Clean clothes, perfectly pressed and ready to wear.',
       },
       {
-        title:       'Delicates & gowns',
-        description: 'Specialized care for fine fabrics, silk, lace, and evening wear.',
+        title:       'Repairs & Alterations',
+        description: 'Zipper replacement, button repair, hemming, and minor garment fixes.',
       },
       {
         title:       'Duvets & bedding',
