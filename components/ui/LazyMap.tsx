@@ -10,7 +10,7 @@ interface LazyMapProps {
 }
 
 const DEFAULT_SRC =
-  'https://maps.google.com/maps?q=Av.+Junco+de+la+Vega,+Colonia+Roma,+Monterrey,+NL,+Mexico&z=16&hl=es&output=embed'
+  'https://maps.google.com/maps?q=Av.+Junco+de+la+Vega+2224B,+Col.+Roma,+Distrito+Tec,+64700+Monterrey,+N.L.,+Mexico&z=17&hl=es&output=embed'
 
 export function LazyMap({
   src = DEFAULT_SRC,

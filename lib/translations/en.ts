@@ -132,8 +132,8 @@ export const en: Translations = {
   location: {
     eyebrow:  '07 — Location',
     headline: 'Minutes from\nTec.',
-    address:  'Av. Junco de la Vega, Col. Roma',
-    city:     'Distrito Tec, Monterrey, NL',
+    address:  'Av. Junco de la Vega 2224B, Col. Roma',
+    city:     'Distrito Tec, 64700 Monterrey, N.L.',
     hours: [
       { days: 'Monday — Friday', time: '8:00 — 19:00' },
       { days: 'Saturday',        time: '9:00 — 15:00' },
@@ -183,8 +183,8 @@ export const en: Translations = {
   },
   footer: {
     tagline:   'Premium laundry & dry cleaning\nin Distrito Tec, Monterrey.',
-    address:   'Av. Junco de la Vega, Col. Roma',
-    city:      'Distrito Tec, Monterrey, NL',
+    address:   'Av. Junco de la Vega 2224B, Col. Roma',
+    city:      'Distrito Tec, 64700 Monterrey, N.L.',
     email:     'hola@lavalava.vip',
     copyright: '© {year} LAVALAVA. All rights reserved.',
   },

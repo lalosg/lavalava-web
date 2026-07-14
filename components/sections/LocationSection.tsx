@@ -33,7 +33,7 @@ export function LocationSection({ t }: Props) {
               </address>
               <p className="font-sans text-xs text-teal/80 mt-1">{t.location.nearby}</p>
               <a
-                href="https://maps.google.com/?q=LAVALAVA+Monterrey"
+                href="https://share.google/2JPAcqEaTyrn6Dl3r"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-4 font-sans text-sm font-semibold text-ink hover:text-ink/60 transition-colors"

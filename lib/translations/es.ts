@@ -130,8 +130,8 @@ export const es = {
   location: {
     eyebrow:    '07 — Ubicación',
     headline:   'A minutos\ndel Tec.',
-    address:    'Av. Junco de la Vega, Col. Roma',
-    city:       'Distrito Tec, Monterrey, NL',
+    address:    'Av. Junco de la Vega 2224B, Col. Roma',
+    city:       'Distrito Tec, 64700 Monterrey, N.L.',
     hours: [
       { days: 'Lunes — Viernes', time: '8:00 — 19:00' },
       { days: 'Sábado',         time: '9:00 — 15:00' },
@@ -181,8 +181,8 @@ export const es = {
   },
   footer: {
     tagline:   'Lavandería y tintorería premium\nen Distrito Tec, Monterrey.',
-    address:   'Av. Junco de la Vega, Col. Roma',
-    city:      'Distrito Tec, Monterrey, NL',
+    address:   'Av. Junco de la Vega 2224B, Col. Roma',
+    city:      'Distrito Tec, 64700 Monterrey, N.L.',
     email:     'hola@lavalava.vip',
     copyright: '© {year} LAVALAVA. Todos los derechos reservados.',
   },
