@@ -9,8 +9,9 @@ interface LazyMapProps {
   ariaLabel?: string
 }
 
+// Pinned to exact coordinates extracted from the verified Google Business Profile listing
 const DEFAULT_SRC =
-  'https://maps.google.com/maps?q=Av.+Junco+de+la+Vega+2224B,+Col.+Roma,+Distrito+Tec,+64700+Monterrey,+N.L.,+Mexico&z=17&hl=es&output=embed'
+  'https://maps.google.com/maps?q=25.6559152,-100.2927385&z=17&hl=es&output=embed'
 
 export function LazyMap({
   src = DEFAULT_SRC,

@@ -1,6 +1,7 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { waLink } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
+import type { GoogleReview } from '@/lib/google-reviews'
 
 const GoogleGlyph = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" aria-label="Google" role="img">
@@ -13,9 +14,14 @@ const GoogleGlyph = () => (
 
 interface Props {
   t: Translations
+  googleReviews?: GoogleReview[]
 }
 
-export function ReviewsSection({ t }: Props) {
+export function ReviewsSection({ t, googleReviews }: Props) {
+  const reviews = googleReviews && googleReviews.length > 0
+    ? googleReviews.map(r => ({ name: r.name, text: r.text, rating: r.rating }))
+    : t.reviews.items
+
   return (
     <section className="bg-bone-alt py-20">
       <div className="max-w-6xl mx-auto">
@@ -32,7 +38,7 @@ export function ReviewsSection({ t }: Props) {
         <RevealOnScroll>
           <div className="flex gap-4 overflow-x-auto section-px pb-2 snap-x snap-mandatory
                           md:grid md:grid-cols-3 md:overflow-visible">
-            {t.reviews.items.map((review) => (
+            {reviews.map((review) => (
               <div
                 key={review.name}
                 className="min-w-[280px] md:min-w-0 snap-start flex-shrink-0 md:flex-shrink

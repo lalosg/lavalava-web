@@ -1,5 +1,6 @@
 import type { Locale } from '@/lib/i18n'
 import { getT } from '@/lib/translations'
+import { fetchGoogleReviews } from '@/lib/google-reviews'
 import { JsonLd } from '@/components/JsonLd'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { WelcomeStrip } from '@/components/sections/WelcomeStrip'
@@ -18,8 +19,9 @@ interface Props {
   params: { locale: Locale }
 }
 
-export default function HomePage({ params }: Props) {
+export default async function HomePage({ params }: Props) {
   const t = getT(params.locale)
+  const googleReviews = await fetchGoogleReviews()
 
   return (
     <>
@@ -31,7 +33,7 @@ export default function HomePage({ params }: Props) {
       <ServicesSection t={t} />
       <HowItWorksSection t={t} />
       <DeliverySection t={t} />
-      <ReviewsSection t={t} />
+      <ReviewsSection t={t} googleReviews={googleReviews} />
       <InstagramSection t={t} />
       <TrustBar t={t} />
       <LocationSection t={t} />
