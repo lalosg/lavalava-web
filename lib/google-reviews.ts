@@ -34,8 +34,6 @@ export async function fetchGoogleReviews(): Promise<GoogleReview[]> {
     const reviews = data.places?.[0]?.reviews ?? []
 
     return reviews
-      .filter((r: Record<string, unknown>) => r.rating === 5)
-      .slice(0, 3)
       .map((r: Record<string, unknown>) => {
         const text = (r.originalText as Record<string, string>)?.text
           ?? (r.text as Record<string, string>)?.text

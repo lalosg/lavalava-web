@@ -18,9 +18,14 @@ interface Props {
 }
 
 export function ReviewsSection({ t, googleReviews }: Props) {
-  const reviews = googleReviews && googleReviews.length > 0
+  const pool = googleReviews && googleReviews.length > 0
     ? googleReviews.map(r => ({ name: r.name, text: r.text, rating: r.rating }))
     : t.reviews.items
+
+  // Pick 3 random from the pool — rotates on each ISR revalidation (24h)
+  const reviews = pool.length > 3
+    ? [...pool].sort(() => Math.random() - 0.5).slice(0, 3)
+    : pool
 
   return (
     <section className="bg-bone-alt py-20">
