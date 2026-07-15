@@ -133,8 +133,8 @@ export const es = {
     address:    'Av. Junco de la Vega 2224B, Col. Roma',
     city:       'Distrito Tec, 64700 Monterrey, N.L.',
     hours: [
-      { days: 'Lunes — Viernes', time: '8:00 — 19:00' },
-      { days: 'Sábado',         time: '9:00 — 15:00' },
+      { days: 'Lunes — Viernes', time: '8:00 — 19:30' },
+      { days: 'Sábado',         time: '9:00 — 15:30' },
       { days: 'Domingo',        time: 'Cerrado' },
     ],
     directions: 'Cómo llegar →',
