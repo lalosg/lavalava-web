@@ -5,7 +5,7 @@ export interface GoogleReview {
   relativeTime: string
 }
 
-export async function fetchGoogleReviews(): Promise<GoogleReview[]> {
+export async function fetchGoogleReviews(locale = 'es'): Promise<GoogleReview[]> {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY
   if (!apiKey) return []
 
@@ -22,7 +22,7 @@ export async function fetchGoogleReviews(): Promise<GoogleReview[]> {
       },
       body: JSON.stringify({
         textQuery: 'Lavandería y Tintorería Lavalava Monterrey',
-        languageCode: 'es',
+        languageCode: locale,
       }),
       // Cache for 24h — reviews don't change by the minute
       next: { revalidate: 86400 },
@@ -35,8 +35,10 @@ export async function fetchGoogleReviews(): Promise<GoogleReview[]> {
 
     return reviews
       .map((r: Record<string, unknown>) => {
-        const text = (r.originalText as Record<string, string>)?.text
-          ?? (r.text as Record<string, string>)?.text
+        // text.text is Google's translation in the requested locale
+        // originalText.text is always the reviewer's original language
+        const text = (r.text as Record<string, string>)?.text
+          ?? (r.originalText as Record<string, string>)?.text
           ?? ''
         const author = r.authorAttribution as Record<string, string> | undefined
         return {

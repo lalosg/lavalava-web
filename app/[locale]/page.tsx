@@ -21,7 +21,7 @@ interface Props {
 
 export default async function HomePage({ params }: Props) {
   const t = getT(params.locale)
-  const googleReviews = await fetchGoogleReviews()
+  const googleReviews = await fetchGoogleReviews(params.locale)
 
   return (
     <>
