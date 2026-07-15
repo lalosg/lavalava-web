@@ -10,12 +10,15 @@ export async function fetchGoogleReviews(): Promise<GoogleReview[]> {
   if (!apiKey) return []
 
   try {
+    const origin = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lavalava-web.vercel.app'
+
     const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask': 'places.reviews',
+        'Referer': origin,
       },
       body: JSON.stringify({
         textQuery: 'Lavandería y Tintorería Lavalava Monterrey',
