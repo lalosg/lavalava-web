@@ -103,6 +103,9 @@ export const es = {
     eyebrow:  '05 — Reseñas',
     headline: 'Lo que dicen\nnuestros clientes.',
     feedback: '¿Cómo te fue? Cuéntanos por WhatsApp',
+    // {rating} is replaced with the star count at render time
+    starsLabel:      '{rating} de 5 estrellas',
+    feedbackMessage: '¡Hola LAVALAVA! Quiero contarte cómo me fue.',
     items: [
       {
         name:   'María G.',
@@ -139,6 +142,8 @@ export const es = {
     ],
     directions: 'Cómo llegar →',
     nearby:     'A minutos caminando del Tecnológico de Monterrey.',
+    mapCta:     'Ver mapa',
+    mapLabel:   'Mapa de ubicación LAVALAVA',
   },
   faq: {
     eyebrow:  '08 — Preguntas frecuentes',
@@ -189,6 +194,9 @@ export const es = {
   meta: {
     title:       'LAVALAVA — Lavandería y Tintorería Premium en Distrito Tec, Monterrey',
     description: 'Lavandería y tintorería premium en Distrito Tec, Monterrey. Servicio a domicilio. El cuidado que tu ropa merece.',
+    // Used for the LocalBusiness JSON-LD description. Intentionally more
+    // keyword-dense than `description` above — it's an AEO surface, not a SERP snippet.
+    schemaDescription: 'Lavandería y tintorería premium en Distrito Tec, Monterrey. Servicio a domicilio disponible. Lavado por kilo, tintorería, delicados y cobertores.',
   },
 }
 

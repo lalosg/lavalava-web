@@ -25,7 +25,7 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <>
-      <JsonLd />
+      <JsonLd locale={params.locale} />
       <HeroSection t={t} locale={params.locale} />
       <WelcomeStrip t={t} />
       <PillarsSection t={t} />

@@ -1,14 +1,55 @@
 import { BUSINESS, SITE_URL } from '@/lib/seo'
-import { es } from '@/lib/translations/es'
+import { getT } from '@/lib/translations'
+import type { Locale } from '@/lib/i18n'
+
+const DAY_CODES = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+const DAY_NAMES = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+]
+
+/** Expand a schema.org day token ('Mo-Fr', 'Sa', 'Mo,We') into full day names */
+function expandDays(token: string): string[] {
+  return token.split(',').flatMap((part) => {
+    const [from, to] = part.split('-')
+    const start = DAY_CODES.indexOf(from)
+    if (start === -1) return []
+    if (!to) return [DAY_NAMES[start]]
+    const end = DAY_CODES.indexOf(to)
+    if (end === -1) return []
+    return DAY_NAMES.slice(start, end + 1)
+  })
+}
+
+/**
+ * Derive openingHoursSpecification from BUSINESS.openingHours so the schema can
+ * never drift from the single source of truth in lib/seo.ts.
+ */
+function openingHoursSpecification() {
+  return BUSINESS.openingHours.map((entry) => {
+    const [days, hours] = entry.split(' ')
+    const [opens, closes] = hours.split('-')
+    return {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: expandDays(days),
+      opens,
+      closes,
+    }
+  })
+}
 
 /** LocalBusiness schema — DryCleaningOrLaundry subtype */
-function localBusinessSchema() {
+function localBusinessSchema(locale: Locale) {
   return {
     '@context': 'https://schema.org',
     '@type': ['LocalBusiness', 'DryCleaningOrLaundry'],
     name: BUSINESS.name,
-    description:
-      'Lavandería y tintorería premium en Distrito Tec, Monterrey. Servicio a domicilio disponible. Lavado por kilo, tintorería, delicados y cobertores.',
+    description: getT(locale).meta.schemaDescription,
     url: SITE_URL,
     telephone: BUSINESS.telephone,
     priceRange: BUSINESS.priceRange,
@@ -25,42 +66,25 @@ function localBusinessSchema() {
       latitude: BUSINESS.latitude,
       longitude: BUSINESS.longitude,
     },
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-        opens: '08:00',
-        closes: '19:00',
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Saturday'],
-        opens: '09:00',
-        closes: '15:00',
-      },
-    ],
+    openingHoursSpecification: openingHoursSpecification(),
     areaServed: BUSINESS.areaServed.map((area) => ({
       '@type': 'City',
       name: area,
     })),
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: BUSINESS.aggregateRating.ratingValue,
-      reviewCount: BUSINESS.aggregateRating.reviewCount,
-      bestRating: '5',
-    },
+    // No aggregateRating: self-reported rating markup is a Google penalty risk.
+    // Real ratings surface through the Places API reviews + the review cards.
     sameAs: BUSINESS.sameAs,
     servesCuisine: undefined, // not applicable
     hasMap: `https://maps.google.com/?q=${BUSINESS.latitude},${BUSINESS.longitude}`,
   }
 }
 
-/** FAQPage schema from ES translations */
-function faqSchema() {
+/** FAQPage schema, built from the translations for the rendered locale */
+function faqSchema(locale: Locale) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: es.faq.items.map((item) => ({
+    mainEntity: getT(locale).faq.items.map((item) => ({
       '@type': 'Question',
       name: item.q,
       acceptedAnswer: {
@@ -71,16 +95,20 @@ function faqSchema() {
   }
 }
 
-export function JsonLd() {
+interface Props {
+  locale: Locale
+}
+
+export function JsonLd({ locale }: Props) {
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema()) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema(locale)) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema()) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(locale)) }}
       />
     </>
   )

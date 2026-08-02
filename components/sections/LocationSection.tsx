@@ -19,7 +19,7 @@ export function LocationSection({ t }: Props) {
 
         <RevealOnScroll>
           <div className="mb-10">
-            <LazyMap />
+            <LazyMap ariaLabel={t.location.mapLabel} ctaLabel={t.location.mapCta} />
           </div>
         </RevealOnScroll>
 

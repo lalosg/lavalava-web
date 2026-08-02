@@ -54,7 +54,9 @@ export function ReviewsSection({ t, googleReviews }: Props) {
                   {Array.from({ length: review.rating }).map((_, i) => (
                     <span key={i} className="text-amber-400 text-sm" aria-hidden="true">★</span>
                   ))}
-                  <span className="sr-only">{review.rating} de 5 estrellas</span>
+                  <span className="sr-only">
+                    {t.reviews.starsLabel.replace('{rating}', String(review.rating))}
+                  </span>
                   <span className="ml-auto flex-shrink-0"><GoogleGlyph /></span>
                 </div>
 
@@ -82,7 +84,7 @@ export function ReviewsSection({ t, googleReviews }: Props) {
           <div className="mx-8 mt-6 bg-navy p-6 flex flex-col items-center gap-4 text-center">
             <p className="font-sans text-sm text-bone/60">{t.reviews.feedback}</p>
             <a
-              href={waLink('¡Hola LAVALAVA! Quiero contarte cómo me fue.')}
+              href={waLink(t.reviews.feedbackMessage)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 border border-bone/20 text-bone/70 font-sans text-xs font-semibold tracking-eyebrow uppercase rounded-full hover:border-bone/40 hover:text-bone/90 transition-colors"

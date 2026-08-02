@@ -105,6 +105,9 @@ export const en: Translations = {
     eyebrow:  '05 — Reviews',
     headline: 'What our\nclients say.',
     feedback: 'How did it go? Tell us via WhatsApp',
+    // {rating} is replaced with the star count at render time
+    starsLabel:      '{rating} out of 5 stars',
+    feedbackMessage: "Hi LAVALAVA! I'd like to tell you how it went.",
     items: [
       {
         name:   'María G.',
@@ -141,6 +144,8 @@ export const en: Translations = {
     ],
     directions: 'Get directions →',
     nearby:     'A short walk from Tecnológico de Monterrey.',
+    mapCta:     'View map',
+    mapLabel:   'LAVALAVA location map',
   },
   faq: {
     eyebrow:  '08 — Frequently asked questions',
@@ -191,5 +196,8 @@ export const en: Translations = {
   meta: {
     title:       'LAVALAVA — Premium Laundry & Dry Cleaning in Distrito Tec, Monterrey',
     description: 'Premium laundry & dry cleaning in Distrito Tec, Monterrey. Pickup & delivery available. The care your clothes deserve.',
+    // Used for the LocalBusiness JSON-LD description. Intentionally more
+    // keyword-dense than `description` above — it's an AEO surface, not a SERP snippet.
+    schemaDescription: 'Premium laundry and dry cleaning in Distrito Tec, Monterrey. Pickup and delivery available. Wash & fold by the kilo, dry cleaning, delicates, and comforters.',
   },
 }

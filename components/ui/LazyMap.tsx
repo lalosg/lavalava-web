@@ -6,7 +6,10 @@ interface LazyMapProps {
   /** Full Google Maps embed src — swap in a Place ID URL when confirmed */
   src?: string
   className?: string
-  ariaLabel?: string
+  /** Localized accessible name for the map, e.g. t.location.mapLabel */
+  ariaLabel: string
+  /** Localized facade button label, e.g. t.location.mapCta */
+  ctaLabel: string
 }
 
 // Pinned to exact coordinates extracted from the verified Google Business Profile listing
@@ -16,7 +19,8 @@ const DEFAULT_SRC =
 export function LazyMap({
   src = DEFAULT_SRC,
   className = '',
-  ariaLabel = 'Mapa de ubicación LAVALAVA',
+  ariaLabel,
+  ctaLabel,
 }: LazyMapProps) {
   const [loaded, setLoaded] = useState(false)
 
@@ -45,7 +49,7 @@ export function LazyMap({
       className={`w-full aspect-video max-w-2xl border border-[var(--line)] relative overflow-hidden
                   bg-[repeating-linear-gradient(135deg,rgba(27,37,54,0.04)_0px,rgba(27,37,54,0.04)_1px,transparent_1px,transparent_12px)]
                   flex flex-col items-center justify-center gap-3 group cursor-pointer ${className}`}
-      aria-label={`Cargar mapa — ${ariaLabel}`}
+      aria-label={`${ctaLabel} — ${ariaLabel}`}
       type="button"
     >
       <div
@@ -68,7 +72,7 @@ export function LazyMap({
         </svg>
       </div>
       <span className="font-sans text-sm text-ink/50 group-hover:text-ink/70 transition-colors duration-200">
-        Ver mapa
+        {ctaLabel}
       </span>
     </button>
   )
