@@ -17,20 +17,32 @@ interface Props {
 
 export function HeroSection({ t, locale }: Props) {
   return (
-    <section className="relative mt-16 h-[calc(100vh-64px)] overflow-hidden">
+    <section className="relative mt-16 h-hero overflow-hidden">
 
+      {/*
+        Art-directed hero. Both images render and CSS picks one — but display:none does
+        NOT cancel a preload, and next/image emits no `media` on the preload it generates.
+        With `priority` on both, every mobile visitor was fetching the desktop hero at
+        fetchPriority=high alongside the one it actually shows, competing with LCP on the
+        87% of traffic that is mobile.
+
+        So `priority` stays on the mobile image only. The desktop image is left on
+        next/image's default lazy loading, which emits no preload at all: browsers skip
+        fetching a display:none lazy image, so mobile now never downloads it. Desktop
+        still loads it during initial layout (native lazy loads in-viewport images
+        immediately) — it only gives up the preload head-start, at 13% of traffic.
+      */}
       {/* Desktop background image */}
       <Image
-        src="/images/hero-desktop.png"
+        src="/images/hero-desktop.jpg"
         alt="Ropa blanca colgada al viento frente al mar — LAVALAVA Lavandería Premium"
         fill
-        priority
         className="hidden md:block object-cover object-center"
         sizes="100vw"
       />
       {/* Mobile background image */}
       <Image
-        src="/images/hero-mobile.png"
+        src="/images/hero-mobile.jpg"
         alt="Ropa blanca colgada al viento frente al mar — LAVALAVA Lavandería Premium"
         fill
         priority

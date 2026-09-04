@@ -66,6 +66,17 @@ body {
   @apply px-4 md:px-8;
 }
 
+/* ── Hero height ────────────────────────────────────────────────────────────
+   Two declarations, in this order, on purpose: dvh must come second so it wins
+   where supported and falls back to vh where it is not. Tailwind arbitrary values
+   (h-[calc(100vh-64px)] h-[calc(100dvh-64px)]) cannot express this — it emitted the
+   dvh rule first, so vh won and the fix was inert. 64px is the fixed header height.
+   dvh tracks the collapsing mobile URL bar; vh does not, and shifts on scroll. */
+.h-hero {
+  height: calc(100vh - 64px);
+  height: calc(100dvh - 64px);
+}
+
 /* ── Hairline divider ───────────────────────────────────────────────────── */
 .hairline {
   border: none;

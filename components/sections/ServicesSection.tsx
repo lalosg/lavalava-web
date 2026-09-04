@@ -10,12 +10,12 @@ interface Props {
 }
 
 const serviceImages = [
-  '/images/services/service_laundry.png',
-  '/images/services/service_drycleaning.png',
-  '/images/services/service_ironing.png',
-  '/images/services/service_fixes.png',
-  '/images/services/service_duvet.png',
-  '/images/services/service_tennis.png',
+  '/images/services/service_laundry.jpg',
+  '/images/services/service_drycleaning.jpg',
+  '/images/services/service_ironing.jpg',
+  '/images/services/service_fixes.jpg',
+  '/images/services/service_duvet.jpg',
+  '/images/services/service_tennis.jpg',
 ]
 
 export function ServicesSection({ t, locale }: Props) {
