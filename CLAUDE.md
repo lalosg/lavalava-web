@@ -57,6 +57,42 @@ forward. Editorial numbered section labels (01 — … 08 —).
 ## Build status (audited against real code + live site, July 2026)
 Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 
+> **Session update — Sep 3 2026: sub-page SEO + performance passes DONE.**
+> Build, lint, and typecheck clean; all six sub-page routes still SSG. Verified against
+> emitted HTML and a real Lighthouse run, not assertion.
+> - **Canonical bug FIXED (this was the big one).** All six sub-pages were emitting the
+>   HOMEPAGE canonical (`.../es`) because none had `generateMetadata` and metadata is
+>   inherited from the closest segment. Google would have folded them all into `/es`.
+>   Fixed by removing `alternates` from `app/[locale]/layout.tsx` **entirely** and giving
+>   every page its own via a new `pageMetadata()` helper in `lib/seo.ts`. This kills the
+>   bug CLASS: a new route can no longer silently inherit a wrong canonical.
+>   Per-page titles/descriptions live in `lib/translations/*.ts` under `pages.<slug>.meta`.
+> - **`JsonLd` is now composable** — `<JsonLd schemas={[...]} />` plus exported builders
+>   `localBusinessSchema` / `faqSchema` / `breadcrumbSchema`. Sub-pages emit LocalBusiness
+>   + BreadcrumbList. **FAQPage stays homepage-only** (Google requires FAQPage markup to
+>   match FAQ visible on that page). `expandDays()` + `openingHours` derivation untouched.
+> - **Hub→spoke internal links are real anchors now.** `ServicesSection` had a dead
+>   `<p className="… cursor-default">` CTA; added contextual links to all three spokes.
+>   **Deliberately plain `<a>`, NOT `next/link`** — measured: `next/link` pulled the client
+>   router into the homepage bundle and cost 9 kB First Load JS (103→112 kB). Crawlers only
+>   read `href`. `HeroSection` already used plain `<a>` for `/ubicacion`. Don't "fix" this.
+> - **`sitemap.ts`**: dropped `lastModified: new Date()` (claimed every page changed on
+>   every deploy) and the bare-origin entry (a redirecting URL).
+> - **Performance: 92 → 96, LCP 3.3s → 2.8s** (mobile, simulated, production build; "after"
+>   re-run twice for stability). Cause was `priority` on BOTH hero images: `display:none`
+>   does not cancel a preload. `loading="eager"` also emits one, so the desktop hero is now
+>   on native lazy — browsers skip `display:none` lazy images, so mobile never fetches it.
+>   Exactly one high-priority preload remains, and it is the mobile hero.
+> - **Images 16MB → 2.9MB** (PNG→JPEG q85, no alpha, dimensions unchanged; refs updated).
+>   Honest caveat: this barely moved *delivered* bytes (346→369 KiB) because `next/image`
+>   already served resized AVIF (hero arrives as 42 KB). The win is repo size, build time,
+>   and Vercel image-optimization cost.
+> - **`.h-hero` utility added to `globals.css`.** The `dvh` fix written as duplicate
+>   Tailwind arbitrary values was INERT — Tailwind emitted `dvh` first and `vh` second, so
+>   `vh` won. A real utility is the only way to control declaration order.
+> - Final Lighthouse (mobile, prod build): **Performance 96 · Accessibility 98 · SEO 100**,
+>   LCP 2.8s, CLS 0, TBT 0ms.
+>
 > **Session update — Aug 2 2026: schema data + i18n correctness passes DONE.**
 > Build + lint clean; all routes still SSG; JSON-LD verified in the emitted HTML.
 > - **Schema data (was "What's left" #1):** `BUSINESS.telephone` → `+528118201400`;
@@ -102,6 +138,55 @@ Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 Nothing from the plan was lost. Remaining = data correctness + sub-page
 build-out + assets (below).
 
+## Content architecture — website CMS lives in the POS (decided Sep 2026)
+
+Website content is moving OUT of this repo and into a back office in the **POS project**
+(`~/Documents/projects/POS`, `lavalava-pos`: Next 15 + Supabase + Tamagui). That work is
+being built in a SEPARATE session; this repo is **consume-only**.
+
+**The ownership rule (Lalo's words):**
+> Everything an end user reads or sees → **CMS**.
+> Everything SEO / AEO / metadata → **repo**.
+
+So: service names, descriptions, prices, which products are published, display order,
+delivery coverage, hours, H1s, intro paragraphs, and FAQ Q&A → CMS. Meta titles and
+descriptions, canonicals, hreflang, OG/Twitter tags, `meta.schemaDescription`, and all
+JSON-LD *construction code* → repo.
+
+**Edge case, already resolved:** some schema values mirror visible text (FAQPage,
+`openingHoursSpecification`, `areaServed`). The repo owns schema *construction*; the CMS
+owns the *value*. This is also what Google requires — FAQPage markup must match content
+visible on the page. Consequence: `BUSINESS.openingHours` in `lib/seo.ts` demotes from
+source-of-truth to **fallback** once the CMS lands.
+
+**Why not read Supabase directly:** RLS on `products` is
+`FOR ALL TO authenticated USING (store_id = auth_store_id())`, and there is currently
+**no `TO anon` policy anywhere in the schema**. Keeping the DB closed is the whole reason
+the website consumes a published contract instead.
+
+**Transport:** on publish, the POS writes a versioned JSON snapshot to a public Supabase
+Storage bucket; the website fetches that CDN URL at build/ISR time. Chosen over a live API
+so website builds never depend on POS uptime. Full contract + table design + publish flow:
+`~/.claude/plans/purrfect-wobbling-lagoon.md` (appendix).
+
+**Three hard requirements when integrating (do not skip):**
+1. **Bilingual completeness.** Today `en: Translations` makes a missing EN key a build
+   error. The CMS loses that. Enforce in Postgres with a `CHECK` constraint on published
+   rows — not app-level validation. Never fall back EN→ES at render.
+2. **Let the catalog fetch THROW — do not copy the `catch { return [] }` from
+   `lib/google-reviews.ts`.** That pattern is right for reviews (they have hardcoded
+   fallbacks) but fatal for CMS content: returning empty makes ISR regeneration *succeed*
+   with nothing and replaces a good page with a blank one. On a throw, Next keeps serving
+   the last good page. Commit `lib/fallback-catalog.json` for cold builds, and **alert
+   loudly whenever the fallback is used** — silent downgrade is this project's recurring
+   hazard (see `GOOGLE_PLACES_API_KEY`).
+3. **No schema/content drift.** Build the visible component and its JSON-LD from the same
+   in-memory object in the same render pass. Omit missing fields; never fake them.
+
+**Useful:** the sub-page copy is NOT blocked on the CMS. `lib/fallback-catalog.json` is
+required by the architecture anyway, so authoring copy into it is not throwaway — it is
+both the fallback content and the seed data the POS session imports.
+
 ## What's left (prioritized)
 1. ~~**Stale business data in `lib/seo.ts`**~~ — **DONE Aug 2 2026** (see Build
    status above). One item survives: `BUSINESS.sameAs` still needs the **Google
@@ -110,28 +195,20 @@ build-out + assets (below).
    (`share.google/2JPAcqEaTyrn6Dl3r`) is a candidate but is a shortlink, not the
    canonical profile URL. Also still open: `og-image.jpg` referenced in `seo.ts`
    but the asset is missing (see #3).
-2. **Build out the sub-pages** (`/servicios`, `/a-domicilio`, `/ubicacion`) —
-   these are a DELIBERATE hub-and-spoke AEO strategy, not cruft. Currently
-   headline-only shells with no `generateMetadata`, but `sitemap.ts` already
-   submits all six (ES+EN). They must become real, substantial topic pages —
-   NOT deleted. Each needs a second iteration to decide content. Until content
-   exists they are thin pages that get crawled, so build them out (or
-   temporarily remove from sitemap only until content lands). Direction per page:
-   - `/servicios` — the full services catalog in depth (lavandería por kilo,
-     tintorería, lavado y planchado, delicados y vestidos, cobertores y blancos,
-     tenis), each with real descriptive copy, use cases, and the category+zone
-     keywords. Targets "tintorería / lavandería [service] Distrito Tec" intents.
-   - `/a-domicilio` — home pickup & delivery in depth: how it works, coverage
-     (Zona Tec / Distrito Tec / nearby colonias), why it's premium-convenient,
-     WhatsApp CTA. Targets "servicio a domicilio / lavandería a domicilio" intent.
-   - `/ubicacion` — location/visit page: address, map, hours, landmarks
-     ("a minutos del Tec"), parking, how to find us. Targets "lavandería /
-     tintorería cerca del Tec / cerca de mí" proximity intent.
-   Each sub-page needs: `generateMetadata` (per-locale title/description),
-   its own structured data where relevant, real body content, internal links
-   back to the hub and to WhatsApp, and bilingual copy. Content specifics need
-   a review pass with Lalo before writing.
+2. **Sub-page CONTENT** (`/servicios`, `/a-domicilio`, `/ubicacion`) — the SEO shell
+   is DONE (Sep 3 2026: per-page metadata, self-referencing canonicals, sibling
+   hreflang, BreadcrumbList, real hub→spoke links). They are now indexable but still
+   thin. **The remaining work is content, and content now lives in the CMS** — see
+   "Content architecture" below. Do NOT delete the routes; they are the hub-and-spoke
+   AEO strategy. Direction per page is unchanged:
+   - `/servicios` — full catalog in depth (lavandería por kilo, tintorería, lavado y
+     planchado, delicados, cobertores y blancos, tenis, composturas). Intent:
+     "[service] Distrito Tec."
+   - `/a-domicilio` — pickup & delivery in depth, coverage by named colonia (Lalo
+     supplies the list — do not invent). Intent: "lavandería a domicilio."
+   - `/ubicacion` — address, map, hours, landmarks, parking. Intent: "cerca del Tec."
 3. **Missing OG image** (`/og-image.jpg` referenced but absent) + default favicon.
+   The stock create-next-app favicon is also 26 KB and IS fetched on every page load.
 4. **Instagram feed placeholder** — `INSTAGRAM_WIDGET_ID` undefined → six empty
    squares in prod. Needs a Behold.so account (or curated-grid fallback).
 5. ~~**i18n bugs on /en**~~ — **DONE Aug 2 2026** (see Build status above).
@@ -140,11 +217,18 @@ build-out + assets (below).
    `meta.schemaDescription`, EN wording approved by Lalo). No known i18n gaps
    remain on /en.
 6. Default create-next-app README.
+7. **Heading order a11y** (the only failing Lighthouse audit — a11y 98, not 100).
+   Homepage goes `h1 → h3 → h2`: `PillarsSection.tsx:41` renders its three cards as
+   `<h3>` in a section that has no `<h2>` (only an eyebrow `<p>`). Also violates Spec
+   §5.3 ("one H1, H2 per section"). Promoting those three to `<h2>` is a pure semantic
+   change — no copy, no visual impact. Flagged and left undone: it was outside the
+   agreed scope of the Sep 3 passes.
 
-Suggested order (updated): 3 (OG image + favicon) → 2 (build out the sub-pages —
-biggest content lift, needs a content pass with Lalo first) → 4 (IG when Behold
-account exists) → 6. Note: #2 is a build-OUT, not a delete — it's the
-hub-and-spoke AEO strategy.
+Suggested order (updated Sep 3 2026): 7 (one-line a11y fix) → 3 (OG image + favicon,
+needs assets from Lalo) → 2 (sub-page content — now gated on the POS CMS; the copy can
+be authored into `lib/fallback-catalog.json` in parallel) → 4 (IG when Behold account
+exists) → 6. Note: #2 is a build-OUT, not a delete — it's the hub-and-spoke AEO
+strategy.
 
 ## Production release checklist (lavalava.vip go-live)
 Status as of Aug 2 2026. Schema data + i18n are DONE; what follows is what still
@@ -155,7 +239,8 @@ stands between the current build and a public launch.
    `.env.local`. Without it in Vercel, `fetchGoogleReviews()` returns `[]` and the
    reviews section silently falls back to the three hardcoded ES/EN cards. Not a
    crash — a silent downgrade, so it's easy to miss in prod.
-2. **`NEXT_PUBLIC_SITE_URL` is undocumented.** `lib/google-reviews.ts` reads it to
+2. **`NEXT_PUBLIC_SITE_URL` must be set in Vercel.** (It IS now documented in
+   `.env.example`.) `lib/google-reviews.ts` reads it to
    set the `Referer` header for Places API key restriction, defaulting to
    `https://lavalava-web.vercel.app`. On lavalava.vip that default is WRONG and
    the API key will be rejected if referrer restrictions are on. Set it in Vercel
@@ -166,14 +251,18 @@ stands between the current build and a public launch.
    domain is connected. Connect the domain, don't change `SITE_URL`.
 4. **OG image** (`/og-image.jpg`, referenced but absent → broken social cards) and
    the still-default create-next-app **favicon**.
-5. **Sub-pages are thin** but `sitemap.ts` submits all six (ES+EN). Either build
-   them out (What's left #2) or temporarily drop them from the sitemap. Do NOT
-   delete the routes — they're the hub-and-spoke AEO strategy.
+5. ~~**Sub-pages cancel themselves out of the index**~~ — **FIXED Sep 3 2026.** All six
+   now emit self-referencing canonicals and sibling hreflang, verified in the emitted
+   HTML. They remain thin until CMS content lands, but they are no longer self-defeating
+   and are safe to keep in the sitemap.
 
 **Should-have before launch**
 6. Google Business Profile URL for `BUSINESS.sameAs` (`TODO(Lalo)` in `seo.ts`).
-7. **Lighthouse mobile pass** — Spec Step 7 was never run. 87% of traffic is
-   mobile and Core Web Vitals are a ranking factor.
+7. ~~**Lighthouse mobile pass**~~ — **DONE Sep 3 2026**: Performance 96 · Accessibility
+   98 · SEO 100, LCP 2.8s, CLS 0, TBT 0ms (mobile, simulated, production build).
+   Re-measure against the live domain once it is connected — the remaining LCP is
+   dominated by Lighthouse's simulated throttling, not a defect found in the code.
+   One open a11y item: heading order (below).
 8. **Validate JSON-LD with Google's Rich Results Test** against the live URL.
    (Locally verified: LocalBusiness + FAQPage parse, per-locale, no
    `aggregateRating`. The live check is still worth doing.)
