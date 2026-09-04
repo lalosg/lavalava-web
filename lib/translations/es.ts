@@ -4,6 +4,7 @@ export const es = {
     delivery:  'A domicilio',
     location:  'Ubicación',
     whatsapp:  'Escríbenos',
+    home:      'Inicio',
   },
   hero: {
     eyebrow:          '01 — Lavandería · Tintorería · Distrito Tec',
@@ -74,7 +75,7 @@ export const es = {
         badge:       'Premium',
       },
     ],
-    cta: 'Ver todos los servicios y precios →',
+    cta: 'Ver todos los servicios →',
   },
   howItWorks: {
     eyebrow:  '03 — Cómo funciona',
@@ -98,6 +99,7 @@ export const es = {
     ],
     cta:              'Agendar recolección →',
     whatsappMessage:  '¡Hola LAVALAVA! Me gustaría agendar una recolección a domicilio.',
+    learnMore:        'Conoce el servicio a domicilio →',
   },
   reviews: {
     eyebrow:  '05 — Reseñas',
@@ -144,6 +146,7 @@ export const es = {
     nearby:     'A minutos caminando del Tecnológico de Monterrey.',
     mapCta:     'Ver mapa',
     mapLabel:   'Mapa de ubicación LAVALAVA',
+    moreInfo:   'Ver ubicación y horarios →',
   },
   faq: {
     eyebrow:  '08 — Preguntas frecuentes',
@@ -190,6 +193,29 @@ export const es = {
     city:      'Distrito Tec, 64700 Monterrey, N.L.',
     email:     'hola@lavalava.vip',
     copyright: '© {year} LAVALAVA. Todos los derechos reservados.',
+  },
+  // Per-page metadata. Repo-owned by the content ownership rule (machine-facing
+  // SEO surfaces stay in the repo; user-visible copy moves to the CMS). Do not
+  // migrate these into the CMS payload.
+  pages: {
+    servicios: {
+      meta: {
+        title:       'Servicios de Lavandería y Tintorería en Distrito Tec | LAVALAVA',
+        description: 'Lavandería por kilo, tintorería, lavado y planchado, cobertores y tenis en Distrito Tec, Monterrey. Cuidado experto para cada prenda, con servicio a domicilio.',
+      },
+    },
+    aDomicilio: {
+      meta: {
+        title:       'Lavandería a Domicilio en Distrito Tec, Monterrey | LAVALAVA',
+        description: 'Recolección y entrega de lavandería y tintorería a domicilio en Distrito Tec, Zona Tec y Colonia Roma. Sin filas, sin esperas — agenda por WhatsApp.',
+      },
+    },
+    ubicacion: {
+      meta: {
+        title:       'Lavandería y Tintorería cerca del Tec de Monterrey | LAVALAVA',
+        description: 'Estamos en Av. Junco de la Vega 2224B, Col. Roma, Distrito Tec — a minutos del Tec de Monterrey. Consulta horarios, mapa y cómo llegar.',
+      },
+    },
   },
   meta: {
     title:       'LAVALAVA — Lavandería y Tintorería Premium en Distrito Tec, Monterrey',

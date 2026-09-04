@@ -1,12 +1,15 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { LazyMap } from '@/components/ui/LazyMap'
+import { localePath } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
+import type { Locale } from '@/lib/i18n'
 
 interface Props {
   t: Translations
+  locale: Locale
 }
 
-export function LocationSection({ t }: Props) {
+export function LocationSection({ t, locale }: Props) {
   return (
     <section className="bg-bone-alt py-20 section-px">
       <div className="max-w-6xl mx-auto">
@@ -39,6 +42,17 @@ export function LocationSection({ t }: Props) {
                 className="mt-4 font-sans text-sm font-semibold text-ink hover:text-ink/60 transition-colors"
               >
                 {t.location.directions}
+              </a>
+              {/* Plain <a>, not next/link: importing Link into the homepage's server
+                components pulled the client router into this route's bundle and cost
+                9 kB of First Load JS (measured 103 -> 112 kB). Crawlers only read the
+                href, so the SEO value is identical, and the header nav still offers a
+                soft-navigation path to the same pages. */}
+              <a
+                href={localePath(locale, '/ubicacion')}
+                className="mt-2 font-sans text-xs text-ink/40 hover:text-ink/65 transition-colors"
+              >
+                {t.location.moreInfo}
               </a>
             </div>
 

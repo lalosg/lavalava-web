@@ -39,18 +39,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isEs = locale === 'es'
 
   return {
+    // Fallback title/description only. Canonical and hreflang are deliberately NOT
+    // set here: metadata merges from the closest segment, so a layout-level canonical
+    // is inherited by every page that does not set its own — which is exactly how all
+    // six sub-pages came to declare the homepage as their canonical. Each page builds
+    // its own via pageMetadata() in lib/seo.ts.
     title: t.meta.title,
     description: t.meta.description,
     metadataBase: new URL(SITE_URL),
-
-    alternates: {
-      canonical: `${SITE_URL}/${locale}`,
-      languages: {
-        es: `${SITE_URL}/es`,
-        en: `${SITE_URL}/en`,
-        'x-default': `${SITE_URL}/es`,
-      },
-    },
 
     openGraph: {
       title: t.meta.title,

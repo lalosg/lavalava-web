@@ -6,6 +6,7 @@ export const en: Translations = {
     delivery:  'Pickup & Delivery',
     location:  'Location',
     whatsapp:  'Message us',
+    home:      'Home',
   },
   hero: {
     eyebrow:         '01 — Premium Laundry & Dry Cleaning · Distrito Tec',
@@ -76,7 +77,7 @@ export const en: Translations = {
         badge:       'Premium',
       },
     ],
-    cta: 'View all services & pricing →',
+    cta: 'View all services →',
   },
   howItWorks: {
     eyebrow:  '03 — How it works',
@@ -100,6 +101,7 @@ export const en: Translations = {
     ],
     cta:             'Schedule a pickup →',
     whatsappMessage: "Hi LAVALAVA! I'd like to schedule a pickup.",
+    learnMore:       'Learn about pickup & delivery →',
   },
   reviews: {
     eyebrow:  '05 — Reviews',
@@ -146,6 +148,7 @@ export const en: Translations = {
     nearby:     'A short walk from Tecnológico de Monterrey.',
     mapCta:     'View map',
     mapLabel:   'LAVALAVA location map',
+    moreInfo:   'View location & hours →',
   },
   faq: {
     eyebrow:  '08 — Frequently asked questions',
@@ -192,6 +195,29 @@ export const en: Translations = {
     city:      'Distrito Tec, 64700 Monterrey, N.L.',
     email:     'hola@lavalava.vip',
     copyright: '© {year} LAVALAVA. All rights reserved.',
+  },
+  // Per-page metadata. Repo-owned by the content ownership rule (machine-facing
+  // SEO surfaces stay in the repo; user-visible copy moves to the CMS). Do not
+  // migrate these into the CMS payload.
+  pages: {
+    servicios: {
+      meta: {
+        title:       'Laundry & Dry Cleaning Services in Distrito Tec | LAVALAVA',
+        description: 'Laundry by the kilo, dry cleaning, wash & press, comforters and sneakers in Distrito Tec, Monterrey. Expert care for every garment, with pickup and delivery.',
+      },
+    },
+    aDomicilio: {
+      meta: {
+        title:       'Laundry Pickup & Delivery in Distrito Tec, Monterrey | LAVALAVA',
+        description: 'Laundry and dry cleaning pickup and delivery in Distrito Tec, Zona Tec and Colonia Roma. No lines, no waiting — schedule it on WhatsApp.',
+      },
+    },
+    ubicacion: {
+      meta: {
+        title:       'Laundry & Dry Cleaning near Tec de Monterrey | LAVALAVA',
+        description: 'Find us at Av. Junco de la Vega 2224B, Col. Roma, Distrito Tec — minutes from Tec de Monterrey. Hours, map and directions.',
+      },
+    },
   },
   meta: {
     title:       'LAVALAVA — Premium Laundry & Dry Cleaning in Distrito Tec, Monterrey',

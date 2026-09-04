@@ -43,8 +43,8 @@ function openingHoursSpecification() {
   })
 }
 
-/** LocalBusiness schema — DryCleaningOrLaundry subtype */
-function localBusinessSchema(locale: Locale) {
+/** LocalBusiness schema — DryCleaningOrLaundry subtype. Emitted on every page. */
+export function localBusinessSchema(locale: Locale) {
   return {
     '@context': 'https://schema.org',
     '@type': ['LocalBusiness', 'DryCleaningOrLaundry'],
@@ -74,13 +74,17 @@ function localBusinessSchema(locale: Locale) {
     // No aggregateRating: self-reported rating markup is a Google penalty risk.
     // Real ratings surface through the Places API reviews + the review cards.
     sameAs: BUSINESS.sameAs,
-    servesCuisine: undefined, // not applicable
     hasMap: `https://maps.google.com/?q=${BUSINESS.latitude},${BUSINESS.longitude}`,
   }
 }
 
-/** FAQPage schema, built from the translations for the rendered locale */
-function faqSchema(locale: Locale) {
+/**
+ * FAQPage schema, built from the translations for the rendered locale.
+ *
+ * Homepage only. Google requires FAQPage markup to match FAQ content visible on the
+ * same page, so this must not be emitted on pages that do not render the FAQ.
+ */
+export function faqSchema(locale: Locale) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -95,21 +99,43 @@ function faqSchema(locale: Locale) {
   }
 }
 
-interface Props {
-  locale: Locale
+/**
+ * BreadcrumbList for a sub-page. `trail` holds locale-less paths; the locale home
+ * is prepended automatically.
+ */
+export function breadcrumbSchema(
+  locale: Locale,
+  trail: { name: string; path: string }[],
+) {
+  const items = [{ name: getT(locale).nav.home, path: '' }, ...trail]
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: `${SITE_URL}/${locale}${item.path}`,
+    })),
+  }
 }
 
-export function JsonLd({ locale }: Props) {
+interface Props {
+  /** One <script type="application/ld+json"> is emitted per entry. */
+  schemas: object[]
+}
+
+export function JsonLd({ schemas }: Props) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema(locale)) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(locale)) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
     </>
   )
 }

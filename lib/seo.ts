@@ -1,3 +1,6 @@
+import type { Metadata } from 'next'
+import type { Locale } from '@/lib/i18n'
+
 /** Central SEO constants. Swap placeholders when real assets are confirmed. */
 export const SITE_URL = 'https://lavalava.vip'
 export const BUSINESS_NAME = 'LAVALAVA'
@@ -30,3 +33,57 @@ export const BUSINESS = {
 }
 
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg` // placeholder until real image in Step 7
+
+/**
+ * Per-page metadata builder.
+ *
+ * Every page MUST supply its own metadata via this helper. Next merges metadata from
+ * the closest segment, so a page without `generateMetadata` inherits the layout's
+ * `alternates.canonical` — which points at the locale root. That made all six sub-pages
+ * declare the homepage as their canonical and removed them from the index.
+ *
+ * `path` is the locale-less route ('/servicios'); '' is the homepage.
+ */
+export function pageMetadata({
+  locale,
+  path,
+  title,
+  description,
+}: {
+  locale: Locale
+  path: string
+  title: string
+  description: string
+}): Metadata {
+  const url = `${SITE_URL}/${locale}${path}`
+  const isEs = locale === 'es'
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: {
+        es: `${SITE_URL}/es${path}`,
+        en: `${SITE_URL}/en${path}`,
+        'x-default': `${SITE_URL}/es${path}`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: BUSINESS_NAME,
+      locale: isEs ? 'es_MX' : 'en_US',
+      alternateLocale: isEs ? 'en_US' : 'es_MX',
+      type: 'website',
+      images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [OG_IMAGE],
+    },
+  }
+}

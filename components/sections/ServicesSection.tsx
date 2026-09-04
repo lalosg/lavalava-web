@@ -1,9 +1,12 @@
 import Image from 'next/image'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { localePath } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
+import type { Locale } from '@/lib/i18n'
 
 interface Props {
   t: Translations
+  locale: Locale
 }
 
 const serviceImages = [
@@ -15,7 +18,7 @@ const serviceImages = [
   '/images/services/service_tennis.png',
 ]
 
-export function ServicesSection({ t }: Props) {
+export function ServicesSection({ t, locale }: Props) {
   const regularServices = t.services.items.slice(0, 6)
   const deliveryService = t.services.items[6]
 
@@ -104,9 +107,17 @@ export function ServicesSection({ t }: Props) {
         )}
 
         <RevealOnScroll delay={120}>
-          <p className="mt-8 font-sans text-xs text-ink/40 hover:text-ink/60 transition-colors cursor-default">
+          {/* Plain <a>, not next/link: importing Link into the homepage's server
+            components pulled the client router into this route's bundle and cost
+            9 kB of First Load JS (measured 103 -> 112 kB). Crawlers only read the
+            href, so the SEO value is identical, and the header nav still offers a
+            soft-navigation path to the same pages. */}
+          <a
+            href={localePath(locale, '/servicios')}
+            className="inline-block mt-8 font-sans text-xs text-ink/40 hover:text-ink/60 transition-colors"
+          >
             {t.services.cta}
-          </p>
+          </a>
         </RevealOnScroll>
 
       </div>

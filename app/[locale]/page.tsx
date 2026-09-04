@@ -1,7 +1,9 @@
+import type { Metadata } from 'next'
 import type { Locale } from '@/lib/i18n'
 import { getT } from '@/lib/translations'
 import { fetchGoogleReviews } from '@/lib/google-reviews'
-import { JsonLd } from '@/components/JsonLd'
+import { pageMetadata } from '@/lib/seo'
+import { JsonLd, localBusinessSchema, faqSchema } from '@/components/JsonLd'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { WelcomeStrip } from '@/components/sections/WelcomeStrip'
 import { PillarsSection } from '@/components/sections/PillarsSection'
@@ -19,24 +21,34 @@ interface Props {
   params: { locale: Locale }
 }
 
+export function generateMetadata({ params }: Props): Metadata {
+  const t = getT(params.locale)
+  return pageMetadata({
+    locale: params.locale,
+    path: '',
+    title: t.meta.title,
+    description: t.meta.description,
+  })
+}
+
 export default async function HomePage({ params }: Props) {
   const t = getT(params.locale)
   const googleReviews = await fetchGoogleReviews(params.locale)
 
   return (
     <>
-      <JsonLd locale={params.locale} />
+      <JsonLd schemas={[localBusinessSchema(params.locale), faqSchema(params.locale)]} />
       <HeroSection t={t} locale={params.locale} />
       <WelcomeStrip t={t} />
       <PillarsSection t={t} />
       <TrustBar t={t} />
-      <ServicesSection t={t} />
+      <ServicesSection t={t} locale={params.locale} />
       <HowItWorksSection t={t} />
-      <DeliverySection t={t} />
+      <DeliverySection t={t} locale={params.locale} />
       <ReviewsSection t={t} googleReviews={googleReviews} />
       <InstagramSection t={t} />
       <TrustBar t={t} />
-      <LocationSection t={t} />
+      <LocationSection t={t} locale={params.locale} />
       <FAQSection t={t} />
       <FinalCTASection t={t} />
     </>
