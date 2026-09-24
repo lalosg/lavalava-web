@@ -154,7 +154,7 @@ export const es = {
     items: [
       {
         q: '¿Cuánto cuesta el servicio de lavandería por kilo?',
-        a: 'Nuestro servicio de lavandería por kilo tiene un precio competitivo en Distrito Tec. Escríbenos por WhatsApp para conocer la tarifa actual y nuestros paquetes disponibles.',
+        a: 'Nuestro servicio de lavandería por kilo se cobra por peso, con un mínimo de 3 kilos por servicio. Consulta la tarifa vigente en la página de servicios, o escríbenos por WhatsApp y te la confirmamos.',
       },
       {
         q: '¿Cuánto tiempo tarda el servicio?',
@@ -230,7 +230,7 @@ export const es = {
               name:       'Lavado, secado y doblado',
               tagline:    'El de todas las semanas',
               body:       'Junta tu ropa de la semana y déjanosla. La pesamos, la separamos por color y por tipo de tela, la lavamos, la secamos y te la devolvemos doblada y lista para guardar en el clóset. No tienes que separar nada antes de traerla: de eso nos encargamos nosotros.',
-              detail:     'Se cobra por kilo, así que no hay sorpresas ni paquetes que descifrar. Lo que pesa, es lo que cuesta.',
+              detail:     'Se cobra por kilo, con un mínimo de 3 kilos por servicio. No hay paquetes que descifrar ni tarifas escalonadas: lo que pesa, es lo que cuesta.',
               turnaround: '24 horas',
             },
             {
@@ -318,7 +318,7 @@ export const es = {
           items: [
             {
               q: '¿Cómo funciona el cobro por kilo?',
-              a: 'Pesamos tu ropa al recibirla y ese peso define el costo. No hay paquetes ni tarifas escalonadas: es un precio por kilo, parejo. Te decimos el total antes de procesar si quieres confirmarlo primero.',
+              a: 'Pesamos tu ropa al recibirla y ese peso define el costo. Es un precio por kilo, parejo, con un mínimo de 3 kilos por servicio. No hay paquetes ni tarifas escalonadas, y te decimos el total antes de procesar si quieres confirmarlo primero.',
             },
             {
               q: '¿Cuánto tarda cada servicio?',
@@ -338,7 +338,7 @@ export const es = {
             },
             {
               q: '¿Tienen mínimo de pedido?',
-              a: 'No hay mínimo para dejar ropa en el local. Escríbenos por WhatsApp si quieres confirmar cualquier detalle antes de venir.',
+              a: 'La lavandería por kilo tiene un mínimo de 3 kilos por servicio. Los demás servicios se cobran por pieza, así que puedes traer desde una sola prenda. Si tienes dudas sobre tu caso, escríbenos por WhatsApp antes de venir.',
             },
             {
               q: '¿Los precios incluyen el servicio a domicilio?',
@@ -425,7 +425,7 @@ export const es = {
         pricing: {
           eyebrow:   '03 — Precios',
           headline:  'Tarifa fija\npor viaje.',
-          intro:     'La recolección y la entrega se cobran por separado, cada una con tarifa fija dentro de nuestras colonias de cobertura. Sin cargo por distancia y sin mínimo de pedido.',
+          intro:     'La recolección y la entrega se cobran por separado, cada una con tarifa fija dentro de nuestras colonias de cobertura. Sin cargo por distancia: la tarifa es la misma en las 24 colonias.',
           wasLabel:  'antes',
           promoNote: 'Precio promocional vigente.',
           roundTrip: {
@@ -440,7 +440,7 @@ export const es = {
           items: [
             {
               title:       'Tarifa fija, sin cargo por distancia',
-              description: 'Vivas en Altavista o en Campus Tec, el traslado cuesta lo mismo. No cobramos por kilómetro ni exigimos un pedido mínimo.',
+              description: 'Vivas en Altavista o en Campus Tec, el traslado cuesta lo mismo. No cobramos por kilómetro ni por piso.',
             },
             {
               title:       'Tú eliges la ventana',

@@ -156,7 +156,7 @@ export const en: Translations = {
     items: [
       {
         q: 'How much does laundry service cost per kilo?',
-        a: 'Our per-kilo laundry service is competitively priced in Distrito Tec. Message us on WhatsApp to get current pricing and available packages.',
+        a: 'Our laundry service is charged by weight, with a 3 kg minimum per service. Current rates are on the services page, or message us on WhatsApp and we will confirm them.',
       },
       {
         q: 'How long does service take?',
@@ -232,7 +232,7 @@ export const en: Translations = {
               name:       'Wash, dry and fold',
               tagline:    'The weekly one',
               body:       'Gather the week and hand it over. We weigh it, sort it by colour and fabric, wash it, dry it, and give it back folded and ready for the closet. No need to separate anything beforehand — that part is our job.',
-              detail:     'Charged by the kilo, so there are no packages to decode and no surprises. What it weighs is what it costs.',
+              detail:     'Charged by the kilo, with a 3 kg minimum per service. No packages to decode and no tiered rates: what it weighs is what it costs.',
               turnaround: '24 hours',
             },
             {
@@ -320,7 +320,7 @@ export const en: Translations = {
           items: [
             {
               q: 'How does pricing by the kilo work?',
-              a: 'We weigh your laundry when we receive it and that weight sets the cost. No packages and no tiered rates — one flat price per kilo. We will tell you the total before processing if you want to confirm first.',
+              a: 'We weigh your laundry when we receive it and that weight sets the cost. One flat price per kilo, with a 3 kg minimum per service. No packages and no tiered rates, and we will tell you the total before processing if you want to confirm first.',
             },
             {
               q: 'How long does each service take?',
@@ -340,7 +340,7 @@ export const en: Translations = {
             },
             {
               q: 'Is there a minimum order?',
-              a: 'There is no minimum for dropping clothes off at the shop. Message us on WhatsApp if you want to confirm any detail before coming in.',
+              a: 'Laundry by the kilo has a 3 kg minimum per service. Everything else is priced per piece, so you can bring in a single garment. If you are unsure about your case, message us on WhatsApp before coming in.',
             },
             {
               q: 'Do these prices include pickup and delivery?',
@@ -427,7 +427,7 @@ export const en: Translations = {
         pricing: {
           eyebrow:   '03 — Pricing',
           headline:  'A flat fare\nper trip.',
-          intro:     'Pickup and delivery are charged separately, each at a flat rate within our covered neighbourhoods. No distance surcharge and no minimum order.',
+          intro:     'Pickup and delivery are charged separately, each at a flat rate within our covered neighbourhoods. No distance surcharge: the fare is the same across all 24 neighbourhoods.',
           wasLabel:  'was',
           promoNote: 'Promotional price, currently running.',
           roundTrip: {
@@ -442,7 +442,7 @@ export const en: Translations = {
           items: [
             {
               title:       'A flat fare, with no distance surcharge',
-              description: 'Whether you live in Altavista or at Campus Tec, the trip costs the same. We do not charge by the kilometre and there is no minimum order.',
+              description: 'Whether you live in Altavista or at Campus Tec, the trip costs the same. We do not charge by the kilometre or by the floor.',
             },
             {
               title:       'You pick the window',
