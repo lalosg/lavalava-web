@@ -37,6 +37,10 @@ export const en: Translations = {
       },
     ],
   },
+  // Verified against the live Google Places API on 2026-09-24: rating 5.0 across 63
+  // ratings. `clients` is the 1,333 customers migrated from Drupal into the POS, stated
+  // conservatively as 1,300+. Both are real figures — do not inflate them, and re-verify
+  // the rating before launch rather than assuming it held.
   trust: {
     rating:  '5.0 ★ on Google',
     clients: '1,300+ clients',
@@ -56,16 +60,16 @@ export const en: Translations = {
         description: 'Solvent cleaning for delicate and formal garments.',
       },
       {
-        title:       'Wash & press',
-        description: 'Clean clothes, perfectly pressed and ready to wear.',
+        title:       'Press only',
+        description: 'You washed it at home. We press it on an industrial press.',
       },
       {
         title:       'Repairs & Alterations',
         description: 'Zipper replacement, button repair, hemming, and minor garment fixes.',
       },
       {
-        title:       'Duvets & bedding',
-        description: 'Comforters, duvets, pillows, and all bed linens.',
+        title:       'Comforters & blankets',
+        description: 'Duvets, comforters and thick quilts, on industrial machines.',
       },
       {
         title:       'Sneakers',
@@ -73,7 +77,7 @@ export const en: Translations = {
       },
       {
         title:       'Pickup & delivery',
-        description: 'We pick up and deliver to your door. Coverage in Distrito Tec and surrounding areas.',
+        description: 'We collect and deliver to your door, at a flat rate across 24 Distrito Tec neighbourhoods.',
         badge:       'Premium',
       },
     ],
@@ -95,7 +99,7 @@ export const en: Translations = {
     description: 'We pick up and deliver to your door. No lines, no waiting. Just send us a message and we handle the rest.',
     benefits: [
       'Flat-rate pickup and delivery, no surprises',
-      'Coverage in Distrito Tec and surrounding areas',
+      'Coverage across 24 Distrito Tec neighbourhoods',
       'Delivery at the time that works for you',
       'WhatsApp notification at every step',
     ],
@@ -164,7 +168,7 @@ export const en: Translations = {
       },
       {
         q: 'Do you offer pickup & delivery near Tec de Monterrey?',
-        a: 'Yes. We offer pickup and delivery in Distrito Tec, Colonia Roma, and surrounding areas. Just send us a WhatsApp to coordinate.',
+        a: 'Yes. We collect and deliver across 24 Distrito Tec neighbourhoods, including Campus Tec and the student residences, Colonia Roma and Tecnológico. Pickup and delivery are charged separately, each at a flat rate. Send us a WhatsApp and we will book it, usually for the same day.',
       },
       {
         q: 'How will I know when my clothes are ready?',
@@ -176,7 +180,7 @@ export const en: Translations = {
       },
       {
         q: 'Can I bring comforters and duvets?',
-        a: 'Absolutely. We wash comforters, duvets, pillows, and all bedding. We recommend calling ahead to confirm availability depending on volume.',
+        a: 'Yes. We wash duvets, comforters and thick quilts on industrial machines, priced by bed size. If yours is extra thick or down-filled, message us on WhatsApp first and we will confirm.',
       },
       {
         q: 'Where exactly are you located?',
@@ -454,7 +458,7 @@ export const en: Translations = {
             },
             {
               title:       'Every service, at your door',
-              description: 'Per-kilo laundry, dry cleaning, wash and press, comforters, sneakers and repairs. Everything we do in the shop, we do at your door.',
+              description: 'Per-kilo laundry, dry cleaning, pressing, comforters and blankets, sneakers and repairs. Everything we do in the shop, we do at your door.',
             },
           ],
         },

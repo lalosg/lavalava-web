@@ -35,6 +35,10 @@ export const es = {
       },
     ],
   },
+  // Verified against the live Google Places API on 2026-09-24: rating 5.0 across 63
+  // ratings. `clients` is the 1,333 customers migrated from Drupal into the POS, stated
+  // conservatively as 1,300+. Both are real figures — do not inflate them, and re-verify
+  // the rating before launch rather than assuming it held.
   trust: {
     rating:  '5.0 ★ en Google',
     clients: '1,300+ clientes',
@@ -54,16 +58,16 @@ export const es = {
         description: 'Limpieza en seco para prendas delicadas y formales.',
       },
       {
-        title:       'Lavado y planchado',
-        description: 'Prendas limpias, perfectamente planchadas y listas para usar.',
+        title:       'Planchado por pieza',
+        description: 'Ya la lavaste en casa. Nosotros la planchamos con prensa industrial.',
       },
       {
         title:       'Arreglos y Composturas',
         description: 'Cambio de cierres, pegado de botones, bastillas y pequeños remiendos.',
       },
       {
-        title:       'Cobertores y blancos',
-        description: 'Edredones, cobertores, almohadas y ropa de cama.',
+        title:       'Colchas y cobertores',
+        description: 'Edredones, cobertores y colchas gruesas, en maquinaria industrial.',
       },
       {
         title:       'Tenis',
@@ -71,7 +75,7 @@ export const es = {
       },
       {
         title:       'Servicio a domicilio',
-        description: 'Recogemos y entregamos en tu puerta. Cobertura en Distrito Tec y zonas aledañas.',
+        description: 'Recogemos y entregamos en tu puerta, con tarifa fija en 24 colonias del Distrito Tec.',
         badge:       'Premium',
       },
     ],
@@ -93,7 +97,7 @@ export const es = {
     description: 'Recogemos y entregamos en tu puerta. Sin filas, sin esperas. Solo mándanos un mensaje y nosotros nos encargamos del resto.',
     benefits: [
       'Recolección y entrega con tarifa fija, sin sorpresas',
-      'Cobertura en Distrito Tec y zonas aledañas',
+      'Cobertura en 24 colonias del Distrito Tec',
       'Entrega en el horario que elijas',
       'Notificación por WhatsApp en cada paso',
     ],
@@ -162,7 +166,7 @@ export const es = {
       },
       {
         q: '¿Tienen servicio a domicilio cerca del Tec de Monterrey?',
-        a: 'Sí. Ofrecemos recolección y entrega a domicilio en Distrito Tec, Colonia Roma, y zonas aledañas. Solo mándanos un WhatsApp para coordinar.',
+        a: 'Sí. Recogemos y entregamos en 24 colonias del Distrito Tec, incluidas Campus Tec y las residencias, Colonia Roma y Tecnológico. La recolección y la entrega se cobran por separado, cada una con tarifa fija. Mándanos un WhatsApp y lo agendamos, normalmente para el mismo día.',
       },
       {
         q: '¿Cómo sé cuándo está lista mi ropa?',
@@ -174,7 +178,7 @@ export const es = {
       },
       {
         q: '¿Puedo llevar cobertores y edredones?',
-        a: 'Por supuesto. Lavamos cobertores, edredones, almohadas y toda la ropa de cama. Recomendamos llamar antes para confirmar disponibilidad según el volumen.',
+        a: 'Sí. Lavamos edredones, cobertores y colchas gruesas en maquinaria industrial, con precio según el tamaño de cama. Si el tuyo es extra grueso o de plumas, escríbenos antes por WhatsApp y te confirmamos.',
       },
       {
         q: '¿Dónde están ubicados exactamente?',
@@ -201,7 +205,7 @@ export const es = {
     servicios: {
       meta: {
         title:       'Servicios de Lavandería y Tintorería en Distrito Tec | LAVALAVA',
-        description: 'Lavandería por kilo, tintorería, lavado y planchado, cobertores y tenis en Distrito Tec, Monterrey. Cuidado experto para cada prenda, con servicio a domicilio.',
+        description: 'Lavandería por kilo, tintorería, planchado por pieza, colchas y cobertores, tenis y composturas en Distrito Tec, Monterrey. Precios y tiempos de entrega.',
       },
       // User-visible page copy, authored here. Product NAMES and PRICES are not in this
       // file — those are fixed facts read from the published POS contract via
@@ -452,7 +456,7 @@ export const es = {
             },
             {
               title:       'Todos nuestros servicios, a domicilio',
-              description: 'Lavandería por kilo, tintorería, lavado y planchado, cobertores, tenis y composturas. Lo que hacemos en el local, lo hacemos en tu puerta.',
+              description: 'Lavandería por kilo, tintorería, planchado, colchas y cobertores, tenis y composturas. Lo que hacemos en el local, lo hacemos en tu puerta.',
             },
           ],
         },
