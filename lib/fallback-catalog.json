@@ -1,0 +1,330 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-23T16:45:01.018Z",
+  "business": {
+    "hours": [
+      {
+        "days": {
+          "es": "Lunes - Viernes",
+          "en": "Monday - Friday"
+        },
+        "time": "8:00 - 19:30"
+      },
+      {
+        "days": {
+          "es": "Sábado",
+          "en": "Saturday"
+        },
+        "time": "9:00 - 15:30"
+      }
+    ],
+    "coverage": [
+      {
+        "name": "Altavista",
+        "order": 1
+      },
+      {
+        "name": "Ancón del Huajuco",
+        "order": 2
+      },
+      {
+        "name": "Buenos Aires",
+        "order": 3
+      },
+      {
+        "name": "Campus Tec / Residencias",
+        "order": 4
+      },
+      {
+        "name": "Cerro de la Silla",
+        "order": 5
+      },
+      {
+        "name": "Fraccionamiento Estadio",
+        "order": 6
+      },
+      {
+        "name": "Fraccionamiento Florida",
+        "order": 7
+      },
+      {
+        "name": "Jardines de Altavista",
+        "order": 8
+      },
+      {
+        "name": "Ladrillera",
+        "order": 9
+      },
+      {
+        "name": "LTH",
+        "order": 10
+      },
+      {
+        "name": "México",
+        "order": 11
+      },
+      {
+        "name": "Narvarte",
+        "order": 12
+      },
+      {
+        "name": "Nueva España",
+        "order": 13
+      },
+      {
+        "name": "Nuevo Sur",
+        "order": 14
+      },
+      {
+        "name": "Plaza Revolución",
+        "order": 15
+      },
+      {
+        "name": "Primavera 1er Sector",
+        "order": 16
+      },
+      {
+        "name": "Primavera 3er Sector",
+        "order": 17
+      },
+      {
+        "name": "Residencial Florida",
+        "order": 18
+      },
+      {
+        "name": "Rincón de Altavista",
+        "order": 19
+      },
+      {
+        "name": "Roma",
+        "order": 20
+      },
+      {
+        "name": "Tecnológico",
+        "order": 21
+      },
+      {
+        "name": "Valle Primavera",
+        "order": 22
+      },
+      {
+        "name": "Villa Estadio",
+        "order": 23
+      },
+      {
+        "name": "Villa Florida",
+        "order": 24
+      }
+    ]
+  },
+  "services": [
+    {
+      "slug": "colchas-cobertores",
+      "order": 1,
+      "name": {
+        "es": "Colchas y Cobertores",
+        "en": "Comforters & Blankets"
+      },
+      "description": {
+        "es": "Consienta a su hogar con nuestro servicio especializado para ropa de cama de gran volumen. Lavamos y desinfectamos a profundidad edredones, cobertores, cobijas y colchas gruesas utilizando maquinaria industrial que protege su textura y relleno.",
+        "en": "Give your home the care it deserves with our specialized service for high-volume bedding. We deeply clean and sanitize comforters, heavy blankets, and thick quilts using industrial machinery designed to protect their texture and filling."
+      }
+    },
+    {
+      "slug": "composturas",
+      "order": 2,
+      "name": {
+        "es": "Pequeñas Composturas y Ajustes",
+        "en": "Minor Repairs & Alterations"
+      },
+      "description": {
+        "es": "¿Un botón flojo o una bastilla descosida? Nosotros lo solucionamos. Ofrecemos servicios básicos de costura para reparar esos pequeños detalles cotidianos en sus prendas, como pegado de botones, bastillas sencillas y zurcidos menores, ayudándole a mantener su ropa en perfecto estado.",
+        "en": "Loose button or fallen hem? We’ve got you covered. We offer basic mending services to fix everyday garment details, including button replacement, simple hemming, and minor seam repairs to keep your clothes looking their best."
+      }
+    },
+    {
+      "slug": "lavanderia-por-kilo",
+      "order": 3,
+      "name": {
+        "es": "Lavado, Secado y Doblado",
+        "en": "Wash, Dry & Fold"
+      },
+      "description": {
+        "es": "Deje su ropa en nuestras manos y olvídese de las tareas del hogar. Nos encargamos de lavar, secar y doblar sus prendas con el mayor cuidado, entregándoselas listas para guardar. ¡Ahorre tiempo y disfrute de ropa impecable todos los días!",
+        "en": "Let us handle the laundry so you can take your day back! We professionally wash, dry, and neatly fold your clothes, delivering them fresh and ready to go straight into your drawers. Quick, convenient, and perfectly clean."
+      }
+    },
+    {
+      "slug": "planchado",
+      "order": 4,
+      "name": {
+        "es": "Planchado por pieza",
+        "en": "Press only"
+      },
+      "description": {
+        "es": "¿Tú ropa ya está limpia pero no tiene tiempo de plancharla? Nosotros nos encargamos. Nuestro servicio de planchado por pieza utiliza prensas industriales y vapor profesional para eliminar por completo las arrugas, garantizando un acabado impecable, nítido y listo para usar en cada una de sus prendas.",
+        "en": "Did you wash your clothes at home but don't have time to iron? We've got you covered. Our \"Press Only\" service uses professional steam and industrial pressing equipment to eliminate all wrinkles, ensuring a crisp, flawless, and ready-to-wear finish for every single garment."
+      }
+    },
+    {
+      "slug": "recoleccion-entrega",
+      "order": 5,
+      "name": {
+        "es": "Servicio a Domicilio",
+        "en": "Pickup & Delivery"
+      },
+      "description": {
+        "es": "¡Nosotros nos encargamos del traslado! Disfrute de la comodidad de nuestro servicio a domicilio diseñado para adaptarse a su agenda. Puede programar únicamente la recolección de sus prendas (Pickup Only), solicitar solo la entrega en su hogar (Delivery Only), o elegir nuestro servicio completo de viaje redondo (Round-Trip).(Nota: Servicio limitado exclusivamente a la zona del Distrito Tec en el sur de Monterrey).",
+        "en": "Let us do the heavy lifting! Enjoy the convenience of our door-to-door service, customized to fit your busy schedule. You can schedule a Pickup Only, request a Delivery Only once your garments are ready, or choose ultimate convenience with our full Round-Trip service.(Note: Service area is exclusively limited to the Distrito Tec zone in southern Monterrey)."
+      }
+    },
+    {
+      "slug": "tennis",
+      "order": 6,
+      "name": {
+        "es": "Lavado de Tenis",
+        "en": "Sneaker cleaning service"
+      },
+      "description": {
+        "es": "Deje sus tenis como nuevos con nuestro servicio de limpieza profunda. Eliminamos manchas, suciedad y malos olores acumulados, cuidando detalladamente los materiales, las agujetas y las suelas de su calzado favorito para que luzcan impecables en cada paso.",
+        "en": "Make your sneakers look brand new with our deep cleaning service. We effectively remove stubborn stains, dirt, and odors while carefully protecting the fabric, laces, and soles of your favorite footwear to ensure a fresh, spotless look."
+      }
+    },
+    {
+      "slug": "tintoreria",
+      "order": 7,
+      "name": {
+        "es": "Tintorería",
+        "en": "Dry Cleaning"
+      },
+      "description": {
+        "es": "Cuide sus prendas favoritas y prolongue su vida útil con nuestro servicio de lavado en seco. Nos especializamos en el tratamiento de manchas difíciles, cuidado de telas delicadas y un planchado profesional impecable. Ideal para trajes, vestidos, abrigos y ropa de uso diario que merece un cuidado superior.",
+        "en": "Protect your favorite garments and keep them looking like new. Our professional dry cleaning specializes in expert stain removal, delicate fabric care, and crisp, flawless pressing. The perfect solution for suits, dresses, coats, and any everyday wear that deserves superior care."
+      }
+    }
+  ],
+  "pages": {
+    "home": {
+      "h1": {
+        "es": "Más tiempo para ti.",
+        "en": "More time for you."
+      },
+      "intro": {
+        "es": "Servicio premium en Distrito Tec, Monterrey. Lavandería por kilo y tintorería profesional. Cuidado experto para tu ropa diaria y prendas delicadas, con servicio de recolección y entrega a domicilio.",
+        "en": "Premium service in Distrito Tec, Monterrey. Laundry by the kilo and professional dry cleaning. Expert care for your everyday clothes and delicate garments, with pickup and home delivery."
+      },
+      "faq": [
+        {
+          "order": 1,
+          "q": {
+            "es": "¿Cuánto cuesta el servicio de lavandería por kilo?",
+            "en": "How much does laundry service cost per kilo?"
+          },
+          "a": {
+            "es": "Nuestro servicio de lavandería por kilo tiene un precio competitivo en Distrito Tec. Escríbenos por WhatsApp para conocer la tarifa actual y nuestros paquetes disponibles.",
+            "en": "Our per-kilo laundry service is competitively priced in Distrito Tec. Message us on WhatsApp to get current pricing and available packages."
+          }
+        },
+        {
+          "order": 2,
+          "q": {
+            "es": "¿Cuánto tiempo tarda el servicio?",
+            "en": "How long does service take?"
+          },
+          "a": {
+            "es": "El servicio estándar de lavandería por kilo está listo en 24 horas. La tintorería y prendas delicadas pueden tomar 48–72 horas dependiendo del tratamiento requerido.",
+            "en": "Standard wash & fold by kilo is ready in 24 hours. Dry cleaning and delicate garments may take 48–72 hours depending on the required treatment."
+          }
+        },
+        {
+          "order": 3,
+          "q": {
+            "es": "¿Tienen servicio a domicilio cerca del Tec de Monterrey?",
+            "en": "Do you offer pickup & delivery near Tec de Monterrey?"
+          },
+          "a": {
+            "es": "Sí. Ofrecemos recolección y entrega a domicilio en Distrito Tec, Colonia Roma, y zonas aledañas. Solo mándanos un WhatsApp para coordinar.",
+            "en": "Yes. We offer pickup and delivery in Distrito Tec, Colonia Roma, and surrounding areas. Just send us a WhatsApp to coordinate."
+          }
+        },
+        {
+          "order": 4,
+          "q": {
+            "es": "¿Cómo sé cuándo está lista mi ropa?",
+            "en": "How will I know when my clothes are ready?"
+          },
+          "a": {
+            "es": "Te avisamos por WhatsApp en el momento exacto en que tu ropa está lista. No tienes que llamar ni adivinar — nosotros te buscamos.",
+            "en": "We notify you via WhatsApp the moment your clothes are done. No need to call or guess — we'll reach out."
+          }
+        },
+        {
+          "order": 5,
+          "q": {
+            "es": "¿Lavan ropa delicada y vestidos de noche?",
+            "en": "Do you clean delicate garments and evening gowns?"
+          },
+          "a": {
+            "es": "Sí. Contamos con servicio especializado de tintorería para prendas delicadas: seda, encaje, vestidos de fiesta y ropa formal. Cada prenda recibe tratamiento individual.",
+            "en": "Yes. We offer specialized dry cleaning for delicate fabrics: silk, lace, formal wear, and evening gowns. Each garment receives individual treatment."
+          }
+        },
+        {
+          "order": 6,
+          "q": {
+            "es": "¿Puedo llevar cobertores y edredones?",
+            "en": "Can I bring comforters and duvets?"
+          },
+          "a": {
+            "es": "Por supuesto. Lavamos cobertores, edredones, almohadas y toda la ropa de cama. Recomendamos llamar antes para confirmar disponibilidad según el volumen.",
+            "en": "Absolutely. We wash comforters, duvets, pillows, and all bedding. We recommend calling ahead to confirm availability depending on volume."
+          }
+        },
+        {
+          "order": 7,
+          "q": {
+            "es": "¿Dónde están ubicados exactamente?",
+            "en": "Where exactly are you located?"
+          },
+          "a": {
+            "es": "Estamos en Av. Junco de la Vega, Colonia Roma, en el corazón de Distrito Tec, Monterrey. A pocos minutos caminando del Tecnológico de Monterrey.",
+            "en": "We're at Av. Junco de la Vega, Colonia Roma, in the heart of Distrito Tec, Monterrey. A short walk from Tecnológico de Monterrey."
+          }
+        }
+      ]
+    },
+    "servicios": {
+      "h1": {
+        "es": "El cuidado que tu ropa merece.",
+        "en": "The care your clothes deserve."
+      },
+      "intro": {
+        "es": "Lavandería por kilo, tintorería, lavado y planchado, cobertores y tenis — todo en un mismo lugar, en el corazón de Distrito Tec. Cada prenda se revisa, se clasifica y se trata según lo que necesita.",
+        "en": "Laundry by the kilo, dry cleaning, wash and press, duvets and sneakers — all in one place, in the heart of Distrito Tec. Every garment is inspected, sorted, and treated according to what it needs."
+      },
+      "faq": []
+    },
+    "a-domicilio": {
+      "h1": {
+        "es": "Tu ropa, donde estés.",
+        "en": "Your clothes, wherever you are."
+      },
+      "intro": {
+        "es": "Recogemos y entregamos en tu puerta. Sin filas, sin esperas. Solo mándanos un mensaje y nosotros nos encargamos del resto.",
+        "en": "We pick up and deliver to your door. No lines, no waiting. Just send us a message and we handle the rest."
+      },
+      "faq": []
+    },
+    "ubicacion": {
+      "h1": {
+        "es": "A minutos del Tec.",
+        "en": "Minutes from Tec."
+      },
+      "intro": {
+        "es": "Estamos en Av. Junco de la Vega 2224B, Col. Roma, a minutos caminando del Tecnológico de Monterrey. Consulta horarios, mapa y cómo llegar.",
+        "en": "We're at Av. Junco de la Vega 2224B, Col. Roma, a short walk from Tecnológico de Monterrey. Check our hours, map, and directions."
+      },
+      "faq": []
+    }
+  }
+}

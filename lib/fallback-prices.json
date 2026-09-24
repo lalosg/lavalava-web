@@ -1,0 +1,340 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-24T15:35:08.878Z",
+  "services": {
+    "lavanderia-por-kilo": {
+      "items": [
+        {
+          "id": "1c1b4454-2f32-4989-9017-467203c3673d",
+          "order": 1,
+          "name": {
+            "es": "Costo por peso (1 Kilo)",
+            "en": "Priced by Weight (2.2 lbs)"
+          },
+          "price": {
+            "amount": 38,
+            "currency": "MXN"
+          },
+          "promo": {
+            "amount": 34,
+            "discount": 4,
+            "percentOff": 10.5,
+            "validUntil": null
+          }
+        }
+      ]
+    },
+    "recoleccion-entrega": {
+      "items": [
+        {
+          "id": "5d216887-5ff4-458d-b885-9893f94ce774",
+          "order": 1,
+          "name": {
+            "es": "Servicio de recolección",
+            "en": "Pickup only"
+          },
+          "price": {
+            "amount": 37.5,
+            "currency": "MXN"
+          },
+          "promo": {
+            "amount": 30,
+            "discount": 7.5,
+            "percentOff": 20,
+            "validUntil": null
+          }
+        },
+        {
+          "id": "61531b4c-996f-4822-8d9e-4254892b63dd",
+          "order": 2,
+          "name": {
+            "es": "Servicio de entrega",
+            "en": "Delivery only"
+          },
+          "price": {
+            "amount": 37.5,
+            "currency": "MXN"
+          },
+          "promo": {
+            "amount": 30,
+            "discount": 7.5,
+            "percentOff": 20,
+            "validUntil": null
+          }
+        }
+      ]
+    },
+    "tintoreria": {
+      "items": [
+        {
+          "id": "84e9f498-eb25-42ff-bbae-59abf488b79c",
+          "order": 1,
+          "name": {
+            "es": "Playera",
+            "en": "T-Shirt"
+          },
+          "price": {
+            "amount": 45,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "7af2c095-9ad7-4005-92bf-8139dbdfefb3",
+          "order": 2,
+          "name": {
+            "es": "Blusa",
+            "en": "Blouse"
+          },
+          "price": {
+            "amount": 50,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "39ec9715-8c88-4263-9bf5-53f91b79f0b3",
+          "order": 3,
+          "name": {
+            "es": "Camisas",
+            "en": "Shirts"
+          },
+          "price": {
+            "amount": 50,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "565670bb-66e8-4044-a09b-3151fbc46e15",
+          "order": 4,
+          "name": {
+            "es": "Falda",
+            "en": "Skirt"
+          },
+          "price": {
+            "amount": 55,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "2355e2a9-14f3-440d-b5cf-be315a09c221",
+          "order": 5,
+          "name": {
+            "es": "Pantalones",
+            "en": "Pants"
+          },
+          "price": {
+            "amount": 55,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "62997390-01ee-413e-b8fb-0c76a3765507",
+          "order": 6,
+          "name": {
+            "es": "Saco",
+            "en": "Blazer / Sport Coat"
+          },
+          "price": {
+            "amount": 90,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "1588d95f-84a3-4ea7-96cb-7dbb99d2ec51",
+          "order": 7,
+          "name": {
+            "es": "Traje 2 piezas",
+            "en": "Two piece suit"
+          },
+          "price": {
+            "amount": 145,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "cf4beec0-2fbb-4038-8e46-186d67b04348",
+          "order": 8,
+          "name": {
+            "es": "Corbata",
+            "en": "Necktie"
+          },
+          "price": {
+            "amount": 49,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "a2f6d1d2-f6c0-4dd9-a739-3a232e625445",
+          "order": 9,
+          "name": {
+            "es": "Chamarra ligera",
+            "en": "Light Jacket"
+          },
+          "price": {
+            "amount": 120,
+            "currency": "MXN"
+          }
+        }
+      ]
+    },
+    "planchado": {
+      "items": [
+        {
+          "id": "f71295b3-6c64-4e4a-b838-7f2b80004fc8",
+          "order": 1,
+          "name": {
+            "es": "Blusa",
+            "en": "Blouse"
+          },
+          "price": {
+            "amount": 16,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "e04aaf0e-4504-4f28-86a9-d7c3c0fbb54e",
+          "order": 2,
+          "name": {
+            "es": "Camisa",
+            "en": "Shirt"
+          },
+          "price": {
+            "amount": 16,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "bf83a050-50da-4ecc-b5eb-5d95df4d0377",
+          "order": 3,
+          "name": {
+            "es": "Falda",
+            "en": "Skirt"
+          },
+          "price": {
+            "amount": 16,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "89e6d252-4332-4fe8-8fef-392a008110ff",
+          "order": 4,
+          "name": {
+            "es": "Pantalon",
+            "en": "Pants"
+          },
+          "price": {
+            "amount": 16,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "4d2edf53-7b1e-4ab4-ad85-3820bd39597d",
+          "order": 5,
+          "name": {
+            "es": "Playera",
+            "en": "Tshirt"
+          },
+          "price": {
+            "amount": 16,
+            "currency": "MXN"
+          }
+        }
+      ]
+    },
+    "colchas-cobertores": {
+      "items": [
+        {
+          "id": "92204c97-ae7f-4b4d-bb12-f0d539995989",
+          "order": 1,
+          "name": {
+            "es": "Individual delgado",
+            "en": "Lightweight Twin"
+          },
+          "price": {
+            "amount": 120,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "2e94ff4d-e972-4430-8025-dac250720b08",
+          "order": 2,
+          "name": {
+            "es": "Matrimonial delgado",
+            "en": "Lightweight Full"
+          },
+          "price": {
+            "amount": 150,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "42b99c7f-2588-4adb-8bd5-e2e0ff43de25",
+          "order": 3,
+          "name": {
+            "es": "Queen/King delgado",
+            "en": "Lightweight Queen / King"
+          },
+          "price": {
+            "amount": 195,
+            "currency": "MXN"
+          }
+        }
+      ]
+    },
+    "tennis": {
+      "items": [
+        {
+          "id": "96aa44c3-c1f4-46fe-908c-8f89100720f4",
+          "order": 1,
+          "name": {
+            "es": "Lavado de Tennis",
+            "en": "Sneaker cleaning"
+          },
+          "price": {
+            "amount": 175,
+            "currency": "MXN"
+          }
+        }
+      ]
+    },
+    "composturas": {
+      "items": [
+        {
+          "id": "bd484c21-6b81-4ed8-8093-f1482ab3ba77",
+          "order": 1,
+          "name": {
+            "es": "Costura de botones",
+            "en": "Button Sewing"
+          },
+          "price": {
+            "amount": 15,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "64b51e3b-93c5-49b0-944e-dbb6106a7e44",
+          "order": 2,
+          "name": {
+            "es": "Ajuste de bastilla",
+            "en": "Pants Hemming"
+          },
+          "price": {
+            "amount": 100,
+            "currency": "MXN"
+          }
+        },
+        {
+          "id": "a67b8c35-fff8-408b-8e57-a101230c9773",
+          "order": 3,
+          "name": {
+            "es": "Arreglo Básico",
+            "en": "Basic Mending"
+          },
+          "price": {
+            "amount": 60,
+            "currency": "MXN"
+          }
+        }
+      ]
+    }
+  }
+}

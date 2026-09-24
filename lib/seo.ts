@@ -26,9 +26,11 @@ export const BUSINESS = {
   areaServed: ['Distrito Tec', 'Zona Tec', 'Colonia Roma', 'Monterrey'],
   sameAs: [
     'https://www.instagram.com/lavalava.vip',
-    // TODO(Lalo): add the Google Business Profile URL. The share link in
-    // components/sections/LocationSection.tsx (share.google/2JPAcqEaTyrn6Dl3r)
-    // is a candidate but is a shortlink, not the canonical profile URL.
+    // Canonical Google Business Profile, verified 2026-09-21 from the place URL Lalo
+    // supplied. The `cid=` form on purpose: a raw Maps URL carries a viewport, a session
+    // token and an `entry=` param, none of which are stable. (KG mid /g/11vr9cs23f,
+    // place CID 0x8662bf33b5ec5111:0xb644626040d2df02.)
+    'https://maps.google.com/?cid=13133730578863152898',
   ],
 }
 

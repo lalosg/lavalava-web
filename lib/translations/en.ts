@@ -94,7 +94,7 @@ export const en: Translations = {
     headline:    'Your clothes,\nwherever you are.',
     description: 'We pick up and deliver to your door. No lines, no waiting. Just send us a message and we handle the rest.',
     benefits: [
-      'Free pickup at your door',
+      'Flat-rate pickup and delivery, no surprises',
       'Coverage in Distrito Tec and surrounding areas',
       'Delivery at the time that works for you',
       'WhatsApp notification at every step',
@@ -209,7 +209,141 @@ export const en: Translations = {
     aDomicilio: {
       meta: {
         title:       'Laundry Pickup & Delivery in Distrito Tec, Monterrey | LAVALAVA',
-        description: 'Laundry and dry cleaning pickup and delivery in Distrito Tec, Zona Tec and Colonia Roma. No lines, no waiting — schedule it on WhatsApp.',
+        description: 'Laundry and dry cleaning picked up and delivered across Distrito Tec, Zona Tec and Colonia Roma. No lines, no waiting — schedule it on WhatsApp.',
+      },
+      // User-visible page copy. Moves to the CMS when `catalog.json` lands
+      // (pages['a-domicilio']); until then this file is the source of truth and the
+      // seed the POS session imports. The colonia list is NOT here — it is shared,
+      // non-bilingual data in lib/coverage.ts.
+      content: {
+        hero: {
+          eyebrow:         'Pickup & delivery',
+          headline:        "Don't go out.\nWe'll come to you.",
+          lede:            'Laundry and dry cleaning picked up and delivered across Distrito Tec. Message us on WhatsApp, we collect your clothes at a time you choose, and bring them back clean, folded and ready to wear.',
+          ctaPrimary:      'Schedule a pickup',
+          ctaSecondary:    'See covered neighbourhoods ↓',
+          whatsappMessage: "Hi LAVALAVA! I'd like to schedule a pickup.",
+        },
+        steps: {
+          eyebrow:  '01 — How it works',
+          headline: 'Four steps.\nZero lines.',
+          intro:    'The whole thing happens over WhatsApp. No app to download, no account to create, no cart to fill.',
+          items: [
+            {
+              number:      '01',
+              title:       'Message us',
+              description: 'Send us a WhatsApp with your neighbourhood and a time that suits you. We confirm your pickup window in minutes, not days.',
+            },
+            {
+              number:      '02',
+              title:       'We collect',
+              description: 'We arrive at your door in the agreed window. Nothing to weigh, sort or pack — we handle all of that back at the shop.',
+            },
+            {
+              number:      '03',
+              title:       'We take care of it',
+              description: 'Every garment is checked before it is processed. Wash-and-fold goes through per-kilo laundry; delicates and formal wear go to dry cleaning for individual treatment.',
+            },
+            {
+              number:      '04',
+              title:       'We bring it back',
+              description: 'We message you the moment it is ready and deliver to your door, folded and protected. You never stood in a single line.',
+            },
+          ],
+        },
+        coverage: {
+          eyebrow:       '02 — Coverage',
+          headline:      'We reach all 24\nneighbourhoods in\nDistrito Tec.',
+          intro:         'These are the neighbourhoods where we pick up and deliver, all of them inside the official Distrito Tec boundary in Monterrey. If you live in one of them, you are covered.',
+          featuredLabel: 'Where we deliver most',
+          allLabel:      'Full coverage',
+          notListed: {
+            text:            "Don't see your neighbourhood? Message us anyway. We serve surrounding areas case by case and will confirm right away.",
+            cta:             'Ask about my area →',
+            whatsappMessage: 'Hi LAVALAVA! Do you offer pickup and delivery in my neighbourhood?',
+          },
+        },
+        pricing: {
+          eyebrow:   '03 — Pricing',
+          headline:  'A flat fare\nper trip.',
+          intro:     'Pickup and delivery are charged separately, each at a flat rate within our covered neighbourhoods. No distance surcharge and no minimum order.',
+          wasLabel:  'was',
+          promoNote: 'Promotional price, currently running.',
+          roundTrip: {
+            title: 'Want the round trip?',
+            text:  "That's pickup plus delivery. Message us and we'll confirm the total before you book.",
+          },
+          disclaimer: 'These fares cover the trip itself. Washing, dry cleaning or pressing your clothes is quoted separately, by service and by weight.',
+        },
+        included: {
+          eyebrow:  '04 — What you get',
+          headline: "What's included.",
+          items: [
+            {
+              title:       'A flat fare, with no distance surcharge',
+              description: 'Whether you live in Altavista or at Campus Tec, the trip costs the same. We do not charge by the kilometre and there is no minimum order.',
+            },
+            {
+              title:       'You pick the window',
+              description: 'We arrange collection and delivery for the time that works for you, within our service hours.',
+            },
+            {
+              title:       'WhatsApp updates at every step',
+              description: 'We message you when we are on the way, when your clothes arrive, and when they are ready. You never have to chase us.',
+            },
+            {
+              title:       'Every service, at your door',
+              description: 'Per-kilo laundry, dry cleaning, wash and press, comforters, sneakers and repairs. Everything we do in the shop, we do at your door.',
+            },
+          ],
+        },
+        faq: {
+          eyebrow:  '05 — Frequently asked questions',
+          headline: 'Before you ask.',
+          items: [
+            {
+              q: 'How much does pickup and delivery cost?',
+              a: 'Pickup and delivery are charged separately, each at a flat rate within our covered neighbourhoods in Distrito Tec. You can book pickup only, delivery only, or both. Washing or dry cleaning your clothes is quoted separately, by service and by weight. Current fares are in the pricing section on this page.',
+            },
+            {
+              q: 'What if I am not home when you arrive?',
+              a: 'We message you on WhatsApp before we set out, so it rarely happens. If something comes up, we reschedule the pickup or delivery for later the same day or the next one, at no charge.',
+            },
+            {
+              q: 'How far in advance do I need to book?',
+              a: 'Usually same day. Message us on WhatsApp and we confirm the available pickup window in minutes. The earlier you write, the more time slots you have to choose from.',
+            },
+            {
+              q: 'How long until I get my clothes back?',
+              a: 'Per-kilo laundry is ready in 24 hours. Dry cleaning and delicate garments can take 48 to 72 hours depending on the treatment required. We confirm the exact turnaround at pickup.',
+            },
+            {
+              q: 'How do I know where my clothes are?',
+              a: 'On WhatsApp. We message you when we collect, when your order goes into processing, and when it is ready for delivery. It is the same chat from start to finish.',
+            },
+            {
+              q: 'Do I need to weigh or sort anything first?',
+              a: 'No. Hand it over as it is. We weigh, sort and separate at the shop, and we tell you the total before processing if you want to check first.',
+            },
+            {
+              q: 'Do you collect from the Tec de Monterrey residences?',
+              a: 'Yes. Campus Tec and the student residences are inside our coverage area and are among the places we collect from most often.',
+            },
+          ],
+        },
+        crossLinks: {
+          eyebrow:  'Keep exploring',
+          services: {
+            title:       'All our services',
+            description: 'Per-kilo laundry, dry cleaning, comforters, sneakers and repairs — in detail.',
+            cta:         'See services →',
+          },
+          location: {
+            title:       'I would rather drop by',
+            description: 'Av. Junco de la Vega 2224B, Col. Roma — a short walk from the Tec.',
+            cta:         'See location and hours →',
+          },
+        },
       },
     },
     ubicacion: {

@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LAVALAVA — lavalava.vip
 
-## Getting Started
+Marketing website for **LAVALAVA**, a premium laundry and dry cleaner in Distrito Tec,
+Monterrey. Bilingual (ES default, EN at `/en`), mobile-first, WhatsApp-first.
 
-First, run the development server:
+The site is one leg of a coordinated relaunch — website + social + a price increase,
+shipping together. Its job is to make the premium *visible* so the higher price reads as
+earned. It sells time ("Más tiempo para ti"), never price.
+
+## Stack
+
+Next.js 14 (App Router) · TypeScript · Tailwind · no database · no test suite.
+Deployed on Vercel.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000 → redirects to /es
+npm run build    # production build; all routes are SSG
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Layout
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+app/[locale]/          ES/EN routes. This is the ROOT layout — it renders <html lang>,
+                       which is why there is no app/layout.tsx.
+  page.tsx             Homepage (the hub)
+  servicios/           ─┐
+  a-domicilio/          ├─ the three spokes
+  ubicacion/           ─┘
+components/sections/   Homepage sections
+components/delivery/   /a-domicilio sections
+components/ui/         Shared primitives
+lib/translations/      All copy, ES + EN. `en` is typed `Translations`, so a missing
+                       English key is a build error — keep that guarantee.
+lib/contract.ts        Types mirroring the POS CMS contract
+lib/fallback-*.json    Committed snapshots of the published catalog/prices
+lib/coverage.ts        The 24 Distrito Tec colonias (shared, not bilingual)
+lib/seo.ts             Business constants + the per-page metadata builder
+middleware.ts          Locale routing; always redirects / to /{locale}
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Things that look like bugs but are not
 
-## Learn More
+- **Plain `<a>`, not `next/link`, for internal links.** Importing `Link` into these server
+  components pulls the client router into the route bundle — measured at +9 kB First Load
+  JS on the homepage. Crawlers only read the `href`.
+- **Every page sets its own canonical** via `pageMetadata()` in `lib/seo.ts`, and the
+  layout sets none. Metadata merges from the closest segment, so a layout-level canonical
+  silently became every sub-page's canonical and de-indexed all six.
+- **The desktop hero is on native lazy loading.** `display:none` does not cancel a
+  preload, so `priority` on both heroes made every mobile visitor fetch a desktop image it
+  never saw. Exactly one high-priority preload should remain, and it is the mobile hero.
+- **`.h-hero` is a real CSS utility**, not Tailwind arbitrary values. Tailwind emitted the
+  `dvh` rule before the `vh` one, so `vh` won and the fix was inert.
+- **No `aggregateRating` in the schema.** Deliberately omitted rather than faked. Do not
+  re-add it.
 
-To learn more about Next.js, take a look at the following resources:
+## Content ownership
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Prices, products and business facts come from the POS and are never typed into a page —
+a price the POS will not honour becomes an argument at the counter. Everything else
+(page copy, structure, design) is authored here. A CMS in the POS project will take over
+the user-visible copy later; SEO surfaces — meta tags, canonicals, hreflang, JSON-LD
+construction — stay in this repo permanently.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See `CLAUDE.md` for the full working context and `docs/LAVALAVA-WEBSITE-BUILD-SPEC.md`
+for the canonical build spec.
 
-## Deploy on Vercel
+## Environment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+GOOGLE_PLACES_API_KEY    Live Google reviews via the Places API. Without it the reviews
+                         section silently falls back to hardcoded cards.
+NEXT_PUBLIC_SITE_URL     Sent as the Referer so the Places key passes HTTP-referrer
+                         restrictions. Must match the deployed origin exactly.
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Both must be set in Vercel before launch. See `.env.example`.

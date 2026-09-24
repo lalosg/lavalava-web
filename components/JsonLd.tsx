@@ -1,4 +1,5 @@
 import { BUSINESS, SITE_URL } from '@/lib/seo'
+import { COVERAGE_AREAS } from '@/lib/coverage'
 import { getT } from '@/lib/translations'
 import type { Locale } from '@/lib/i18n'
 
@@ -79,16 +80,21 @@ export function localBusinessSchema(locale: Locale) {
 }
 
 /**
- * FAQPage schema, built from the translations for the rendered locale.
+ * FAQPage schema from an explicit Q&A list.
  *
- * Homepage only. Google requires FAQPage markup to match FAQ content visible on the
- * same page, so this must not be emitted on pages that do not render the FAQ.
+ * Google requires FAQPage markup to match FAQ content visible on the SAME page, so the
+ * caller must pass the very array it renders — never a second, parallel copy. That is
+ * what keeps schema and content from drifting.
+ *
+ * Emitting FAQPage on more than one page is fine as long as the questions differ. The
+ * original homepage-only rule existed because the spokes had no visible FAQ of their
+ * own; duplicating the *same* FAQ across pages is the thing to avoid, not having one.
  */
-export function faqSchema(locale: Locale) {
+export function faqSchemaFromItems(items: readonly { q: string; a: string }[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: getT(locale).faq.items.map((item) => ({
+    mainEntity: items.map((item) => ({
       '@type': 'Question',
       name: item.q,
       acceptedAnswer: {
@@ -96,6 +102,49 @@ export function faqSchema(locale: Locale) {
         text: item.a,
       },
     })),
+  }
+}
+
+/** Homepage FAQPage — the FAQ rendered by FAQSection. */
+export function faqSchema(locale: Locale) {
+  return faqSchemaFromItems(getT(locale).faq.items)
+}
+
+/**
+ * Service schema for pickup & delivery, with all 24 Distrito Tec colonias as areaServed.
+ *
+ * This is the machine-readable half of the coverage list the page renders as text: the
+ * same COVERAGE_AREAS array feeds both, in the same render pass, so they cannot diverge.
+ * Naming each colonia is the point — "areaServed: Monterrey" is a claim every competitor
+ * also makes, while 24 named neighbourhoods is the specificity that gets a business cited.
+ */
+export function deliveryServiceSchema(locale: Locale) {
+  const t = getT(locale)
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: locale === 'es' ? 'Lavandería a domicilio' : 'Laundry pickup and delivery',
+    name: t.pages.aDomicilio.content.hero.headline.replace('\n', ' '),
+    description: t.pages.aDomicilio.meta.description,
+    provider: {
+      '@type': ['LocalBusiness', 'DryCleaningOrLaundry'],
+      name: BUSINESS.name,
+      telephone: BUSINESS.telephone,
+      url: SITE_URL,
+    },
+    areaServed: COVERAGE_AREAS.map((area) => ({
+      '@type': 'Place',
+      name: area.name,
+      containedInPlace: {
+        '@type': 'AdministrativeArea',
+        name: 'Distrito Tec, Monterrey',
+      },
+    })),
+    availableChannel: {
+      '@type': 'ServiceChannel',
+      serviceUrl: `${SITE_URL}/${locale}/a-domicilio`,
+      servicePhone: BUSINESS.telephone,
+    },
   }
 }
 
