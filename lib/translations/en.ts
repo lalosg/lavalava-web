@@ -510,7 +510,98 @@ export const en: Translations = {
     ubicacion: {
       meta: {
         title:       'Laundry & Dry Cleaning near Tec de Monterrey | LAVALAVA',
-        description: 'Find us at Av. Junco de la Vega 2224B, Col. Roma, Distrito Tec — minutes from Tec de Monterrey. Hours, map and directions.',
+        description: 'We are at Av. Junco de la Vega 2224B, Col. Roma, Distrito Tec — minutes from Tec de Monterrey. Hours, map and directions.',
+      },
+      // User-visible page copy, authored here. Address, coordinates and hours are NOT in
+      // this file — they are fixed facts in lib/seo.ts (BUSINESS) and the shared
+      // `location` namespace, so the page, the footer and the JSON-LD cannot disagree.
+      content: {
+        hero: {
+          eyebrow:         'Location',
+          headline:        'Minutes from\nthe Tec.',
+          lede:            'We are on Av. Junco de la Vega, in Colonia Roma, inside Distrito Tec. If you study or live near campus you can walk here — and if you drive, we are a few minutes off Garza Sada.',
+          ctaPrimary:      'Get directions',
+          ctaSecondary:    'See opening hours ↓',
+        },
+        address: {
+          eyebrow:     '01 — Where we are',
+          headline:    'The address,\nin plain text.',
+          note:        'We are a street-level shop on Av. Junco de la Vega. If your phone drops you at the corner, look for number 2224B.',
+          directions:  'Open in Google Maps →',
+          whatsappCta: "Can't find us? Message us →",
+          whatsappMessage: 'Hi LAVALAVA! I am nearby but cannot find you — can you help?',
+        },
+        hours: {
+          eyebrow:  '02 — Opening hours',
+          headline: 'When we\nare open.',
+          note:     'Closed on Sundays. If you need something outside these hours, send us a WhatsApp and we will see what we can do — we read messages even when the shop is shut.',
+          closedLabel: 'Closed',
+        },
+        visit: {
+          eyebrow:  '03 — Your visit',
+          headline: 'Before you\ncome in.',
+          items: [
+            {
+              title:       'Walking from campus',
+              description: 'We are inside Distrito Tec, a few minutes on foot from the campus and the student residences. It is a short, flat walk — you will not need transport.',
+            },
+            {
+              title:       'No appointment needed',
+              description: 'Just come by during opening hours and drop your clothes off. If you want to save time, message us on WhatsApp first and we will tell you how busy the day looks.',
+            },
+            {
+              title:       'Bring it as it is',
+              description: 'No need to sort, weigh or pack anything specially. We check and sort it with you at the counter.',
+            },
+            {
+              title:       'Or stay home — we will come',
+              description: 'If you would rather not go out, we collect and deliver across 24 Distrito Tec neighbourhoods. Booked on WhatsApp, usually for the same day.',
+            },
+          ],
+        },
+        faq: {
+          eyebrow:  '04 — Frequently asked questions',
+          headline: 'Getting here,\nand when.',
+          items: [
+            {
+              q: 'Where exactly are you?',
+              a: 'At Av. Junco de la Vega 2224B, Colonia Roma, Distrito Tec, 64700 Monterrey, Nuevo León. We are on Junco de la Vega itself; the number is 2224B. You can open the exact location in Google Maps from the button on this page.',
+            },
+            {
+              q: 'How close are you to Tec de Monterrey?',
+              a: 'We are inside Distrito Tec, a few minutes on foot from the campus and the student residences. For most students it is a short walk with no transport needed.',
+            },
+            {
+              q: 'What are your opening hours?',
+              a: 'Monday to Friday from 8:00 to 19:30, and Saturday from 9:00 to 15:30. We are closed on Sundays. You can message us on WhatsApp at any time and we will reply as soon as we open.',
+            },
+            {
+              q: 'Are you open on Sundays?',
+              a: 'No. Sunday is our closing day. If you need your clothes for Monday, drop them off on Saturday before 15:30 and we will sort it out.',
+            },
+            {
+              q: 'Do I need an appointment?',
+              a: 'No. Come by any time during opening hours. If you want to know how busy the day is before heading over, message us on WhatsApp and we will tell you.',
+            },
+            {
+              q: 'What if I cannot make it to the shop?',
+              a: 'We collect and deliver across 24 Distrito Tec neighbourhoods. Pickup and delivery are charged at a flat rate and booked on WhatsApp, usually for the same day.',
+            },
+          ],
+        },
+        crossLinks: {
+          eyebrow:  'Keep exploring',
+          services: {
+            title:       'What you can bring',
+            description: 'Laundry by the kilo, dry cleaning, pressing, comforters, sneakers and repairs — with prices.',
+            cta:         'See services and prices →',
+          },
+          delivery: {
+            title:       'Better if we come to you',
+            description: 'Pickup and delivery across 24 Distrito Tec neighbourhoods, at a flat rate.',
+            cta:         'See coverage and fares →',
+          },
+        },
       },
     },
   },

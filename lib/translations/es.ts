@@ -510,6 +510,97 @@ export const es = {
         title:       'Lavandería y Tintorería cerca del Tec de Monterrey | LAVALAVA',
         description: 'Estamos en Av. Junco de la Vega 2224B, Col. Roma, Distrito Tec — a minutos del Tec de Monterrey. Consulta horarios, mapa y cómo llegar.',
       },
+      // User-visible page copy, authored here. Address, coordinates and hours are NOT in
+      // this file — they are fixed facts in lib/seo.ts (BUSINESS) and the shared
+      // `location` namespace, so the page, the footer and the JSON-LD cannot disagree.
+      content: {
+        hero: {
+          eyebrow:         'Ubicación',
+          headline:        'A unos minutos\ndel Tec.',
+          lede:            'Estamos sobre Av. Junco de la Vega, en la Colonia Roma, dentro del Distrito Tec. Si estudias o vives cerca del campus, llegas caminando — y si vienes en coche, estás a unos minutos por Garza Sada.',
+          ctaPrimary:      'Cómo llegar',
+          ctaSecondary:    'Ver horarios ↓',
+        },
+        address: {
+          eyebrow:     '01 — Dónde estamos',
+          headline:    'La dirección,\nen texto.',
+          note:        'Somos un local sobre Av. Junco de la Vega. Si el mapa de tu teléfono te deja en la esquina, busca el número 2224B.',
+          directions:  'Abrir en Google Maps →',
+          whatsappCta: '¿No nos encuentras? Escríbenos →',
+          whatsappMessage: '¡Hola LAVALAVA! Estoy cerca pero no los encuentro, ¿me ayudan?',
+        },
+        hours: {
+          eyebrow:  '02 — Horarios',
+          headline: 'Cuándo\nabrimos.',
+          note:     'Domingo cerrado. Si necesitas algo fuera de horario, mándanos un WhatsApp y lo vemos — leemos los mensajes aunque el local esté cerrado.',
+          closedLabel: 'Cerrado',
+        },
+        visit: {
+          eyebrow:  '03 — Tu visita',
+          headline: 'Antes de\nvenir.',
+          items: [
+            {
+              title:       'Caminando desde el campus',
+              description: 'Estamos dentro del Distrito Tec, a unos minutos a pie desde las residencias y el campus. Es una caminata corta y plana — no necesitas transporte.',
+            },
+            {
+              title:       'No necesitas cita',
+              description: 'Puedes llegar directo en horario de servicio y dejar tu ropa. Si quieres adelantar tiempo, escríbenos antes por WhatsApp y te decimos cómo está la carga del día.',
+            },
+            {
+              title:       'Trae tu ropa como esté',
+              description: 'No hace falta separarla, pesarla ni empacarla de forma especial. Nosotros revisamos y clasificamos en el mostrador contigo.',
+            },
+            {
+              title:       'O no vengas — vamos nosotros',
+              description: 'Si prefieres no salir, recogemos y entregamos en 24 colonias del Distrito Tec. Se agenda por WhatsApp, normalmente para el mismo día.',
+            },
+          ],
+        },
+        faq: {
+          eyebrow:  '04 — Preguntas frecuentes',
+          headline: 'Cómo llegar\ny cuándo.',
+          items: [
+            {
+              q: '¿Dónde están exactamente?',
+              a: 'En Av. Junco de la Vega 2224B, Colonia Roma, Distrito Tec, 64700 Monterrey, Nuevo León. Es sobre Junco de la Vega; el número es 2224B. Puedes abrir la ubicación exacta en Google Maps desde el botón de esta página.',
+            },
+            {
+              q: '¿Qué tan cerca están del Tec de Monterrey?',
+              a: 'Estamos dentro del Distrito Tec, a unos minutos caminando del campus y de las residencias estudiantiles. Para la mayoría de los estudiantes es una caminata corta, sin necesidad de transporte.',
+            },
+            {
+              q: '¿Cuál es su horario?',
+              a: 'Lunes a viernes de 8:00 a 19:30, y sábado de 9:00 a 15:30. Los domingos permanecemos cerrados. Puedes escribirnos por WhatsApp en cualquier momento; respondemos en cuanto abrimos.',
+            },
+            {
+              q: '¿Abren los domingos?',
+              a: 'No. Domingo es nuestro día de cierre. Si necesitas tu ropa para el lunes, déjala el sábado antes de las 15:30 y lo coordinamos.',
+            },
+            {
+              q: '¿Necesito hacer cita?',
+              a: 'No. Puedes llegar directo dentro del horario de servicio. Si quieres saber cómo está la carga del día antes de venir, escríbenos por WhatsApp y te decimos.',
+            },
+            {
+              q: '¿Y si no puedo ir al local?',
+              a: 'Recogemos y entregamos a domicilio en 24 colonias del Distrito Tec. La recolección y la entrega tienen tarifa fija y se agendan por WhatsApp, normalmente para el mismo día.',
+            },
+          ],
+        },
+        crossLinks: {
+          eyebrow:  'Sigue explorando',
+          services: {
+            title:       'Qué puedes traer',
+            description: 'Lavandería por kilo, tintorería, planchado, cobertores, tenis y composturas — con precios.',
+            cta:         'Ver servicios y precios →',
+          },
+          delivery: {
+            title:       'Mejor que vayamos nosotros',
+            description: 'Recolección y entrega en 24 colonias del Distrito Tec, con tarifa fija.',
+            cta:         'Ver cobertura y tarifas →',
+          },
+        },
+      },
     },
   },
   meta: {
