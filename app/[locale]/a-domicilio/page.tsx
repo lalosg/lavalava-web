@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import type { Locale } from '@/lib/i18n'
-import { getT } from '@/lib/translations'
+import { getT, localePath } from '@/lib/translations'
 import { pageMetadata } from '@/lib/seo'
 import {
   JsonLd,
@@ -14,8 +14,8 @@ import { DeliverySteps } from '@/components/delivery/DeliverySteps'
 import { CoverageGrid } from '@/components/delivery/CoverageGrid'
 import { DeliveryPricing } from '@/components/delivery/DeliveryPricing'
 import { DeliveryIncluded } from '@/components/delivery/DeliveryIncluded'
-import { DeliveryFaq } from '@/components/delivery/DeliveryFaq'
-import { DeliveryCrossLinks } from '@/components/delivery/DeliveryCrossLinks'
+import { FaqAccordion } from '@/components/ui/FaqAccordion'
+import { SpokeCrossLinks } from '@/components/ui/SpokeCrossLinks'
 import { FinalCTASection } from '@/components/sections/FinalCTASection'
 
 interface Props {
@@ -34,6 +34,7 @@ export function generateMetadata({ params }: Props): Metadata {
 
 export default function AdomicilioPage({ params }: Props) {
   const t = getT(params.locale)
+  const c = t.pages.aDomicilio.content
 
   return (
     <>
@@ -48,7 +49,7 @@ export default function AdomicilioPage({ params }: Props) {
           breadcrumbSchema(params.locale, [
             { name: t.nav.delivery, path: '/a-domicilio' },
           ]),
-          faqSchemaFromItems(t.pages.aDomicilio.content.faq.items),
+          faqSchemaFromItems(c.faq.items),
         ]}
       />
       <DeliveryHero t={t} />
@@ -56,8 +57,14 @@ export default function AdomicilioPage({ params }: Props) {
       <CoverageGrid t={t} />
       <DeliveryPricing t={t} locale={params.locale} />
       <DeliveryIncluded t={t} />
-      <DeliveryFaq t={t} />
-      <DeliveryCrossLinks t={t} locale={params.locale} />
+      <FaqAccordion eyebrow={c.faq.eyebrow} headline={c.faq.headline} items={c.faq.items} />
+      <SpokeCrossLinks
+        eyebrow={c.crossLinks.eyebrow}
+        cards={[
+          { ...c.crossLinks.services, href: localePath(params.locale, '/servicios') },
+          { ...c.crossLinks.location, href: localePath(params.locale, '/ubicacion') },
+        ]}
+      />
       <FinalCTASection t={t} />
     </>
   )

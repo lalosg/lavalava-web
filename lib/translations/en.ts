@@ -203,7 +203,168 @@ export const en: Translations = {
     servicios: {
       meta: {
         title:       'Laundry & Dry Cleaning Services in Distrito Tec | LAVALAVA',
-        description: 'Laundry by the kilo, dry cleaning, wash & press, comforters and sneakers in Distrito Tec, Monterrey. Expert care for every garment, with pickup and delivery.',
+        description: 'Laundry by the kilo, dry cleaning, pressing, comforters, sneakers and repairs in Distrito Tec, Monterrey. Expert care for every garment, with pickup and delivery.',
+      },
+      // User-visible page copy, authored here. Product NAMES and PRICES are not in this
+      // file — those are fixed facts read from the published POS contract via
+      // lib/prices.ts, because a price typed into a page goes stale the moment the till
+      // changes. Everything else is the website's to write.
+      content: {
+        hero: {
+          eyebrow:         'Services',
+          headline:        'Every garment\nasks for something\ndifferent.',
+          lede:            'Laundry by the kilo, dry cleaning, pressing, comforters, sneakers and repairs — all in one place, in the heart of Distrito Tec. We inspect every piece before a single machine is switched on, because a cotton tee and a wool blazer are not the same job.',
+          ctaPrimary:      'Message us on WhatsApp',
+          ctaSecondary:    'See services and prices ↓',
+          whatsappMessage: "Hi LAVALAVA! I'd like to know more about your services.",
+        },
+        catalogue: {
+          eyebrow:     '01 — The catalogue',
+          headline:    'What we do.',
+          intro:       'Seven services. The prices below are the ones on the counter — the same ones you pay if you message us on WhatsApp or book pickup and delivery.',
+          wasLabel:    'was',
+          promoLabel:  'Promotional price',
+          turnaroundLabel: 'Turnaround',
+          priceFromLabel:  'from',
+          items: [
+            {
+              slug:       'lavanderia-por-kilo',
+              name:       'Wash, dry and fold',
+              tagline:    'The weekly one',
+              body:       'Gather the week and hand it over. We weigh it, sort it by colour and fabric, wash it, dry it, and give it back folded and ready for the closet. No need to separate anything beforehand — that part is our job.',
+              detail:     'Charged by the kilo, so there are no packages to decode and no surprises. What it weighs is what it costs.',
+              turnaround: '24 hours',
+            },
+            {
+              slug:       'tintoreria',
+              name:       'Dry cleaning',
+              tagline:    'For what you cannot wash at home',
+              body:       'Dry cleaning for suits, dresses, coats, blazers and anything carrying a “dry clean only” label. Every garment is held to the light before it goes in: we find the stains, treat them one at a time, and hand-press the details a machine press cannot reach.',
+              detail:     'This is where the gap between a laundry and a craft shows most. If a garment is expensive, delicate, or hard to replace, this is where it belongs.',
+              turnaround: '48 — 72 hours',
+            },
+            {
+              slug:       'planchado',
+              name:       'Press only',
+              tagline:    'You washed it. We press it.',
+              body:       'For when you do the washing at home but the ironing piles up. We use an industrial press and professional steam, which gives a sharper finish that lasts longer than a home iron — especially on collars, cuffs and pleats.',
+              detail:     'Charged per piece, at the same price for every garment, so it is easy to count.',
+              turnaround: '24 hours',
+            },
+            {
+              slug:       'colchas-cobertores',
+              name:       'Comforters and blankets',
+              tagline:    'What will not fit in your machine',
+              body:       'Duvets, comforters, heavy blankets and quilts. We wash them in large-drum industrial machines, which is what lets the filling move, rinse properly and loft back up instead of clumping.',
+              detail:     'Priced by bed size rather than weight. If yours is extra thick or down-filled, message us first and we will confirm.',
+              turnaround: 'Confirmed when we receive it',
+            },
+            {
+              slug:       'tennis',
+              name:       'Sneaker cleaning',
+              tagline:    'Like they just came out of the box',
+              body:       'Deep cleaning for trainers. We treat the upper, the sole and the laces separately, lift stains and odour, and dry at a controlled temperature so nothing warps or unglues.',
+              detail:     'If they are leather, suede or a special edition, send us a photo on WhatsApp before you bring them in.',
+              turnaround: 'Confirmed when we receive them',
+            },
+            {
+              slug:       'composturas',
+              name:       'Minor repairs and alterations',
+              tagline:    'Before you throw it out, ask us',
+              body:       'Buttons that came off, hems that came undone, zips that stopped running and small mends. These are little repairs that add years to a garment, and they almost always cost less than replacing it.',
+              detail:     'For resizing or larger alterations, bring it in and we will look at it with you before quoting.',
+              turnaround: 'Confirmed when we receive it',
+            },
+            {
+              slug:       'recoleccion-entrega',
+              name:       'Pickup and delivery',
+              tagline:    'All of the above, at your door',
+              body:       'Any service on this page can come to you and go back. Pickup and delivery are charged separately, each at a flat rate within our 24 covered neighbourhoods in Distrito Tec.',
+              detail:     'Booked on WhatsApp, usually for the same day.',
+              turnaround: 'Depends on the service you book',
+            },
+          ],
+        },
+        care: {
+          eyebrow:  '02 — How we work',
+          headline: 'What happens\nbetween drop-off\nand pickup.',
+          steps: [
+            {
+              title:       'It gets inspected before it gets washed',
+              description: 'Every garment is checked: care label, fabric, stains, loose buttons, things left in pockets. Whatever we find, we tell you about.',
+            },
+            {
+              title:       'It gets sorted, not piled',
+              description: 'We separate by colour, by temperature and by fibre. It is the boring part of the trade and it is exactly where clothes get ruined when it is skipped.',
+            },
+            {
+              title:       'Delicates go their own way',
+              description: 'Silk, lace, wool, anything lined or embellished. Treated one at a time, on a separate process, and hand-pressed wherever a machine press should not touch.',
+            },
+            {
+              title:       'If something cannot be done, you hear it first',
+              description: 'Some stains have set and some fabrics will not survive a given process. We would rather tell you at drop-off than hand back a damaged garment. We never experiment with your clothes without asking.',
+            },
+          ],
+        },
+        unusual: {
+          eyebrow:  '03 — What if it is unusual?',
+          headline: 'Just ask.',
+          body:     'A wedding dress, a costume, a leather jacket, a rug, something inherited, something you cannot even identify the fabric of. Not everything is on the price list, and that does not mean we cannot do it. Send us a photo on WhatsApp and we will tell you honestly whether it is for us, what it would cost and how long it would take — or whether you are better off with a specialist.',
+          cta:              'Send a photo on WhatsApp →',
+          whatsappMessage:  'Hi LAVALAVA! I have a special garment and would like to know if you can work on it. Sending a photo.',
+        },
+        faq: {
+          eyebrow:  '04 — Frequently asked questions',
+          headline: 'What people\nask us most.',
+          items: [
+            {
+              q: 'How does pricing by the kilo work?',
+              a: 'We weigh your laundry when we receive it and that weight sets the cost. No packages and no tiered rates — one flat price per kilo. We will tell you the total before processing if you want to confirm first.',
+            },
+            {
+              q: 'How long does each service take?',
+              a: 'Wash-and-fold by the kilo and press-only are ready in 24 hours. Dry cleaning takes 48 to 72 hours, because solvent cleaning and stain treatment cannot be rushed without risking the garment. For comforters, sneakers and repairs we confirm the exact turnaround when we receive the piece, because it depends on what it needs.',
+            },
+            {
+              q: 'What if I am in a hurry?',
+              a: 'Tell us at the start. Depending on the day’s load we can prioritise your order, and if we are not going to make it we will say so immediately rather than leave you waiting.',
+            },
+            {
+              q: 'How do you handle delicate garments?',
+              a: 'They are separated at the initial inspection and processed apart. Silk, lace, wool and anything lined or embellished gets individual treatment and hand-pressing wherever an industrial press should not touch. If a garment will not survive the process it would need, we tell you before trying.',
+            },
+            {
+              q: 'Can you remove any stain?',
+              a: 'No, and be sceptical of anyone who says otherwise. Grease, wine, ink and blood lift far better the fresher they are; an old stain already set by heat can be permanent. We treat each one individually and tell you honestly what we expect to achieve before charging you for it.',
+            },
+            {
+              q: 'Is there a minimum order?',
+              a: 'There is no minimum for dropping clothes off at the shop. Message us on WhatsApp if you want to confirm any detail before coming in.',
+            },
+            {
+              q: 'Do these prices include pickup and delivery?',
+              a: 'No. The prices on this page are for the service itself. Pickup and delivery are charged separately, each at a flat rate. You can see those fares on the pickup and delivery page.',
+            },
+            {
+              q: 'Can I pay by card?',
+              a: 'Yes, we take cards and cash at the shop. For pickup and delivery we arrange payment over WhatsApp when you book.',
+            },
+          ],
+        },
+        crossLinks: {
+          eyebrow:  'Keep exploring',
+          delivery: {
+            title:       'Pickup and delivery',
+            description: 'We collect and deliver across 24 Distrito Tec neighbourhoods. Full fares and coverage.',
+            cta:         'See coverage and fares →',
+          },
+          location: {
+            title:       'Come see us',
+            description: 'Av. Junco de la Vega 2224B, Col. Roma — a short walk from the Tec.',
+            cta:         'See location and hours →',
+          },
+        },
       },
     },
     aDomicilio: {

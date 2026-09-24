@@ -203,6 +203,167 @@ export const es = {
         title:       'Servicios de Lavandería y Tintorería en Distrito Tec | LAVALAVA',
         description: 'Lavandería por kilo, tintorería, lavado y planchado, cobertores y tenis en Distrito Tec, Monterrey. Cuidado experto para cada prenda, con servicio a domicilio.',
       },
+      // User-visible page copy, authored here. Product NAMES and PRICES are not in this
+      // file — those are fixed facts read from the published POS contract via
+      // lib/prices.ts, because a price typed into a page goes stale the moment the till
+      // changes. Everything else is the website's to write.
+      content: {
+        hero: {
+          eyebrow:         'Servicios',
+          headline:        'Cada prenda\npide algo distinto.',
+          lede:            'Lavandería por kilo, tintorería, planchado, cobertores, tenis y composturas — todo en un mismo lugar, en el corazón de Distrito Tec. Revisamos prenda por prenda antes de tocar una sola máquina, porque una playera de algodón y un saco de lana no se tratan igual.',
+          ctaPrimary:      'Escríbenos por WhatsApp',
+          ctaSecondary:    'Ver servicios y precios ↓',
+          whatsappMessage: '¡Hola LAVALAVA! Me gustaría más información sobre sus servicios.',
+        },
+        catalogue: {
+          eyebrow:     '01 — El catálogo',
+          headline:    'Lo que hacemos.',
+          intro:       'Siete servicios. Los precios de abajo son los vigentes en el mostrador — los mismos que pagas si nos escribes por WhatsApp o si pides servicio a domicilio.',
+          wasLabel:    'antes',
+          promoLabel:  'Precio promocional',
+          turnaroundLabel: 'Tiempo de entrega',
+          priceFromLabel:  'desde',
+          items: [
+            {
+              slug:       'lavanderia-por-kilo',
+              name:       'Lavado, secado y doblado',
+              tagline:    'El de todas las semanas',
+              body:       'Junta tu ropa de la semana y déjanosla. La pesamos, la separamos por color y por tipo de tela, la lavamos, la secamos y te la devolvemos doblada y lista para guardar en el clóset. No tienes que separar nada antes de traerla: de eso nos encargamos nosotros.',
+              detail:     'Se cobra por kilo, así que no hay sorpresas ni paquetes que descifrar. Lo que pesa, es lo que cuesta.',
+              turnaround: '24 horas',
+            },
+            {
+              slug:       'tintoreria',
+              name:       'Tintorería',
+              tagline:    'Para lo que no se lava en casa',
+              body:       'Lavado en seco para trajes, vestidos, abrigos, sacos y todo lo que lleva una etiqueta que dice “dry clean only”. Cada prenda se revisa a contraluz antes de entrar: identificamos manchas, las tratamos una por una y planchamos a mano los detalles que una prensa no alcanza.',
+              detail:     'Es el servicio donde más se nota la diferencia entre una lavandería y un oficio. Si tienes una prenda cara, delicada o con valor sentimental, este es su lugar.',
+              turnaround: '48 — 72 horas',
+            },
+            {
+              slug:       'planchado',
+              name:       'Planchado por pieza',
+              tagline:    'Ya la lavaste. Nosotros la planchamos.',
+              body:       'Para cuando lavas en casa pero el planchado se te acumula. Usamos prensa industrial y vapor profesional, que deja un acabado más nítido y más duradero que una plancha doméstica — sobre todo en cuellos, puños y pliegues.',
+              detail:     'Se cobra por pieza y el precio es el mismo para todas, así que contar es fácil.',
+              turnaround: '24 horas',
+            },
+            {
+              slug:       'colchas-cobertores',
+              name:       'Colchas y cobertores',
+              tagline:    'Lo que no cabe en tu lavadora',
+              body:       'Edredones, cobertores, cobijas gruesas y colchas. Los lavamos en maquinaria industrial con tambor grande, que es lo que permite que el relleno se mueva, se enjuague de verdad y vuelva a esponjarse en lugar de apelmazarse.',
+              detail:     'El precio va por tamaño de cama, no por peso. Si tu cobertor es extra grueso o de plumas, escríbenos antes y te confirmamos.',
+              turnaround: 'Te lo confirmamos al recibirlo',
+            },
+            {
+              slug:       'tennis',
+              name:       'Lavado de tenis',
+              tagline:    'Como recién sacados de la caja',
+              body:       'Limpieza profunda de calzado deportivo. Tratamos la tela, la suela y las agujetas por separado, quitamos manchas y olor, y secamos a temperatura controlada para que no se deformen ni se despeguen.',
+              detail:     'Si son de piel, gamuza o edición especial, mándanos una foto por WhatsApp antes de traerlos.',
+              turnaround: 'Te lo confirmamos al recibirlos',
+            },
+            {
+              slug:       'composturas',
+              name:       'Pequeñas composturas y ajustes',
+              tagline:    'Antes de tirarla, pregúntanos',
+              body:       'Botones que se cayeron, bastillas descosidas, cierres que ya no corren y remiendos menores. Son arreglos pequeños que alargan la vida de una prenda años, y casi siempre cuestan menos que reemplazarla.',
+              detail:     'Para ajustes de talla o arreglos mayores, tráela y la revisamos contigo antes de cotizar.',
+              turnaround: 'Te lo confirmamos al recibirla',
+            },
+            {
+              slug:       'recoleccion-entrega',
+              name:       'Servicio a domicilio',
+              tagline:    'Todo lo anterior, en tu puerta',
+              body:       'Cualquiera de los servicios de esta página puede llegar y regresar a tu domicilio. La recolección y la entrega se cobran por separado, con tarifa fija dentro de nuestras 24 colonias de cobertura en Distrito Tec.',
+              detail:     'Se agenda por WhatsApp, normalmente para el mismo día.',
+              turnaround: 'Según el servicio que pidas',
+            },
+          ],
+        },
+        care: {
+          eyebrow:  '02 — Cómo trabajamos',
+          headline: 'Lo que pasa\nentre que nos la\ndejas y te la\ndevolvemos.',
+          steps: [
+            {
+              title:       'Se revisa antes de lavarse',
+              description: 'Cada prenda pasa por una revisión: etiqueta de cuidado, tipo de tela, manchas, botones flojos, bolsillos con cosas dentro. Lo que encontramos, te lo decimos.',
+            },
+            {
+              title:       'Se clasifica, no se amontona',
+              description: 'Separamos por color, por temperatura y por tipo de fibra. Es la parte aburrida del oficio y es exactamente donde se arruina la ropa cuando no se hace.',
+            },
+            {
+              title:       'Lo delicado va aparte',
+              description: 'Seda, encaje, lana, prendas con aplicaciones o forro. Se tratan una por una, en proceso separado, y se planchan a mano donde la prensa no debe tocar.',
+            },
+            {
+              title:       'Si algo no se puede, te lo decimos antes',
+              description: 'Hay manchas que ya sentaron y telas que no aguantan cierto proceso. Preferimos decírtelo al recibir la prenda que devolvértela dañada. Nunca experimentamos con tu ropa sin avisarte.',
+            },
+          ],
+        },
+        unusual: {
+          eyebrow:  '03 — ¿Y si es algo raro?',
+          headline: 'Pregúntanos.',
+          body:     'Un vestido de novia, un disfraz, una chamarra de piel, un tapete, una prenda heredada, algo que no sabes ni de qué tela es. No todo está en la lista de precios, y eso no significa que no podamos. Mándanos una foto por WhatsApp y te decimos con honestidad si es para nosotros, cuánto costaría y cuánto tardaría — o si te conviene más llevarlo a un especialista.',
+          cta:              'Mandar una foto por WhatsApp →',
+          whatsappMessage:  '¡Hola LAVALAVA! Tengo una prenda especial y quiero saber si la pueden trabajar. Les mando foto.',
+        },
+        faq: {
+          eyebrow:  '04 — Preguntas frecuentes',
+          headline: 'Lo que más\nnos preguntan.',
+          items: [
+            {
+              q: '¿Cómo funciona el cobro por kilo?',
+              a: 'Pesamos tu ropa al recibirla y ese peso define el costo. No hay paquetes ni tarifas escalonadas: es un precio por kilo, parejo. Te decimos el total antes de procesar si quieres confirmarlo primero.',
+            },
+            {
+              q: '¿Cuánto tarda cada servicio?',
+              a: 'El lavado por kilo y el planchado están listos en 24 horas. La tintorería toma de 48 a 72 horas, porque el lavado en seco y el tratamiento de manchas no se pueden apurar sin arriesgar la prenda. Para cobertores, tenis y composturas te confirmamos el tiempo exacto al recibir la pieza, porque depende de lo que traiga.',
+            },
+            {
+              q: '¿Qué pasa si tengo prisa?',
+              a: 'Dinos desde el principio. Según la carga del día podemos priorizar tu pedido, y si no vamos a alcanzar te lo decimos de inmediato en lugar de dejarte esperando.',
+            },
+            {
+              q: '¿Cómo tratan la ropa delicada?',
+              a: 'Se separa desde la revisión inicial y se procesa aparte. Seda, encaje, lana y prendas con forro o aplicaciones llevan tratamiento individual y planchado a mano donde la prensa industrial no debe tocar. Si una prenda no aguanta el proceso que requeriría, te lo decimos antes de intentarlo.',
+            },
+            {
+              q: '¿Quitan cualquier mancha?',
+              a: 'No, y desconfía de quien te diga que sí. Las manchas de grasa, vino, tinta y sangre salen mucho mejor mientras más frescas estén; una mancha vieja que ya se fijó con calor puede ser permanente. Tratamos cada una individualmente y te decimos con honestidad qué esperamos lograr antes de cobrarte por ello.',
+            },
+            {
+              q: '¿Tienen mínimo de pedido?',
+              a: 'No hay mínimo para dejar ropa en el local. Escríbenos por WhatsApp si quieres confirmar cualquier detalle antes de venir.',
+            },
+            {
+              q: '¿Los precios incluyen el servicio a domicilio?',
+              a: 'No. Los precios de esta página son los del servicio en sí. La recolección y la entrega a domicilio se cobran aparte, cada una con tarifa fija. Puedes ver esas tarifas en la página de servicio a domicilio.',
+            },
+            {
+              q: '¿Puedo pagar con tarjeta?',
+              a: 'Sí, aceptamos tarjeta y efectivo en el local. Para servicio a domicilio coordinamos el pago por WhatsApp al agendar.',
+            },
+          ],
+        },
+        crossLinks: {
+          eyebrow:  'Sigue explorando',
+          delivery: {
+            title:       'Servicio a domicilio',
+            description: 'Recogemos y entregamos en 24 colonias del Distrito Tec. Tarifas y cobertura completa.',
+            cta:         'Ver cobertura y tarifas →',
+          },
+          location: {
+            title:       'Visítanos',
+            description: 'Av. Junco de la Vega 2224B, Col. Roma — a minutos caminando del Tec.',
+            cta:         'Ver ubicación y horarios →',
+          },
+        },
+      },
     },
     aDomicilio: {
       meta: {

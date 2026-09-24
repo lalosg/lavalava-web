@@ -1,5 +1,7 @@
 import { BUSINESS, SITE_URL } from '@/lib/seo'
 import { COVERAGE_AREAS } from '@/lib/coverage'
+import { itemsFor } from '@/lib/prices'
+import { activePromo } from '@/lib/contract'
 import { getT } from '@/lib/translations'
 import type { Locale } from '@/lib/i18n'
 
@@ -145,6 +147,57 @@ export function deliveryServiceSchema(locale: Locale) {
       serviceUrl: `${SITE_URL}/${locale}/a-domicilio`,
       servicePhone: BUSINESS.telephone,
     },
+  }
+}
+
+/**
+ * OfferCatalog of everything the shop sells, with real published prices.
+ *
+ * Built from the same two sources the visible catalogue renders from — authored copy in
+ * the translations, item names and prices from the POS contract — in the same render
+ * pass, so the markup and the page cannot disagree about a number.
+ *
+ * `price` is what the customer actually pays: the promotional amount when one is live
+ * and still valid, otherwise the list price. Publishing the list price while charging
+ * less would understate the offer; publishing it while charging more would be a lie.
+ */
+export function serviceCatalogSchema(locale: Locale) {
+  const t = getT(locale)
+  const c = t.pages.servicios.content.catalogue
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'OfferCatalog',
+    name: locale === 'es' ? 'Servicios LAVALAVA' : 'LAVALAVA services',
+    url: `${SITE_URL}/${locale}/servicios`,
+    provider: {
+      '@type': ['LocalBusiness', 'DryCleaningOrLaundry'],
+      name: BUSINESS.name,
+      telephone: BUSINESS.telephone,
+      url: SITE_URL,
+    },
+    itemListElement: c.items.map((service, i) => ({
+      '@type': 'OfferCatalog',
+      position: i + 1,
+      name: service.name,
+      description: service.body,
+      itemListElement: itemsFor(service.slug).map((item) => {
+        const promo = activePromo(item)
+        return {
+          '@type': 'Offer',
+          name: item.name[locale],
+          price: promo ? promo.amount : item.price.amount,
+          priceCurrency: item.price.currency,
+          availability: 'https://schema.org/InStock',
+          itemOffered: {
+            '@type': 'Service',
+            name: `${service.name} — ${item.name[locale]}`,
+            serviceType: service.name,
+            areaServed: { '@type': 'AdministrativeArea', name: 'Distrito Tec, Monterrey' },
+          },
+        }
+      }),
+    })),
   }
 }
 
