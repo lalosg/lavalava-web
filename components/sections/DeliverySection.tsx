@@ -57,7 +57,7 @@ export function DeliverySection({ t, locale }: Props) {
             href={waLink(t.delivery.whatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-7 py-4 bg-teal text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal/90 press"
+            className="inline-flex items-center gap-2 px-7 py-4 bg-teal-deep text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal-deep/90 press"
           >
             <WhatsAppIcon size={16} />
             {t.delivery.cta}
@@ -69,7 +69,7 @@ export function DeliverySection({ t, locale }: Props) {
             soft-navigation path to the same pages. */}
           <a
             href={localePath(locale, '/a-domicilio')}
-            className="block mt-5 font-sans text-xs text-bone/50 hover:text-bone/70 transition-colors"
+            className="tap block mt-5 font-sans text-xs text-bone/50 hover:text-bone/70 transition-colors"
           >
             <ArrowLabel>{t.delivery.learnMore}</ArrowLabel>
           </a>

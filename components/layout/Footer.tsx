@@ -42,7 +42,7 @@ export function Footer({ locale }: Props) {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm hover:text-white/80 transition-colors"
+                className="tap text-sm hover:text-white/80 transition-colors"
               >
                 {item.label}
               </Link>
@@ -55,21 +55,21 @@ export function Footer({ locale }: Props) {
             <p>{t.footer.city}</p>
             <a
               href={`mailto:${t.footer.email}`}
-              className="hover:text-white/80 transition-colors"
+              className="tap hover:text-white/80 transition-colors"
             >
               {t.footer.email}
             </a>
             <div className="flex items-center gap-3 mt-2">
               <Link
                 href="/es"
-                className={locale === 'es' ? 'text-white/80 text-xs font-semibold' : 'text-white/50 text-xs font-semibold hover:text-white/60 transition-colors'}
+                className={`tap ${locale === 'es' ? 'text-white/80 text-xs font-semibold' : 'text-white/50 text-xs font-semibold hover:text-white/60 transition-colors'}`}
               >
                 ES
               </Link>
               <span className="text-white/50">·</span>
               <Link
                 href="/en"
-                className={locale === 'en' ? 'text-white/80 text-xs font-semibold' : 'text-white/50 text-xs font-semibold hover:text-white/60 transition-colors'}
+                className={`tap ${locale === 'en' ? 'text-white/80 text-xs font-semibold' : 'text-white/50 text-xs font-semibold hover:text-white/60 transition-colors'}`}
               >
                 EN
               </Link>

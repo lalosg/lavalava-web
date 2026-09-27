@@ -25,7 +25,7 @@ export function FinalCTASection({ t }: Props) {
           href={waLink(t.finalCta.whatsappMessage)}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 px-8 py-5 bg-teal text-white font-sans font-semibold text-base tracking-wide rounded-full hover:bg-teal/90 press"
+          className="inline-flex items-center gap-3 px-8 py-5 bg-teal-deep text-white font-sans font-semibold text-base tracking-wide rounded-full hover:bg-teal-deep/90 press"
         >
           <WhatsAppIcon size={20} />
           {t.finalCta.cta}

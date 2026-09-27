@@ -222,6 +222,21 @@ button:hover > .arrow-slide {
   outline-color: var(--teal-soft);
 }
 
+/* ── Tap targets ─────────────────────────────────────────────────────────────
+   Several standalone links render 16-20px tall — the language toggles are 18x16 —
+   which is under the 24x24 CSS px floor in WCAG 2.2 SC 2.5.8 and simply hard to hit
+   with a thumb. Padding would work but would push the surrounding layout around, so
+   the hit area is extended with a pseudo-element instead: the touch box grows, the
+   box model does not move a pixel. */
+.tap {
+  position: relative;
+}
+.tap::after {
+  content: '';
+  position: absolute;
+  inset: -10px -6px;
+}
+
 /* ── Cross-document page transitions ─────────────────────────────────────────
    Internal links are plain <a> on purpose (next/link pulls the client router into
    the bundle), which means navigations are cross-document — and cross-document

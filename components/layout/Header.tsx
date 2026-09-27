@@ -116,6 +116,7 @@ export function Header({ locale }: Props) {
           <Link
             href="/es"
             className={cn(
+              'tap',
               linkBase,
               onPhoto
                 ? locale === 'es'
@@ -132,6 +133,7 @@ export function Header({ locale }: Props) {
           <Link
             href="/en"
             className={cn(
+              'tap',
               linkBase,
               onPhoto
                 ? locale === 'en'

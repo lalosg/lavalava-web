@@ -35,7 +35,7 @@ export function LocationHero({ t }: Props) {
               href={BUSINESS.sameAs[1]}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 bg-teal text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal/90 press"
+              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 bg-teal-deep text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal-deep/90 press"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 2C8.69 2 6 4.69 6 8c0 4.25 6 13 6 13s6-8.75 6-13c0-3.31-2.69-6-6-6Z" />

@@ -43,7 +43,7 @@ export function InstagramSection({ t }: Props) {
               href="https://instagram.com/lavalava.vip"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-sans text-sm font-semibold text-ink hover:text-ink/70 transition-colors"
+              className="tap font-sans text-sm font-semibold text-ink hover:text-ink/70 transition-colors"
             >
               {t.instagram.cta}
             </a>
