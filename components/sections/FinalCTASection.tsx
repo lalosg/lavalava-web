@@ -11,7 +11,7 @@ interface Props {
 
 export function FinalCTASection({ t }: Props) {
   return (
-    <section className="bg-navy py-24 section-px flex flex-col items-center text-center">
+    <section data-final-cta className="bg-navy py-24 section-px flex flex-col items-center text-center">
       <RevealOnScroll>
         <WaveMark size="md" className="mx-auto mb-8 [&_path]:stroke-bone/30" />
       </RevealOnScroll>
@@ -25,7 +25,7 @@ export function FinalCTASection({ t }: Props) {
           href={waLink(t.finalCta.whatsappMessage)}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 px-8 py-5 bg-teal text-white font-sans font-semibold text-base tracking-wide rounded-full hover:bg-teal/90 transition-colors"
+          className="inline-flex items-center gap-3 px-8 py-5 bg-teal text-white font-sans font-semibold text-base tracking-wide rounded-full hover:bg-teal/90 press"
         >
           <WhatsAppIcon size={20} />
           {t.finalCta.cta}

@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { ArrowLabel } from '@/components/ui/ArrowLabel'
 import { RevealText } from '@/components/motion/RevealText'
 import { LazyMap } from '@/components/ui/LazyMap'
 import { localePath } from '@/lib/translations'
@@ -51,7 +52,7 @@ export function LocationSection({ t, locale }: Props) {
                 href={localePath(locale, '/ubicacion')}
                 className="mt-2 font-sans text-xs text-ink/65 hover:text-ink/90 transition-colors"
               >
-                {t.location.moreInfo}
+                <ArrowLabel>{t.location.moreInfo}</ArrowLabel>
               </a>
             </div>
 

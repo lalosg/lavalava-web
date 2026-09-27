@@ -39,10 +39,14 @@ export const es = {
   // ratings. `clients` is the 1,333 customers migrated from Drupal into the POS, stated
   // conservatively as 1,300+. Both are real figures — do not inflate them, and re-verify
   // the rating before launch rather than assuming it held.
+  // Split into value + label so the figures can count up. The numbers stay exactly
+  // what they were: 5.0 verified live, 1,300+ from the 1,333 migrated customers.
   trust: {
-    rating:  '5.0 ★ en Google',
-    clients: '1,300+ clientes',
-    zone:    'Zona Tec',
+    ratingValue:   5,
+    ratingSuffix:  ' ★ en Google',
+    clientsValue:  1300,
+    clientsSuffix: '+ clientes',
+    zone:          'Zona Tec',
   },
   services: {
     eyebrow:  '02 — Servicios',

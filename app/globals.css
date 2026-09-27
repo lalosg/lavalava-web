@@ -128,6 +128,107 @@ body {
   transform: scale(1);
 }
 
+/* ── Hero entrance ───────────────────────────────────────────────────────────
+   Driven by CSS animations rather than JS state, for two reasons: the hero is
+   above the fold and must never wait on hydration, and a pure-CSS entrance still
+   runs if the bundle fails. `backwards` fill holds the start frame during the
+   delay so nothing flashes at full opacity first. */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(var(--travel)); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-line-rise {
+  from { transform: translateY(105%); }
+  to   { transform: translateY(0); }
+}
+@keyframes hero-settle {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1); }
+}
+@keyframes wave-draw {
+  from { stroke-dashoffset: var(--wave-len); }
+  to   { stroke-dashoffset: 0; }
+}
+
+.hero-enter {
+  animation: hero-rise var(--dur-slow) var(--ease) backwards;
+}
+
+/* The hero photograph settles from 1.08 over 2.4s — long enough to read as breath
+   rather than a zoom. Transform only, so it never triggers layout. */
+.hero-image {
+  animation: hero-settle 2.4s var(--ease) backwards;
+}
+
+/* Wave mark draws itself on load. --wave-len is the measured path length, set
+   inline by the component so the dash maths cannot drift from the path data. */
+.wave-draw path {
+  stroke-dasharray: var(--wave-len);
+  animation: wave-draw 1.6s var(--ease) 0.2s backwards;
+}
+
+/* RevealText in entrance mode: same masked line rise, but fired on load instead of
+   on scroll, so above-the-fold headlines animate without waiting to be observed. */
+.reveal-text--enter .reveal-text__inner {
+  transition: none;
+  animation: hero-line-rise var(--dur-slow) var(--ease) backwards;
+}
+
+/* One soft pulse when the floating button first arrives — an invitation, not a
+   nag. The component removes the class after a single cycle. */
+@keyframes fab-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(94, 127, 132, 0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(94, 127, 132, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(94, 127, 132, 0); }
+}
+.fab-pulse {
+  animation: fab-pulse 1.8s var(--ease) 0.2s 1;
+}
+
+/* ── Interaction ─────────────────────────────────────────────────────────────
+   Arrows lead the eye on hover; buttons give under the finger. Both are small
+   enough to feel like the page is responsive rather than decorated. */
+.arrow-slide {
+  display: inline-block;
+  transition: transform var(--dur-quick) var(--ease);
+}
+.group:hover .arrow-slide,
+a:hover > .arrow-slide,
+button:hover > .arrow-slide {
+  transform: translateX(4px);
+}
+
+.press {
+  transition: transform 140ms var(--ease), background-color var(--dur-quick) var(--ease);
+}
+.press:active {
+  transform: scale(0.98);
+}
+
+/* One focus treatment everywhere, visible on both light and dark surfaces. */
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--teal-deep);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.bg-navy :where(a, button, summary, [tabindex]):focus-visible {
+  outline-color: var(--teal-soft);
+}
+
+/* ── Cross-document page transitions ─────────────────────────────────────────
+   Internal links are plain <a> on purpose (next/link pulls the client router into
+   the bundle), which means navigations are cross-document — and cross-document
+   view transitions need nothing but this rule. Browsers without support ignore it
+   entirely, so there is no JS path and no fallback to maintain. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-quick);
+  animation-timing-function: var(--ease);
+}
+
 /* ── Section horizontal padding — controls gutters site-wide ───────────── */
 .section-px {
   @apply px-4 md:px-8;
@@ -193,6 +294,23 @@ body {
   .reveal-image {
     clip-path: none;
     transition: none;
+  }
+  .hero-enter,
+  .hero-image,
+  .wave-draw path,
+  .reveal-text--enter .reveal-text__inner {
+    animation: none;
+  }
+  .arrow-slide,
+  .press {
+    transition: none;
+  }
+  .fab-pulse {
+    animation: none;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
   * {
     animation-duration: 0.01ms !important;

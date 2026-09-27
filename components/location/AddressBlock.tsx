@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { ArrowLabel } from '@/components/ui/ArrowLabel'
 import { RevealText } from '@/components/motion/RevealText'
 import { LazyMap } from '@/components/ui/LazyMap'
 import { waLink } from '@/lib/translations'
@@ -47,7 +48,7 @@ export function AddressBlock({ t }: Props) {
                 rel="noopener noreferrer"
                 className="font-sans text-sm font-semibold text-teal-deep hover:text-teal-soft transition-colors"
               >
-                {c.directions}
+                <ArrowLabel>{c.directions}</ArrowLabel>
               </a>
               <a
                 href={waLink(c.whatsappMessage)}

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { ArrowLabel } from '@/components/ui/ArrowLabel'
 import { RevealImage } from '@/components/motion/RevealImage'
 import { RevealText } from '@/components/motion/RevealText'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
@@ -125,7 +126,7 @@ export function ServicesSection({ t, locale }: Props) {
             href={localePath(locale, '/servicios')}
             className="inline-block mt-8 font-sans text-xs text-ink/65 hover:text-ink/90 transition-colors"
           >
-            {t.services.cta}
+            <ArrowLabel>{t.services.cta}</ArrowLabel>
           </a>
         </RevealOnScroll>
 

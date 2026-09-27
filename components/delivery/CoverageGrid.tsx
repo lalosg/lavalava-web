@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { ArrowLabel } from '@/components/ui/ArrowLabel'
 import { RevealText } from '@/components/motion/RevealText'
 import { waLink } from '@/lib/translations'
 import { COVERAGE_AREAS } from '@/lib/coverage'
@@ -77,7 +78,7 @@ export function CoverageGrid({ t }: Props) {
               rel="noopener noreferrer"
               className="inline-flex font-sans text-sm font-semibold text-teal-deep hover:text-teal-soft transition-colors"
             >
-              {c.notListed.cta}
+              <ArrowLabel>{c.notListed.cta}</ArrowLabel>
             </a>
           </div>
         </RevealOnScroll>

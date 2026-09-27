@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { ArrowLabel } from '@/components/ui/ArrowLabel'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { waLink } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
@@ -35,7 +36,7 @@ export function UnusualSection({ t }: Props) {
             className="inline-flex items-center gap-2.5 font-sans text-sm font-semibold text-teal-deep hover:text-teal-soft transition-colors"
           >
             <WhatsAppIcon size={15} />
-            {c.cta}
+            <ArrowLabel>{c.cta}</ArrowLabel>
           </a>
         </RevealOnScroll>
       </div>

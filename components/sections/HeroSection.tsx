@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { HeroParallax } from '@/components/motion/HeroParallax'
 import { RevealText } from '@/components/motion/RevealText'
 // Static imports, not string paths: they let next/image generate a blurDataURL at build
 // time. Without it the hero area is flat cream until the full image decodes, which reads
@@ -7,7 +8,6 @@ import heroDesktop from '@/public/images/hero-desktop.jpg'
 import heroMobile from '@/public/images/hero-mobile.jpg'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { WaveMark } from '@/components/ui/WaveMark'
-import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { waLink } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
 
@@ -37,12 +37,13 @@ export function HeroSection({ t, locale }: Props) {
         immediately) — it only gives up the preload head-start, at 13% of traffic.
       */}
       {/* Desktop background image */}
+      <HeroParallax>
       <Image
         src={heroDesktop}
         alt="Ropa blanca colgada al viento frente al mar — LAVALAVA Lavandería Premium"
         fill
         placeholder="blur"
-        className="hidden md:block object-cover object-center"
+        className="hero-image hidden md:block object-cover object-center"
         sizes="100vw"
       />
       {/* Mobile background image */}
@@ -52,9 +53,10 @@ export function HeroSection({ t, locale }: Props) {
         fill
         priority
         placeholder="blur"
-        className="block md:hidden object-cover object-center"
+        className="hero-image block md:hidden object-cover object-center"
         sizes="100vw"
       />
+      </HeroParallax>
 
       {/*
         Legibility scrim. The hero photograph is warm and busy, and the eyebrow and
@@ -76,28 +78,28 @@ export function HeroSection({ t, locale }: Props) {
         <div className="px-4 md:px-12">
           <div className="max-w-6xl mx-auto">
 
-            <RevealOnScroll eager>
+            <div className="hero-enter">
               <WaveMark size="md" className="mb-5 [&_path]:stroke-bone" />
-            </RevealOnScroll>
+            </div>
 
-            <RevealOnScroll eager delay={80}>
+            <div className="hero-enter" style={{ animationDelay: '80ms' }}>
               <p className="hidden md:block font-sans text-[10px] font-semibold tracking-[0.2em] uppercase text-white/70 mb-4 [text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
                 {t.hero.eyebrow}
               </p>
-            </RevealOnScroll>
+            </div>
 
-            <RevealOnScroll eager delay={160}>
+            <div className="hero-enter" style={{ animationDelay: '160ms' }}>
               {/* Tier 1: primary headline */}
-              <RevealText as="h1" eager text={t.hero.headline} className="font-fraunces text-white leading-[1.04] tracking-tight mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)] text-[4rem] md:text-4xl md:whitespace-nowrap lg:text-5xl" />
-            </RevealOnScroll>
+              <RevealText as="h1" eager delay={160} text={t.hero.headline} className="font-fraunces text-white leading-[1.04] tracking-tight mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)] text-[4rem] md:text-4xl md:whitespace-nowrap lg:text-5xl" />
+            </div>
 
-            <RevealOnScroll eager delay={240}>
+            <div className="hero-enter" style={{ animationDelay: '240ms' }}>
               {/* Tier 2: service descriptor */}
               <p className="font-fraunces text-white/90 leading-snug [text-shadow:0_1px_6px_rgba(0,0,0,0.25)]
                             text-xl md:text-lg">
                 {t.hero.subheadStrong}
               </p>
-            </RevealOnScroll>
+            </div>
 
           </div>
         </div>
@@ -106,36 +108,36 @@ export function HeroSection({ t, locale }: Props) {
         <div className="flex-1" />
 
         {/* Buttons — above the stripe */}
-        <RevealOnScroll eager delay={300}>
+        <div className="hero-enter" style={{ animationDelay: '300ms' }}>
           <div className="px-4 md:px-12 pb-5 md:pb-6">
-            <div className="max-w-6xl mx-auto flex flex-wrap gap-3">
+            <div data-hero-cta className="max-w-6xl mx-auto flex flex-wrap gap-3">
               <a
                 href={waLink(t.hero.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-navy text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-navy/90 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-navy text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-navy/90 press"
               >
                 <WhatsAppIcon size={18} />
                 {t.hero.ctaPrimary}
               </a>
               <a
                 href={`/${locale}/ubicacion`}
-                className="inline-flex items-center justify-center px-7 py-4 bg-navy/75 border border-white/25 text-white font-sans font-medium text-sm rounded-full hover:bg-navy/90 transition-colors backdrop-blur-sm"
+                className="inline-flex items-center justify-center px-7 py-4 bg-navy/75 border border-white/25 text-white font-sans font-medium text-sm rounded-full hover:bg-navy/90 press backdrop-blur-sm"
               >
                 {t.hero.ctaSecondary}
               </a>
             </div>
           </div>
-        </RevealOnScroll>
+        </div>
 
         {/* Tier 3: SEO/AEO stripe — full-bleed, pinned to very bottom */}
-        <RevealOnScroll eager delay={380}>
+        <div className="hero-enter" style={{ animationDelay: '380ms' }}>
           <div className="w-full bg-navy/60 backdrop-blur-[3px] py-3 md:py-4 px-4 md:px-12">
             <p className="max-w-6xl mx-auto font-sans text-white/85 text-sm md:text-xs leading-relaxed">
               {t.hero.subheadTertiary}
             </p>
           </div>
-        </RevealOnScroll>
+        </div>
 
       </div>
     </section>

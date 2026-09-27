@@ -78,7 +78,7 @@ export function Header({ locale }: Props) {
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href={`/${locale}`} className="flex items-center gap-3 group">
-          <WaveMark size="sm" className={onPhoto ? '[&_path]:stroke-white' : undefined} />
+          <WaveMark size="sm" draw className={onPhoto ? '[&_path]:stroke-white' : undefined} />
           <span
             className={cn(
               'font-fraunces text-lg font-semibold tracking-[0.08em]',

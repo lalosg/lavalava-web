@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { ArrowLabel } from '@/components/ui/ArrowLabel'
 
 interface Card {
   title: string
@@ -41,7 +42,7 @@ export function SpokeCrossLinks({ eyebrow, cards }: Props) {
                   {card.description}
                 </p>
                 <span className="font-sans text-sm font-semibold text-teal-deep group-hover:text-teal-soft transition-colors">
-                  {card.cta}
+                  <ArrowLabel>{card.cta}</ArrowLabel>
                 </span>
               </a>
             </RevealOnScroll>

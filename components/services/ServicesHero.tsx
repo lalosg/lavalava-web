@@ -30,7 +30,7 @@ export function ServicesHero({ t }: Props) {
               href={waLink(c.whatsappMessage)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 bg-teal text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal/90 transition-colors"
+              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 bg-teal text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal/90 press"
             >
               <WhatsAppIcon size={17} />
               {c.ctaPrimary}

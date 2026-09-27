@@ -10,6 +10,11 @@ interface Props {
   /** Renders as this element — headlines should stay h1/h2 for the document outline. */
   as?: 'h1' | 'h2' | 'h3' | 'p'
   delay?: number
+  /**
+   * Above-the-fold: animate on load instead of waiting to be scrolled into view.
+   * Runs as a CSS animation rather than JS state so it never waits on hydration
+   * and still plays if the bundle fails.
+   */
   eager?: boolean
 }
 
@@ -30,13 +35,21 @@ export function RevealText({ text, className, as: Tag = 'h2', delay = 0, eager =
 
   return (
     <Tag className={className}>
-      <span ref={ref} className={cn('reveal-text', visible && 'is-visible')}>
+      <span
+        ref={ref}
+        className={cn('reveal-text', eager && 'reveal-text--enter', visible && 'is-visible')}
+      >
         {lines.map((line, i) => (
           <span key={i} className="reveal-text__line">
             <span
               className="reveal-text__inner"
-              // Each line follows the one above it by a single stagger step.
-              style={{ transitionDelay: `calc(var(--stagger) * ${i})` }}
+              // Each line follows the one above it by a single stagger step. On load
+              // that is an animation-delay; on scroll it is a transition-delay.
+              style={
+                eager
+                  ? { animationDelay: `calc(${delay}ms + var(--stagger) * ${i})` }
+                  : { transitionDelay: `calc(var(--stagger) * ${i})` }
+              }
             >
               {line}
             </span>

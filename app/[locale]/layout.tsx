@@ -2,10 +2,11 @@ import type { Metadata } from 'next'
 import { Fraunces, Source_Sans_3 } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { locales, type Locale } from '@/lib/i18n'
-import { getT } from '@/lib/translations'
+import { getT, waLink } from '@/lib/translations'
 import { SITE_URL, OG_IMAGE } from '@/lib/seo'
 import { Header } from '@/components/layout/Header'
 import { SmoothScroll } from '@/components/motion/SmoothScroll'
+import { FloatingWhatsApp } from '@/components/motion/FloatingWhatsApp'
 import { Footer } from '@/components/layout/Footer'
 import '../globals.css'
 
@@ -87,6 +88,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function LocaleLayout({ children, params }: Props) {
   if (!locales.includes(params.locale as Locale)) notFound()
   const locale = params.locale as Locale
+  const t = getT(locale)
 
   return (
     <html lang={locale} className={`${fraunces.variable} ${sourceSans3.variable}`}>
@@ -103,6 +105,7 @@ export default function LocaleLayout({ children, params }: Props) {
         <Header locale={locale} />
         <main>{children}</main>
         <Footer locale={locale} />
+        <FloatingWhatsApp href={waLink(t.finalCta.whatsappMessage)} label={t.finalCta.cta} />
       </body>
     </html>
   )

@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { ArrowLabel } from '@/components/ui/ArrowLabel'
 import { RevealText } from '@/components/motion/RevealText'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { waLink, localePath } from '@/lib/translations'
@@ -56,7 +57,7 @@ export function DeliverySection({ t, locale }: Props) {
             href={waLink(t.delivery.whatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-7 py-4 bg-teal text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal/90 transition-colors"
+            className="inline-flex items-center gap-2 px-7 py-4 bg-teal text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal/90 press"
           >
             <WhatsAppIcon size={16} />
             {t.delivery.cta}
@@ -70,7 +71,7 @@ export function DeliverySection({ t, locale }: Props) {
             href={localePath(locale, '/a-domicilio')}
             className="block mt-5 font-sans text-xs text-bone/50 hover:text-bone/70 transition-colors"
           >
-            {t.delivery.learnMore}
+            <ArrowLabel>{t.delivery.learnMore}</ArrowLabel>
           </a>
         </RevealOnScroll>
       </div>
