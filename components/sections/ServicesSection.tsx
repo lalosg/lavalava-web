@@ -43,7 +43,7 @@ export function ServicesSection({ t, locale }: Props) {
               <div className="group">
 
                 {/* Image */}
-                <div className="relative aspect-[4/3] md:aspect-[3/4] overflow-hidden mb-3">
+                <div className="relative aspect-[3/4] overflow-hidden mb-3">
                   {/* Staggered by grid position so the cards uncover in reading order
                       rather than all at once. The aspect-ratio box is on the parent, so
                       the wipe changes nothing about layout and CLS stays at zero. */}
