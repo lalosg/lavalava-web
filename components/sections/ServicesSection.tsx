@@ -34,14 +34,16 @@ export function ServicesSection({ t, locale }: Props) {
           <RevealText as="h2" text={t.services.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 max-w-sm" />
         </RevealOnScroll>
 
-        {/* Image-card grid: 2-col mobile / 3-col desktop */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+        {/* Image-card grid: single column on mobile, 3-col from md. The cards were
+            two-up on phones, which made each image a narrow sliver and forced the title
+            and badge to wrap against each other. */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">
           {regularServices.map((item, i) => (
             <RevealOnScroll key={item.title} delay={i * 60}>
               <div className="group">
 
                 {/* Image */}
-                <div className="relative aspect-[3/4] overflow-hidden mb-3">
+                <div className="relative aspect-[4/3] md:aspect-[3/4] overflow-hidden mb-3">
                   {/* Staggered by grid position so the cards uncover in reading order
                       rather than all at once. The aspect-ratio box is on the parent, so
                       the wipe changes nothing about layout and CLS stays at zero. */}
@@ -54,7 +56,7 @@ export function ServicesSection({ t, locale }: Props) {
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                         // Cards render ~50vw on mobile and ~235px from the 3-col grid on desktop.
                         // 33vw asked for ~475px at 1440 and wasted roughly half the bytes.
-                        sizes="(max-width: 768px) 50vw, (max-width: 1280px) 30vw, 260px"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 30vw, 260px"
                       />
                     </div>
                   </RevealImage>
@@ -69,7 +71,7 @@ export function ServicesSection({ t, locale }: Props) {
 
                 {/* Label */}
                 <div className="flex items-start gap-2 mb-1">
-                  <h3 className="font-fraunces text-sm md:text-base text-ink leading-snug">
+                  <h3 className="font-fraunces text-base text-ink leading-snug">
                     {item.title}
                   </h3>
                   {item.badge && (
