@@ -54,8 +54,89 @@ forward. Editorial numbered section labels (01 — … 08 —).
 - AI photography = atmosphere/texture only (soft warm light, folded linen, calm
   interiors). NEVER fabricate the real store/staff or fake results/claims.
 
-## Build status (audited against real code + live site, July 2026)
+## Build status (audited against real code, Sep 27 2026)
 Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
+
+> **Session update — Sep 22-27 2026: all three spokes WRITTEN, prices wired, motion layer built.**
+> The site went from "one real page plus three shells" to four finished pages with a
+> motion layer. Every number below was measured against a production build, not asserted.
+>
+> **The spokes are real pages now.** `/servicios` ~1,400 words per locale, `/a-domicilio`
+> ~900, `/ubicacion` ~600. Each has its own FAQ (so FAQPage schema is legitimate on them
+> now — the homepage-only rule existed because they had no visible FAQ; the hazard is
+> duplicating the SAME FAQ, and these differ), BreadcrumbList, real cross-links, and a
+> per-page JSON-LD set built from the same objects the page renders.
+>
+> **The 24 Distrito Tec colonias are in `lib/coverage.ts`** — verified to match the live
+> published catalog exactly, set for set. Shared and NOT bilingual, mirroring the CMS's
+> single `name` column. The same array feeds the visible grid and the Service schema's
+> `areaServed` in one render pass, so they cannot drift. This list is the single strongest
+> AEO asset on the site; never move it into an image.
+>
+> **THREE CONTENT CORRECTIONS — the site had been stating things that were false:**
+> 1. **Delivery is PAID, not free.** The POS publishes pickup and delivery as two separate
+>    items, $37.50 each, currently promoted to $30. The homepage had claimed "recolección
+>    sin costo adicional" since the beginning. Fixed everywhere.
+> 2. **There IS a 3 kg minimum** on per-kilo laundry (confirmed by Lalo). The site actively
+>    denied it — `/servicios` FAQ answered "no hay mínimo". Now stated in 4 places incl.
+>    beside the price. NOTE for the POS side: `products.min_quantity` is still 1.000, so
+>    the till permits a ticket the shop will not sell.
+> 3. **Two services did not exist.** The homepage advertised "Lavado y planchado" (the POS
+>    sells press-only per piece) and "Cobertores y blancos" promising pillows and bed linen
+>    (published items are comforters by bed size). Both corrected.
+>
+> **Prices are consumed, never typed.** `lib/contract.ts` mirrors the POS types;
+> `lib/fallback-{catalog,prices}.json` are the REAL payloads captured from the live CDN on
+> 2026-09-24, so the shapes are observed rather than imagined; `lib/prices.ts` is the only
+> module that touches them. When the fetch layer lands it replaces two imports and nothing
+> else. `activePromo()` enforces `validUntil` at render because the file has no clock —
+> untested in production until a dated offer ships. `PriceTag` renders list struck grey,
+> promo green, no promotion name (it is internal and Spanish-only).
+>
+> **Motion layer, four passes.** No `motion`/framer dependency — all reveal primitives are
+> CSS transitions + IntersectionObserver, which the brief's own "prefer CSS where it is
+> enough" asks for and which kept ~34 kB out of an 87.3 kB shared bundle. Shared First Load
+> JS is UNCHANGED at 87.3 kB; the homepage sits at 106 kB. Lenis is desktop-pointer only
+> and dynamically imported — native iOS scrolling is better than anything a JS scroller
+> does, and 87% of traffic is mobile.
+> - `components/motion/`: `useInView`, `RevealText` (lines rise out of a mask, split on the
+>   \n the copy already carries), `RevealImage` (clip-path wipe + 1.06 settle), `CountUp`,
+>   `ScrollWave`, `HeroParallax`, `SmoothScroll`, `FloatingWhatsApp`.
+> - Header floats transparent over the hero, solidifies past 24px, hides down / returns up.
+> - Page transitions are a single `@view-transition` CSS rule — internal links are plain
+>   `<a>`, which makes navigations cross-document, which is the case needing zero JS.
+>
+> **Three bugs found by measuring that nobody had seen:**
+> - **Every page had a horizontal scroll on mobile** — document scrollWidth 1391px against
+>   390px. The reviews carousel cards had `min-w-[280px] flex-shrink-0` and no width;
+>   min-width is only a floor, so each card grew to its max-content width (698px). This was
+>   cutting the header and hero stripe off in every screenshot.
+> - **The hero entrance was holding LCP open.** `hero-rise` animated opacity from 0, and an
+>   element at opacity 0 does not count as painted for LCP. Every network request finished
+>   inside 24ms and Speed Index was 0.9s — the page was done and one keyframe was holding
+>   the metric. `hero-rise` is transform-only now, deliberately. **Do not re-add opacity to
+>   any above-the-fold entrance animation.**
+> - **The spokes were at 95-96 accessibility**, never noticed because every prior
+>   measurement was homepage-only. Their CTA is `bg-teal text-white` and brand teal is
+>   4.33:1 on white. Filled buttons now use `teal-deep`.
+>
+> **Contrast is now AA site-wide.** Brand teal is 3.95:1 on bone and 3.62:1 on navy, both
+> under 4.5 for normal text, so `teal-deep` (#557478) and `teal-soft` (#799AA0) exist for
+> TEXT ONLY. The brand teal is unchanged and still used for borders, icons, fills and the
+> wave mark. Muted text was swept to computed floors: ink >= /65 on bone, bone >= /50 on
+> navy, white >= /50 in the footer.
+>
+> **Final Lighthouse (production build, warm cache, medians):** /es 95, /en 95,
+> /es/servicios 98, /en/servicios 98, /es/a-domicilio 98, /es/ubicacion 99.
+> **Accessibility, Best Practices and SEO are 100 on all six.** CLS 0, TBT 0ms everywhere.
+> Zero horizontal overflow across 16 page/locale/viewport combinations. Under
+> prefers-reduced-motion, 274 animated elements measure at rest with nothing hidden.
+>
+> **LCP is the one budget not demonstrably met, and it CANNOT be judged from a dev machine.**
+> `observedLargestContentfulPaint` is 60-67ms against a simulated 3.0s: Lighthouse models
+> 150ms RTT / 1638kbps from a trace taken on a warm localhost server that has no real
+> network profile. Removing the entrance animation from the LCP element entirely changed
+> nothing. **Measure against the deployment before concluding anything about LCP.**
 
 > **Session update — Sep 3 2026: sub-page SEO + performance passes DONE.**
 > Build, lint, and typecheck clean; all six sub-page routes still SSG. Verified against
@@ -138,7 +219,7 @@ Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 Nothing from the plan was lost. Remaining = data correctness + sub-page
 build-out + assets (below).
 
-## Content architecture — website CMS lives in the POS (decided Sep 2026)
+## Content architecture — website CMS lives in the POS (BUILT and LIVE, Sep 2026)
 
 Website content is moving OUT of this repo and into a back office in the **POS project**
 (`~/Documents/projects/POS`, `lavalava-pos`: Next 15 + Supabase + Tamagui). That work is
@@ -164,10 +245,28 @@ source-of-truth to **fallback** once the CMS lands.
 **no `TO anon` policy anywhere in the schema**. Keeping the DB closed is the whole reason
 the website consumes a published contract instead.
 
-**Transport:** on publish, the POS writes a versioned JSON snapshot to a public Supabase
-Storage bucket; the website fetches that CDN URL at build/ISR time. Chosen over a live API
-so website builds never depend on POS uptime. Full contract + table design + publish flow:
-`~/.claude/plans/purrfect-wobbling-lagoon.md` (appendix).
+**Transport — LIVE as of 2026-09-24.** Both files are published, anon-readable, no auth:
+```
+https://ljtdsckotxpkkmjmmlpp.supabase.co/storage/v1/object/public/website/catalog.json
+https://ljtdsckotxpkkmjmmlpp.supabase.co/storage/v1/object/public/website/prices.json
+```
+Real content: 7 services, 24 priced items, 24 coverage names, promos on 3 items.
+`catalog.json` is copy and changes only on an explicit Publish; `prices.json` is the whole
+product layer and regenerates by itself on any price/visibility change. They never change
+together and must not be merged. Full contract, types and consumption rules:
+`~/Documents/projects/POS/docs/WEBSITE-CONTRACT-HANDOFF.md`; promotional-price rules in
+`WEBSITE-PROMO-PRICING-PLAN.md`; page intent in `WEBSITE-PAGE-BRIEF.md`.
+
+**The site does not fetch them yet** — it renders committed snapshots in
+`lib/fallback-*.json` through `lib/prices.ts`. Wiring the live fetch is post-launch item 11.
+
+**Content freedom (Lalo, Sep 2026):** *"CMS content and capacity should never restrict or
+limit content creation. Imagine the CMS doesn't even exist."* The CMS is a separate project
+Lalo retakes after the pages are finished, and it will be reshaped to fit what is built —
+NOT the reverse. The only things that are fixed facts and must never be invented are
+**products, prices, hours, address and coverage**. Everything else is the website's to
+write. The POS service descriptions are written in `usted`; the site speaks `tú`, so the
+prose here is authored rather than lifted.
 
 **Three hard requirements when integrating (do not skip):**
 1. **Bilingual completeness.** Today `en: Translations` makes a missing EN key a build
@@ -188,97 +287,93 @@ required by the architecture anyway, so authoring copy into it is not throwaway 
 both the fallback content and the seed data the POS session imports.
 
 ## What's left (prioritized)
-1. ~~**Stale business data in `lib/seo.ts`**~~ — **DONE Aug 2 2026** (see Build
-   status above). One item survives: `BUSINESS.sameAs` still needs the **Google
-   Business Profile URL** — left as an explicit `TODO(Lalo)` in `seo.ts` rather
-   than invented. The share link in `LocationSection.tsx`
-   (`share.google/2JPAcqEaTyrn6Dl3r`) is a candidate but is a shortlink, not the
-   canonical profile URL. Also still open: `og-image.jpg` referenced in `seo.ts`
-   but the asset is missing (see #3).
-2. **Sub-page CONTENT** (`/servicios`, `/a-domicilio`, `/ubicacion`) — the SEO shell
-   is DONE (Sep 3 2026: per-page metadata, self-referencing canonicals, sibling
-   hreflang, BreadcrumbList, real hub→spoke links). They are now indexable but still
-   thin. **The remaining work is content, and content now lives in the CMS** — see
-   "Content architecture" below. Do NOT delete the routes; they are the hub-and-spoke
-   AEO strategy. Direction per page is unchanged:
-   - `/servicios` — full catalog in depth (lavandería por kilo, tintorería, lavado y
-     planchado, delicados, cobertores y blancos, tenis, composturas). Intent:
-     "[service] Distrito Tec."
-   - `/a-domicilio` — pickup & delivery in depth, coverage by named colonia (Lalo
-     supplies the list — do not invent). Intent: "lavandería a domicilio."
-   - `/ubicacion` — address, map, hours, landmarks, parking. Intent: "cerca del Tec."
-3. **Missing OG image** (`/og-image.jpg` referenced but absent) + default favicon.
-   The stock create-next-app favicon is also 26 KB and IS fetched on every page load.
-4. **Instagram feed placeholder** — `INSTAGRAM_WIDGET_ID` undefined → six empty
-   squares in prod. Needs a Behold.so account (or curated-grid fallback).
-5. ~~**i18n bugs on /en**~~ — **DONE Aug 2 2026** (see Build status above).
-   `<html lang>`, FAQ schema locale, the three Spanish-only strings,
-   `streetAddress`, and the LocalBusiness `description` (now per-locale via
-   `meta.schemaDescription`, EN wording approved by Lalo). No known i18n gaps
-   remain on /en.
-6. Default create-next-app README.
-7. **Heading order a11y** (the only failing Lighthouse audit — a11y 98, not 100).
-   Homepage goes `h1 → h3 → h2`: `PillarsSection.tsx:41` renders its three cards as
-   `<h3>` in a section that has no `<h2>` (only an eyebrow `<p>`). Also violates Spec
-   §5.3 ("one H1, H2 per section"). Promoting those three to `<h2>` is a pure semantic
-   change — no copy, no visual impact. Flagged and left undone: it was outside the
-   agreed scope of the Sep 3 passes.
+1. ~~Stale business data in `lib/seo.ts`~~ — **DONE.** `BUSINESS.sameAs` now carries the
+   canonical Google Business Profile (`maps.google.com/?cid=13133730578863152898`, the
+   `cid=` form because a raw Maps URL carries a viewport and session token).
+2. ~~**Sub-page CONTENT**~~ — **DONE Sep 2026.** All three spokes are written, priced and
+   schema'd. Turnaround times for cobertores, tenis and composturas are still unknown and
+   the pages say "te lo confirmamos al recibirlo" rather than carry an invented figure —
+   Lalo asked to leave this and review content details later.
+3. **Missing OG image** (`/og-image.jpg` referenced in `lib/seo.ts` but absent → broken
+   social cards) + the default create-next-app **favicon** (26 KB, fetched every load).
+   **Still the top open item.**
+4. **Instagram feed placeholder** — `INSTAGRAM_WIDGET_ID` undefined → six empty squares in
+   prod. Needs a Behold.so account or an approved curated-grid fallback.
+5. ~~i18n bugs on /en~~ — **DONE.**
+6. ~~Default create-next-app README~~ — **DONE.**
+7. ~~Heading order a11y~~ — **DONE.** Zero heading skips on every page, one h1 each.
 
-Suggested order (updated Sep 3 2026): 7 (one-line a11y fix) → 3 (OG image + favicon,
-needs assets from Lalo) → 2 (sub-page content — now gated on the POS CMS; the copy can
-be authored into `lib/fallback-catalog.json` in parallel) → 4 (IG when Behold account
-exists) → 6. Note: #2 is a build-OUT, not a delete — it's the hub-and-spoke AEO
-strategy.
+**Unverified claims that need Lalo's eye** (written because the page had to answer the
+question, but not sourced from anything):
+- `/servicios` FAQ says "aceptamos tarjeta y efectivo". Ordinary for a shop like this,
+  but it is not in any document I was given.
+- `/ubicacion` deliberately says **nothing** about parking or landmarks. The page brief
+  asks for both and I have neither; on a page whose job is helping someone arrive, an
+  invented landmark is worse than silence. **Still needed.**
+- Walking time from campus is qualitative ("a unos minutos"). Straight-line distance is
+  ~600m, which supports it, but the campus coordinate used for that check was approximate.
+  A real walking time would be a strong line to have.
+
+## Files still needed from Lalo
+- `public/images/delivery.jpg` — the pickup/delivery photo. `DeliverySection` still renders
+  the striped "FOTO — recogida a domicilio" placeholder until it exists.
+- `public/images_backup/` currently sits inside `public/`, so it would be served at public
+  URLs. It is gitignored, but move it out of the repo when convenient.
 
 ## Production release checklist (lavalava.vip go-live)
-Status as of Aug 2 2026. Schema data + i18n are DONE; what follows is what still
-stands between the current build and a public launch.
+Status as of Sep 27 2026.
 
 **Blockers — must be resolved before pointing the domain at prod**
-1. **Env vars in Vercel.** `GOOGLE_PLACES_API_KEY` currently exists only in local
-   `.env.local`. Without it in Vercel, `fetchGoogleReviews()` returns `[]` and the
-   reviews section silently falls back to the three hardcoded ES/EN cards. Not a
-   crash — a silent downgrade, so it's easy to miss in prod.
-2. **`NEXT_PUBLIC_SITE_URL` must be set in Vercel.** (It IS now documented in
-   `.env.example`.) `lib/google-reviews.ts` reads it to
-   set the `Referer` header for Places API key restriction, defaulting to
-   `https://lavalava-web.vercel.app`. On lavalava.vip that default is WRONG and
-   the API key will be rejected if referrer restrictions are on. Set it in Vercel
-   AND add it to `.env.example` (it's missing there).
-3. **Domain.** `SITE_URL` in `lib/seo.ts` is already `https://lavalava.vip` — it
-   feeds canonicals, hreflang, sitemap, robots, and OG. Prod is currently
-   `lavalava-web.vercel.app`, so every one of those URLs is wrong until the
-   domain is connected. Connect the domain, don't change `SITE_URL`.
-4. **OG image** (`/og-image.jpg`, referenced but absent → broken social cards) and
-   the still-default create-next-app **favicon**.
-5. ~~**Sub-pages cancel themselves out of the index**~~ — **FIXED Sep 3 2026.** All six
-   now emit self-referencing canonicals and sibling hreflang, verified in the emitted
-   HTML. They remain thin until CMS content lands, but they are no longer self-defeating
-   and are safe to keep in the sitemap.
+1. **⚠️ The Places API key REJECTS `https://lavalava.vip`.** Verified 2026-09-24 against
+   the live API: the key's HTTP-referrer allowlist accepts `lavalava-web.vercel.app` and
+   `localhost:3000`, and returns `API_KEY_HTTP_REFERRER_BLOCKED` for the real domain.
+   Setting `NEXT_PUBLIC_SITE_URL=https://lavalava.vip` at cutover — which `.env.example`
+   itself instructs — will kill live reviews the moment the domain goes live, silently
+   falling back to the three hardcoded cards. **Add lavalava.vip to the key's allowlist in
+   Google Cloud Console BEFORE the domain switch.**
+2. **Env vars in Vercel.** `GOOGLE_PLACES_API_KEY` and `NEXT_PUBLIC_SITE_URL` both exist
+   only locally. Without the key, `fetchGoogleReviews()` returns `[]` — a silent downgrade.
+3. **Domain.** `SITE_URL` in `lib/seo.ts` is already `https://lavalava.vip`, feeding
+   canonicals, hreflang, sitemap, robots and OG. Connect the domain; don't change SITE_URL.
+4. **OG image + favicon** — still missing / still the create-next-app default.
+5. **301 the old Drupal site.** `lavalava.vip/content/inicio` is still indexed and its
+   search snippet still advertises the OLD prices ($28 / $12 / $40 / $15). Since the
+   relaunch raises prices, Google's cheapest answer for LAVALAVA pricing is currently the
+   old site undercutting the new one. Needs 301s or removal at cutover.
 
 **Should-have before launch**
-6. Google Business Profile URL for `BUSINESS.sameAs` (`TODO(Lalo)` in `seo.ts`).
-7. ~~**Lighthouse mobile pass**~~ — **DONE Sep 3 2026**: Performance 96 · Accessibility
-   98 · SEO 100, LCP 2.8s, CLS 0, TBT 0ms (mobile, simulated, production build).
-   Re-measure against the live domain once it is connected — the remaining LCP is
-   dominated by Lighthouse's simulated throttling, not a defect found in the code.
-   One open a11y item: heading order (below).
-8. **Validate JSON-LD with Google's Rich Results Test** against the live URL.
-   (Locally verified: LocalBusiness + FAQPage parse, per-locale, no
-   `aggregateRating`. The live check is still worth doing.)
-9. Instagram: `INSTAGRAM_WIDGET_ID` is undefined → six empty squares in prod.
-   Needs a Behold.so account, or approve the curated-grid fallback.
+6. ~~Google Business Profile URL~~ — **DONE.**
+7. **Re-run Lighthouse against the LIVE domain.** Local numbers are 95-99 performance,
+   100 a11y/BP/SEO — but LCP cannot be judged locally (see the Sep 22-27 session note).
+   This is the only budget still unproven.
+8. **Validate JSON-LD with Google's Rich Results Test** against the live URLs. Locally the
+   full set parses: LocalBusiness, Service with 24 named areaServed, OfferCatalog with 24
+   priced Offers, BreadcrumbList and per-page FAQPage.
+9. Instagram: `INSTAGRAM_WIDGET_ID` undefined → six empty squares in prod.
 
-**Post-launch / nice-to-have**
-10. Replace the default create-next-app README.
-11. Verify GBP hours/NAP match the site exactly (consistency is an AEO signal).
+**Post-launch**
+10. Verify GBP hours/NAP match the site exactly (consistency is an AEO signal).
+11. **Wire the live CMS fetch.** The contract is frozen and both files are live and real;
+    the site currently reads committed snapshots of them. When wiring it: let the fetch
+    THROW (never `catch { return [] }` — that makes ISR "succeed" with nothing and
+    replaces a good page with a blank one), gate on `version`, and alert loudly whenever
+    the fallback is used.
 
-## Real assets still needed from Lalo
-Logo SVG · OG image + favicon · confirmed hours (Saturday IS a business day) ·
-Behold.so account for IG (or approve curated grid) · AI images per style guide ·
-**sign-off on the content plan for each sub-page** (/servicios, /a-domicilio,
-/ubicacion) before they're written — depth, sections, and any per-page images.
-(Decision made: aggregateRating is REMOVED, not faked — see What's left #1.)
+## Motion rules (do not undo these)
+- **No `motion`/framer dependency.** Every reveal is a CSS transition driven by
+  IntersectionObserver in `components/motion/`. That kept ~34 kB out of an 87.3 kB shared
+  bundle. Add it only if something genuinely needs spring physics.
+- **Never animate opacity on above-the-fold content.** An element at opacity 0 does not
+  count as painted for LCP; this cost 3 Lighthouse points and 0.3s until it was found.
+  `hero-rise` is transform-only on purpose.
+- **Lenis is desktop-pointer only and dynamically imported.** Native iOS scrolling beats a
+  JS scroller and the library should never reach a mobile visitor's bundle.
+- **One easing curve, one set of durations** — the `--ease` / `--dur-*` / `--travel` /
+  `--stagger` tokens in `globals.css`. Don't introduce a second feel.
+- **Every animation must be inert under `prefers-reduced-motion`**, and content must be
+  visible with no JS (`@media (scripting: none)` + the `<noscript>` block in the layout).
+- **`teal-deep` / `teal-soft` are TEXT-ONLY tokens.** The brand teal fails AA for normal
+  text on both bone and navy. Don't "simplify" them back to `--teal`.
 
 ## Working rules
 - Verify mobile rendering + Core Web Vitals as you go (87% of traffic is mobile;
