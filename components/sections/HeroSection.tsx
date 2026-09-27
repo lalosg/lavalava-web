@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { RevealText } from '@/components/motion/RevealText'
 // Static imports, not string paths: they let next/image generate a blurDataURL at build
 // time. Without it the hero area is flat cream until the full image decodes, which reads
 // as a broken page rather than a loading one. The blur costs ~1 kB inlined per image.
@@ -16,8 +17,11 @@ interface Props {
 }
 
 export function HeroSection({ t, locale }: Props) {
+  // Full-viewport and flush to the top: the header now floats transparently over the
+  // photograph rather than sitting on a bone bar above it. The content column below
+  // carries the header offset instead (pt-24 / md:pt-28).
   return (
-    <section className="relative mt-16 h-hero overflow-hidden">
+    <section className="relative h-hero-full overflow-hidden">
 
       {/*
         Art-directed hero. Both images render and CSS picks one — but display:none does
@@ -66,7 +70,7 @@ export function HeroSection({ t, locale }: Props) {
       />
 
       {/* Content — three tiers: headline top, SEO stripe + buttons bottom */}
-      <div className="absolute inset-0 flex flex-col pt-10 md:pt-12">
+      <div className="absolute inset-0 flex flex-col pt-24 md:pt-28">
 
         {/* Tier 1 + 2: wave + headline + subheadStrong — anchored top */}
         <div className="px-4 md:px-12">
@@ -84,12 +88,7 @@ export function HeroSection({ t, locale }: Props) {
 
             <RevealOnScroll eager delay={160}>
               {/* Tier 1: primary headline */}
-              <h1 className="font-fraunces text-white leading-[1.04] tracking-tight mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)]
-                             text-[4rem] whitespace-pre-line
-                             md:text-4xl md:whitespace-nowrap
-                             lg:text-5xl">
-                {t.hero.headline}
-              </h1>
+              <RevealText as="h1" eager text={t.hero.headline} className="font-fraunces text-white leading-[1.04] tracking-tight mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)] text-[4rem] md:text-4xl md:whitespace-nowrap lg:text-5xl" />
             </RevealOnScroll>
 
             <RevealOnScroll eager delay={240}>

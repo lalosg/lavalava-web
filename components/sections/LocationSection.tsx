@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { RevealText } from '@/components/motion/RevealText'
 import { LazyMap } from '@/components/ui/LazyMap'
 import { localePath } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
@@ -15,9 +16,7 @@ export function LocationSection({ t, locale }: Props) {
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <p className="eyebrow mb-4">{t.location.eyebrow}</p>
-          <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-10 whitespace-pre-line max-w-sm">
-            {t.location.headline}
-          </h2>
+          <RevealText as="h2" text={t.location.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-10 max-w-sm" />
         </RevealOnScroll>
 
         <RevealOnScroll>

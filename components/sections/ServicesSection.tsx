@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import { RevealImage } from '@/components/motion/RevealImage'
+import { RevealText } from '@/components/motion/RevealText'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { localePath } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
@@ -28,9 +30,7 @@ export function ServicesSection({ t, locale }: Props) {
 
         <RevealOnScroll>
           <p className="eyebrow mb-4">{t.services.eyebrow}</p>
-          <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 whitespace-pre-line max-w-sm">
-            {t.services.headline}
-          </h2>
+          <RevealText as="h2" text={t.services.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 max-w-sm" />
         </RevealOnScroll>
 
         {/* Image-card grid: 2-col mobile / 3-col desktop */}
@@ -41,15 +41,22 @@ export function ServicesSection({ t, locale }: Props) {
 
                 {/* Image */}
                 <div className="relative aspect-[3/4] overflow-hidden mb-3">
-                  <Image
-                    src={serviceImages[i]}
-                    alt={item.title}
-                    fill
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                    // Cards render ~50vw on mobile and ~235px from the 3-col grid on desktop.
-                    // 33vw asked for ~475px at 1440 and wasted roughly half the bytes.
-                    sizes="(max-width: 768px) 50vw, (max-width: 1280px) 30vw, 260px"
-                  />
+                  {/* Staggered by grid position so the cards uncover in reading order
+                      rather than all at once. The aspect-ratio box is on the parent, so
+                      the wipe changes nothing about layout and CLS stays at zero. */}
+                  <RevealImage delay={i * 80}>
+                    <div className="relative h-full w-full">
+                      <Image
+                        src={serviceImages[i]}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                        // Cards render ~50vw on mobile and ~235px from the 3-col grid on desktop.
+                        // 33vw asked for ~475px at 1440 and wasted roughly half the bytes.
+                        sizes="(max-width: 768px) 50vw, (max-width: 1280px) 30vw, 260px"
+                      />
+                    </div>
+                  </RevealImage>
                   {/* Hover overlay with description — desktop only */}
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 via-navy/40 to-transparent px-4 pt-10 pb-4
                                   opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block">

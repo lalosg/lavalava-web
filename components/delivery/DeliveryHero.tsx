@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { RevealText } from '@/components/motion/RevealText'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { waLink } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
@@ -17,9 +18,7 @@ export function DeliveryHero({ t }: Props) {
             the IntersectionObserver fires. Same reasoning as the homepage hero. */}
         <RevealOnScroll eager>
           <p className="eyebrow mb-5">{c.eyebrow}</p>
-          <h1 className="font-fraunces text-[2.75rem] leading-[1.05] md:text-6xl lg:text-7xl text-ink mb-8 whitespace-pre-line max-w-3xl">
-            {c.headline}
-          </h1>
+          <RevealText as="h1" eager text={c.headline} className="font-fraunces text-[2.75rem] leading-[1.05] md:text-6xl lg:text-7xl text-ink mb-8 max-w-3xl" />
           <p className="font-sans text-base md:text-lg text-ink/65 leading-relaxed max-w-xl mb-10">
             {c.lede}
           </p>

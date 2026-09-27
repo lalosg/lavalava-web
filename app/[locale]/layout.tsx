@@ -5,6 +5,7 @@ import { locales, type Locale } from '@/lib/i18n'
 import { getT } from '@/lib/translations'
 import { SITE_URL, OG_IMAGE } from '@/lib/seo'
 import { Header } from '@/components/layout/Header'
+import { SmoothScroll } from '@/components/motion/SmoothScroll'
 import { Footer } from '@/components/layout/Footer'
 import '../globals.css'
 
@@ -98,6 +99,7 @@ export default function LocaleLayout({ children, params }: Props) {
         </noscript>
       </head>
       <body className="bg-bone text-ink font-sans antialiased">
+        <SmoothScroll />
         <Header locale={locale} />
         <main>{children}</main>
         <Footer locale={locale} />

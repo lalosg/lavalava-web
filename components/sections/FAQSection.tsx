@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { RevealText } from '@/components/motion/RevealText'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import type { Translations } from '@/lib/translations'
 
@@ -50,9 +51,7 @@ export function FAQSection({ t }: Props) {
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <p className="eyebrow mb-4">{t.faq.eyebrow}</p>
-          <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 whitespace-pre-line max-w-sm">
-            {t.faq.headline}
-          </h2>
+          <RevealText as="h2" text={t.faq.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 max-w-sm" />
         </RevealOnScroll>
 
         <div className="max-w-2xl border-t border-[var(--line)]">

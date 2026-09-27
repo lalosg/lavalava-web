@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { RevealText } from '@/components/motion/RevealText'
 import type { Translations } from '@/lib/translations'
 
 interface Props {
@@ -13,9 +14,7 @@ export function HowItWorksSection({ t }: Props) {
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <p className="eyebrow mb-4">{t.howItWorks.eyebrow}</p>
-          <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-14 whitespace-pre-line max-w-sm">
-            {t.howItWorks.headline}
-          </h2>
+          <RevealText as="h2" text={t.howItWorks.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-14 max-w-sm" />
         </RevealOnScroll>
 
         {/* Steps with vertical timeline line */}

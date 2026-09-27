@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { RevealText } from '@/components/motion/RevealText'
 
 interface Props {
   eyebrow: string
@@ -21,9 +22,7 @@ export function FaqAccordion({ eyebrow, headline, items, className = 'bg-bone' }
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <p className="eyebrow mb-4">{eyebrow}</p>
-          <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 whitespace-pre-line max-w-sm">
-            {headline}
-          </h2>
+          <RevealText as="h2" text={headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 max-w-sm" />
         </RevealOnScroll>
 
         <div className="max-w-2xl">

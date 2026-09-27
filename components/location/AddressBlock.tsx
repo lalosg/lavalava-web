@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { RevealText } from '@/components/motion/RevealText'
 import { LazyMap } from '@/components/ui/LazyMap'
 import { waLink } from '@/lib/translations'
 import { BUSINESS } from '@/lib/seo'
@@ -24,9 +25,7 @@ export function AddressBlock({ t }: Props) {
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <p className="eyebrow mb-4">{c.eyebrow}</p>
-          <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 whitespace-pre-line max-w-sm">
-            {c.headline}
-          </h2>
+          <RevealText as="h2" text={c.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 max-w-sm" />
         </RevealOnScroll>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">

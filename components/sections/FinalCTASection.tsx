@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { RevealText } from '@/components/motion/RevealText'
 import { WaveMark } from '@/components/ui/WaveMark'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { waLink } from '@/lib/translations'
@@ -16,9 +17,7 @@ export function FinalCTASection({ t }: Props) {
       </RevealOnScroll>
 
       <RevealOnScroll delay={80}>
-        <h2 className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-8 whitespace-pre-line max-w-lg mx-auto">
-          {t.finalCta.headline}
-        </h2>
+        <RevealText as="h2" text={t.finalCta.headline} className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-8 max-w-lg mx-auto" />
       </RevealOnScroll>
 
       <RevealOnScroll delay={160}>

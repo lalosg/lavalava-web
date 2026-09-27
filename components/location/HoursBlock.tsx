@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { RevealText } from '@/components/motion/RevealText'
 import type { Translations } from '@/lib/translations'
 
 interface Props {
@@ -21,9 +22,7 @@ export function HoursBlock({ t }: Props) {
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <p className="eyebrow text-teal-soft mb-4">{c.eyebrow}</p>
-          <h2 className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-12 whitespace-pre-line max-w-sm">
-            {c.headline}
-          </h2>
+          <RevealText as="h2" text={c.headline} className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-12 max-w-sm" />
         </RevealOnScroll>
 
         <RevealOnScroll delay={80}>

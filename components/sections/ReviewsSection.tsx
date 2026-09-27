@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { RevealText } from '@/components/motion/RevealText'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { waLink } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
@@ -40,9 +41,7 @@ export function ReviewsSection({ t, googleReviews }: Props) {
         <RevealOnScroll>
           <div className="section-px mb-10">
             <p className="eyebrow mb-4">{t.reviews.eyebrow}</p>
-            <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight whitespace-pre-line max-w-sm">
-              {t.reviews.headline}
-            </h2>
+            <RevealText as="h2" text={t.reviews.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight max-w-sm" />
           </div>
         </RevealOnScroll>
 

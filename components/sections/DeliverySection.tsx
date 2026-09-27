@@ -1,4 +1,5 @@
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { RevealText } from '@/components/motion/RevealText'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { waLink, localePath } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
@@ -15,9 +16,7 @@ export function DeliverySection({ t, locale }: Props) {
       <div className="max-w-6xl mx-auto w-full section-px">
         <RevealOnScroll>
           <p className="eyebrow text-teal-soft mb-4">{t.delivery.eyebrow}</p>
-          <h2 className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-6 whitespace-pre-line max-w-sm">
-            {t.delivery.headline}
-          </h2>
+          <RevealText as="h2" text={t.delivery.headline} className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-6 max-w-sm" />
           <p className="font-sans text-sm text-bone/50 leading-relaxed mb-10 max-w-md">
             {t.delivery.description}
           </p>

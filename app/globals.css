@@ -13,11 +13,33 @@
   --teal-deep: #557478;   /* text on light surfaces — 4.60:1 on bone */
   --teal-soft: #799AA0;   /* text on navy          — 5.19:1 on navy */
   --line:     rgba(27, 37, 54, 0.12);
+
+  /* ── Motion ────────────────────────────────────────────────────────────────
+     One easing curve and one set of durations for the whole site. Slow and
+     confident: no bounce, no overshoot, nothing that draws attention to itself.
+     Travel stays between 16 and 24px — far enough to read as movement, short
+     enough that nothing appears to fly in. */
+  --ease:            cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-quick:       0.6s;
+  --dur-base:        0.9s;
+  --dur-slow:        1.2s;
+  --travel:          20px;
+  --stagger:         80ms;
 }
 
 /* ── Base ───────────────────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
+}
+
+/* Lenis adds .lenis to <html> when it initialises. Native smooth scrolling has to
+   step aside there or anchor jumps animate twice, once per engine. */
+html.lenis {
+  scroll-behavior: auto;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
 }
 
 body {
@@ -40,28 +62,71 @@ body {
 /* ── Section scroll-reveal — JS adds .is-visible via IntersectionObserver  */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
-              transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translateY(var(--travel));
+  transition: opacity var(--dur-base) var(--ease),
+              transform var(--dur-base) var(--ease);
+  will-change: opacity, transform;
 }
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
+/* Drop the compositor hint once the animation has run, so long pages are not
+   holding dozens of promoted layers for no reason. */
+.reveal.is-settled {
+  will-change: auto;
+}
 
 /* Stagger children inside a reveal parent */
 .reveal-stagger > * {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1),
-              transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translateY(16px);
+  transition: opacity var(--dur-base) var(--ease),
+              transform var(--dur-base) var(--ease);
 }
-.reveal-stagger.is-visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
-.reveal-stagger.is-visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
-.reveal-stagger.is-visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 160ms; }
-.reveal-stagger.is-visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
-.reveal-stagger.is-visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 320ms; }
-.reveal-stagger.is-visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 400ms; }
+.reveal-stagger.is-visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: calc(var(--stagger) * 0); }
+.reveal-stagger.is-visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: calc(var(--stagger) * 1); }
+.reveal-stagger.is-visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: calc(var(--stagger) * 2); }
+.reveal-stagger.is-visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: calc(var(--stagger) * 3); }
+.reveal-stagger.is-visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: calc(var(--stagger) * 4); }
+.reveal-stagger.is-visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: calc(var(--stagger) * 5); }
+
+/* ── RevealText — headline lines rise out of a mask ──────────────────────────
+   Each line is its own overflow-hidden window; the inner span starts pushed
+   fully below it and slides up. The text is always in the DOM and always
+   selectable — only its position is animated, never its presence. */
+.reveal-text__line {
+  display: block;
+  overflow: hidden;
+}
+.reveal-text__inner {
+  display: block;
+  transform: translateY(105%);
+  transition: transform var(--dur-slow) var(--ease);
+}
+.reveal-text.is-visible .reveal-text__inner {
+  transform: translateY(0);
+}
+
+/* ── RevealImage — a clip-path wipe from the bottom, like lifting a cloth ────
+   The scale settles from 1.06 so the frame is always full at every moment of
+   the wipe; animating the clip alone would show the container behind it. */
+.reveal-image {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path var(--dur-slow) var(--ease);
+}
+.reveal-image.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+.reveal-image__inner {
+  display: block;
+  height: 100%;
+  transform: scale(1.06);
+  transition: transform 1.6s var(--ease);
+}
+.reveal-image.is-visible .reveal-image__inner {
+  transform: scale(1);
+}
 
 /* ── Section horizontal padding — controls gutters site-wide ───────────── */
 .section-px {
@@ -74,6 +139,11 @@ body {
    (h-[calc(100vh-64px)] h-[calc(100dvh-64px)]) cannot express this — it emitted the
    dvh rule first, so vh won and the fix was inert. 64px is the fixed header height.
    dvh tracks the collapsing mobile URL bar; vh does not, and shifts on scroll. */
+.h-hero-full {
+  height: 100vh;
+  height: 100dvh;
+}
+
 .h-hero {
   height: calc(100vh - 64px);
   height: calc(100dvh - 64px);
@@ -97,6 +167,13 @@ body {
     transform: none;
     transition: none;
   }
+  .reveal-text__inner,
+  .reveal-image__inner {
+    transform: none;
+  }
+  .reveal-image {
+    clip-path: none;
+  }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────── */
@@ -106,6 +183,15 @@ body {
   .reveal-stagger > * {
     opacity: 1;
     transform: none;
+    transition: none;
+  }
+  .reveal-text__inner,
+  .reveal-image__inner {
+    transform: none;
+    transition: none;
+  }
+  .reveal-image {
+    clip-path: none;
     transition: none;
   }
   * {
