@@ -133,9 +133,16 @@ body {
    above the fold and must never wait on hydration, and a pure-CSS entrance still
    runs if the bundle fails. `backwards` fill holds the start frame during the
    delay so nothing flashes at full opacity first. */
+/* Transform only — deliberately no opacity.
+   An element at opacity 0 is not "painted" as far as Largest Contentful Paint is
+   concerned, so fading the hero in made LCP wait for the fade to finish. Measured:
+   the LCP element had become the hero subhead <p> and LCP sat at 3.3s while every
+   network request finished inside 24ms and Speed Index was 0.9s. The page looked
+   done; the metric was being held open by this one keyframe.
+   Sliding opaque text into place reads the same and costs nothing. */
 @keyframes hero-rise {
-  from { opacity: 0; transform: translateY(var(--travel)); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { transform: translateY(var(--travel)); }
+  to   { transform: translateY(0); }
 }
 @keyframes hero-line-rise {
   from { transform: translateY(105%); }
