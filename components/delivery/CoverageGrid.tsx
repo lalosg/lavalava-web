@@ -29,14 +29,14 @@ export function CoverageGrid({ t }: Props) {
           <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-5 whitespace-pre-line max-w-lg">
             {c.headline}
           </h2>
-          <p className="font-sans text-base text-ink/55 leading-relaxed max-w-xl mb-12">
+          <p className="font-sans text-base text-ink/65 leading-relaxed max-w-xl mb-12">
             {c.intro}
           </p>
         </RevealOnScroll>
 
         {/* Featured — the densest pockets of the target customer */}
         <RevealOnScroll delay={60}>
-          <h3 className="eyebrow mb-5 text-ink/35">{c.featuredLabel}</h3>
+          <h3 className="eyebrow mb-5 text-ink/65">{c.featuredLabel}</h3>
           <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-14">
             {featured.map((area) => (
               <li
@@ -53,7 +53,7 @@ export function CoverageGrid({ t }: Props) {
 
         {/* The full list */}
         <RevealOnScroll delay={100}>
-          <h3 className="eyebrow mb-5 text-ink/35">{c.allLabel}</h3>
+          <h3 className="eyebrow mb-5 text-ink/65">{c.allLabel}</h3>
           <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-0">
             {rest.map((area) => (
               <li
@@ -69,14 +69,14 @@ export function CoverageGrid({ t }: Props) {
         {/* Outside the polygon — still worth a message */}
         <RevealOnScroll delay={140}>
           <div className="mt-12 max-w-xl">
-            <p className="font-sans text-sm text-ink/55 leading-relaxed mb-3">
+            <p className="font-sans text-sm text-ink/65 leading-relaxed mb-3">
               {c.notListed.text}
             </p>
             <a
               href={waLink(c.notListed.whatsappMessage)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex font-sans text-sm font-semibold text-teal hover:text-teal/75 transition-colors"
+              className="inline-flex font-sans text-sm font-semibold text-teal-deep hover:text-teal-soft transition-colors"
             >
               {c.notListed.cta}
             </a>

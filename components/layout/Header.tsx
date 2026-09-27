@@ -34,7 +34,7 @@ export function Header({ locale }: Props) {
             <Link
               key={item.href}
               href={item.href}
-              className="font-sans text-xs font-medium tracking-eyebrow uppercase text-ink/45 hover:text-ink/80 transition-colors"
+              className="font-sans text-xs font-medium tracking-eyebrow uppercase text-ink/65 hover:text-ink/80 transition-colors"
             >
               {item.label}
             </Link>
@@ -45,14 +45,14 @@ export function Header({ locale }: Props) {
         <div className="flex items-center gap-1 text-xs font-semibold tracking-eyebrow">
           <Link
             href="/es"
-            className={locale === 'es' ? 'text-ink' : 'text-ink/35 hover:text-ink/60 transition-colors'}
+            className={locale === 'es' ? 'text-ink' : 'text-ink/65 hover:text-ink/90 transition-colors'}
           >
             ES
           </Link>
-          <span className="text-ink/20 mx-1">·</span>
+          <span className="text-ink/65 mx-1">·</span>
           <Link
             href="/en"
-            className={locale === 'en' ? 'text-ink' : 'text-ink/35 hover:text-ink/60 transition-colors'}
+            className={locale === 'en' ? 'text-ink' : 'text-ink/65 hover:text-ink/90 transition-colors'}
           >
             EN
           </Link>

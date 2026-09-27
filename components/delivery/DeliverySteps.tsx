@@ -16,7 +16,7 @@ export function DeliverySteps({ t }: Props) {
           <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-5 whitespace-pre-line max-w-sm">
             {c.headline}
           </h2>
-          <p className="font-sans text-base text-ink/55 leading-relaxed max-w-md mb-14">
+          <p className="font-sans text-base text-ink/65 leading-relaxed max-w-md mb-14">
             {c.intro}
           </p>
         </RevealOnScroll>
@@ -54,7 +54,7 @@ export function DeliverySteps({ t }: Props) {
                       <h3 className="font-fraunces text-xl text-ink mb-1.5 leading-snug">
                         {step.title}
                       </h3>
-                      <p className="font-sans text-sm md:text-base text-ink/55 leading-relaxed max-w-md">
+                      <p className="font-sans text-sm md:text-base text-ink/65 leading-relaxed max-w-md">
                         {step.description}
                       </p>
                     </div>

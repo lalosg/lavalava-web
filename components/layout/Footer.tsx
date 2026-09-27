@@ -62,14 +62,14 @@ export function Footer({ locale }: Props) {
             <div className="flex items-center gap-3 mt-2">
               <Link
                 href="/es"
-                className={locale === 'es' ? 'text-white/80 text-xs font-semibold' : 'text-white/35 text-xs font-semibold hover:text-white/60 transition-colors'}
+                className={locale === 'es' ? 'text-white/80 text-xs font-semibold' : 'text-white/50 text-xs font-semibold hover:text-white/60 transition-colors'}
               >
                 ES
               </Link>
-              <span className="text-white/20">·</span>
+              <span className="text-white/50">·</span>
               <Link
                 href="/en"
-                className={locale === 'en' ? 'text-white/80 text-xs font-semibold' : 'text-white/35 text-xs font-semibold hover:text-white/60 transition-colors'}
+                className={locale === 'en' ? 'text-white/80 text-xs font-semibold' : 'text-white/50 text-xs font-semibold hover:text-white/60 transition-colors'}
               >
                 EN
               </Link>
@@ -79,7 +79,7 @@ export function Footer({ locale }: Props) {
 
         <hr className="border-white/10 my-10" />
 
-        <p className="text-xs text-white/30">{copyright}</p>
+        <p className="text-xs text-white/50">{copyright}</p>
       </div>
     </footer>
   )

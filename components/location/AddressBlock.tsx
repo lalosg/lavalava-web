@@ -37,7 +37,7 @@ export function AddressBlock({ t }: Props) {
               {loc.city}
             </address>
 
-            <p className="font-sans text-sm text-ink/50 leading-relaxed mb-8 max-w-sm">
+            <p className="font-sans text-sm text-ink/65 leading-relaxed mb-8 max-w-sm">
               {c.note}
             </p>
 
@@ -46,7 +46,7 @@ export function AddressBlock({ t }: Props) {
                 href={BUSINESS.sameAs[1]}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-sans text-sm font-semibold text-teal hover:text-teal/75 transition-colors"
+                className="font-sans text-sm font-semibold text-teal-deep hover:text-teal-soft transition-colors"
               >
                 {c.directions}
               </a>
@@ -54,7 +54,7 @@ export function AddressBlock({ t }: Props) {
                 href={waLink(c.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-sans text-sm text-ink/50 hover:text-ink/75 transition-colors"
+                className="font-sans text-sm text-ink/65 hover:text-ink/75 transition-colors"
               >
                 {c.whatsappCta}
               </a>

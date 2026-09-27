@@ -89,6 +89,14 @@ export default function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} className={`${fraunces.variable} ${sourceSans3.variable}`}>
+      <head>
+        {/* Reveals start at opacity 0 and wait for JS. If the bundle fails to load,
+            every section below the hero would stay invisible. @media (scripting: none)
+            in globals.css covers modern browsers; this covers the rest. */}
+        <noscript>
+          <style>{`.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+      </head>
       <body className="bg-bone text-ink font-sans antialiased">
         <Header locale={locale} />
         <main>{children}</main>

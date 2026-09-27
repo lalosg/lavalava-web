@@ -29,7 +29,13 @@ export function ReviewsSection({ t, googleReviews }: Props) {
     : pool
 
   return (
-    <section className="bg-bone-alt py-20">
+    /*
+      overflow-x-clip contains the horizontal card scroller. Without it the snap
+      scroller's scroll width leaked into the document on mobile, and a page-wide
+      sideways scroll cuts every other section off at the right edge. `clip` rather
+      than `hidden` so it cannot accidentally become a scroll container itself.
+    */
+    <section className="bg-bone-alt py-20 overflow-x-clip">
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
           <div className="section-px mb-10">
@@ -47,7 +53,14 @@ export function ReviewsSection({ t, googleReviews }: Props) {
             {reviews.map((review) => (
               <div
                 key={review.name}
-                className="min-w-[280px] md:min-w-0 snap-start flex-shrink-0 md:flex-shrink
+                /*
+                  w-[280px] as well as min-w, because min-width only sets a floor: a
+                  flex item with flex-shrink-0 and no width sizes to its MAX-content
+                  width, so each card grew to fit its review on one line — measured at
+                  698px against a 390px viewport. Three of those pushed the document
+                  to 1391px and gave the whole site a horizontal scroll on mobile.
+                */
+                className="w-[280px] min-w-[280px] md:w-auto md:min-w-0 snap-start flex-shrink-0 md:flex-shrink
                            bg-bone border border-[var(--line)] p-6 flex flex-col gap-4"
               >
                 {/* Stars */}
@@ -73,7 +86,7 @@ export function ReviewsSection({ t, googleReviews }: Props) {
                       {review.name[0]}
                     </span>
                   </div>
-                  <span className="font-sans text-xs font-semibold text-ink/60">{review.name}</span>
+                  <span className="font-sans text-xs font-semibold text-ink/65">{review.name}</span>
                 </div>
               </div>
             ))}

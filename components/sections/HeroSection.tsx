@@ -1,4 +1,9 @@
 import Image from 'next/image'
+// Static imports, not string paths: they let next/image generate a blurDataURL at build
+// time. Without it the hero area is flat cream until the full image decodes, which reads
+// as a broken page rather than a loading one. The blur costs ~1 kB inlined per image.
+import heroDesktop from '@/public/images/hero-desktop.jpg'
+import heroMobile from '@/public/images/hero-mobile.jpg'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { WaveMark } from '@/components/ui/WaveMark'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
@@ -29,20 +34,35 @@ export function HeroSection({ t, locale }: Props) {
       */}
       {/* Desktop background image */}
       <Image
-        src="/images/hero-desktop.jpg"
+        src={heroDesktop}
         alt="Ropa blanca colgada al viento frente al mar — LAVALAVA Lavandería Premium"
         fill
+        placeholder="blur"
         className="hidden md:block object-cover object-center"
         sizes="100vw"
       />
       {/* Mobile background image */}
       <Image
-        src="/images/hero-mobile.jpg"
+        src={heroMobile}
         alt="Ropa blanca colgada al viento frente al mar — LAVALAVA Lavandería Premium"
         fill
         priority
+        placeholder="blur"
         className="block md:hidden object-cover object-center"
         sizes="100vw"
+      />
+
+      {/*
+        Legibility scrim. The hero photograph is warm and busy, and the eyebrow and
+        subhead sit on whatever happens to be behind them. Two soft navy gradients —
+        top for the headline block, bottom for the SEO stripe and buttons — lift text
+        off the image without reading as an overlay. Pointer-events none so the
+        buttons underneath stay clickable; aria-hidden since it carries no meaning.
+      */}
+      <div
+        className="absolute inset-0 pointer-events-none
+                   bg-[linear-gradient(to_bottom,rgba(22,35,59,0.35)_0%,rgba(22,35,59,0.10)_28%,rgba(22,35,59,0)_45%,rgba(22,35,59,0.12)_72%,rgba(22,35,59,0.42)_100%)]"
+        aria-hidden="true"
       />
 
       {/* Content — three tiers: headline top, SEO stripe + buttons bottom */}

@@ -13,7 +13,7 @@ export function CareSteps({ t }: Props) {
     <section className="bg-navy py-20 md:py-24 section-px">
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
-          <p className="eyebrow text-teal/70 mb-4">{c.eyebrow}</p>
+          <p className="eyebrow text-teal-soft mb-4">{c.eyebrow}</p>
           <h2 className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-14 whitespace-pre-line max-w-md">
             {c.headline}
           </h2>
@@ -23,7 +23,7 @@ export function CareSteps({ t }: Props) {
           {c.steps.map((step, i) => (
             <RevealOnScroll key={step.title} delay={i * 70}>
               <div className="flex gap-4">
-                <span className="flex-shrink-0 font-fraunces text-sm text-teal/70 mt-1 tabular-nums">
+                <span className="flex-shrink-0 font-fraunces text-sm text-teal-soft mt-1 tabular-nums">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div>

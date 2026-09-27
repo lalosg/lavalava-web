@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local image backups — kept on disk, never published (they sit inside public/,
+# so committing them would serve every original at a public URL).
+public/images_backup/

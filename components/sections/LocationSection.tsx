@@ -34,12 +34,12 @@ export function LocationSection({ t, locale }: Props) {
                 {t.location.address}<br />
                 {t.location.city}
               </address>
-              <p className="font-sans text-xs text-teal/80 mt-1">{t.location.nearby}</p>
+              <p className="font-sans text-xs text-teal-soft mt-1">{t.location.nearby}</p>
               <a
                 href="https://share.google/2JPAcqEaTyrn6Dl3r"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 font-sans text-sm font-semibold text-ink hover:text-ink/60 transition-colors"
+                className="mt-4 font-sans text-sm font-semibold text-ink hover:text-ink/65 transition-colors"
               >
                 {t.location.directions}
               </a>
@@ -50,7 +50,7 @@ export function LocationSection({ t, locale }: Props) {
                 soft-navigation path to the same pages. */}
               <a
                 href={localePath(locale, '/ubicacion')}
-                className="mt-2 font-sans text-xs text-ink/40 hover:text-ink/65 transition-colors"
+                className="mt-2 font-sans text-xs text-ink/65 hover:text-ink/90 transition-colors"
               >
                 {t.location.moreInfo}
               </a>
@@ -60,7 +60,7 @@ export function LocationSection({ t, locale }: Props) {
             <div className="flex flex-col gap-2">
               {t.location.hours.map((h) => (
                 <div key={h.days} className="flex justify-between gap-8 border-b border-[var(--line)] pb-2">
-                  <span className="font-sans text-sm text-ink/45">{h.days}</span>
+                  <span className="font-sans text-sm text-ink/65">{h.days}</span>
                   <span className="font-sans text-sm font-medium text-ink">{h.time}</span>
                 </div>
               ))}

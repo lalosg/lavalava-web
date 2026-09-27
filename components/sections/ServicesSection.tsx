@@ -46,7 +46,9 @@ export function ServicesSection({ t, locale }: Props) {
                     alt={item.title}
                     fill
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                    sizes="(max-width: 768px) 50vw, 33vw"
+                    // Cards render ~50vw on mobile and ~235px from the 3-col grid on desktop.
+                    // 33vw asked for ~475px at 1440 and wasted roughly half the bytes.
+                    sizes="(max-width: 768px) 50vw, (max-width: 1280px) 30vw, 260px"
                   />
                   {/* Hover overlay with description — desktop only */}
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 via-navy/40 to-transparent px-4 pt-10 pb-4
@@ -63,14 +65,14 @@ export function ServicesSection({ t, locale }: Props) {
                     {item.title}
                   </h3>
                   {item.badge && (
-                    <span className="flex-shrink-0 text-[10px] font-sans font-semibold tracking-eyebrow text-teal uppercase mt-0.5">
+                    <span className="flex-shrink-0 text-[10px] font-sans font-semibold tracking-eyebrow text-teal-deep uppercase mt-0.5">
                       {item.badge}
                     </span>
                   )}
                 </div>
 
                 {/* Description — mobile always visible, desktop on hover (overlay above) */}
-                <p className="font-sans text-xs text-ink/50 leading-relaxed md:hidden">
+                <p className="font-sans text-xs text-ink/65 leading-relaxed md:hidden">
                   {item.description}
                 </p>
 
@@ -93,7 +95,7 @@ export function ServicesSection({ t, locale }: Props) {
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-fraunces text-base text-bone">{deliveryService.title}</h3>
                   {deliveryService.badge && (
-                    <span className="text-[10px] font-sans font-semibold tracking-eyebrow text-teal uppercase">
+                    <span className="text-[10px] font-sans font-semibold tracking-eyebrow text-teal-deep uppercase">
                       {deliveryService.badge}
                     </span>
                   )}
@@ -114,7 +116,7 @@ export function ServicesSection({ t, locale }: Props) {
             soft-navigation path to the same pages. */}
           <a
             href={localePath(locale, '/servicios')}
-            className="inline-block mt-8 font-sans text-xs text-ink/40 hover:text-ink/60 transition-colors"
+            className="inline-block mt-8 font-sans text-xs text-ink/65 hover:text-ink/90 transition-colors"
           >
             {t.services.cta}
           </a>

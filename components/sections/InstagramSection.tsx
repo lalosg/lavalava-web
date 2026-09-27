@@ -21,7 +21,7 @@ export function InstagramSection({ t }: Props) {
           <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-4 whitespace-pre-line max-w-sm">
             {t.instagram.headline}
           </h2>
-          <p className="font-sans text-sm text-ink/50 mb-10">{t.instagram.description}</p>
+          <p className="font-sans text-sm text-ink/65 mb-10">{t.instagram.description}</p>
         </RevealOnScroll>
 
         <RevealOnScroll>

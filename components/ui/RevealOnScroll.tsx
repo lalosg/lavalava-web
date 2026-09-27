@@ -18,15 +18,13 @@ export function RevealOnScroll({ children, className, stagger = false, delay = 0
   const [visible, setVisible] = useState(eager)
 
   useEffect(() => {
-    if (eager) {
-      // Re-trigger staggered fade-in on client for delayed items
-      if (delay > 0) {
-        setVisible(false)
-        const id = setTimeout(() => setVisible(true), delay)
-        return () => clearTimeout(id)
-      }
-      return
-    }
+    // eager content is server-rendered visible and stays visible. The previous version
+    // set it back to hidden on hydration to replay the stagger, which meant the hero
+    // headline painted, vanished, then faded back in — a flash on every load, and on a
+    // slow connection the "vanished" state could last a noticeable beat. The entrance
+    // animation for above-the-fold content is rebuilt properly in the motion layer;
+    // it must never be done by hiding what the server already painted.
+    if (eager) return
 
     const el = ref.current
     if (!el) return
@@ -45,7 +43,10 @@ export function RevealOnScroll({ children, className, stagger = false, delay = 0
           observer.unobserve(el)
         }
       },
-      { threshold: 0, rootMargin: '0px 0px -40px 0px' }
+      // -10% bottom margin: fire while the section is still entering, so it has
+      // finished revealing by the time the reader reaches it. The old -40px fired so
+      // late that sections could sit visibly blank mid-scroll.
+      { threshold: 0, rootMargin: '0px 0px -10% 0px' }
     )
     observer.observe(el)
     return () => observer.disconnect()

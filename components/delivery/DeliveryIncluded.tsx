@@ -13,7 +13,7 @@ export function DeliveryIncluded({ t }: Props) {
     <section className="bg-navy py-20 md:py-24 section-px">
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
-          <p className="eyebrow text-teal/70 mb-4">{c.eyebrow}</p>
+          <p className="eyebrow text-teal-soft mb-4">{c.eyebrow}</p>
           <h2 className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-14 whitespace-pre-line max-w-sm">
             {c.headline}
           </h2>

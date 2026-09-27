@@ -9,7 +9,9 @@
   --ink:      #1B2536;
   --navy:     #16233B;
   --sand:     #E4D8C4;
-  --teal:     #5E7F84;
+  --teal:      #5E7F84;   /* brand teal — decorative use: borders, icons, fills */
+  --teal-deep: #557478;   /* text on light surfaces — 4.60:1 on bone */
+  --teal-soft: #799AA0;   /* text on navy          — 5.19:1 on navy */
   --line:     rgba(27, 37, 54, 0.12);
 }
 
@@ -32,7 +34,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.20em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--teal-deep);
 }
 
 /* ── Section scroll-reveal — JS adds .is-visible via IntersectionObserver  */
@@ -81,6 +83,20 @@ body {
 .hairline {
   border: none;
   border-top: 1px solid var(--line);
+}
+
+/* ── No JavaScript ──────────────────────────────────────────────────────────
+   .reveal starts at opacity 0 and waits for JS to add .is-visible. If the script
+   never runs, every section below the hero stays invisible — the page looks empty
+   rather than unstyled. Both guards below defeat that; see also the <noscript>
+   block in app/[locale]/layout.tsx, which covers browsers without `scripting`. */
+@media (scripting: none) {
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────── */

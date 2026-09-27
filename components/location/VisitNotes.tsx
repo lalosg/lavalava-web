@@ -22,14 +22,14 @@ export function VisitNotes({ t }: Props) {
           {c.items.map((item, i) => (
             <RevealOnScroll key={item.title} delay={i * 70}>
               <div className="flex gap-4">
-                <span className="flex-shrink-0 font-fraunces text-sm text-teal mt-1 tabular-nums">
+                <span className="flex-shrink-0 font-fraunces text-sm text-teal-deep mt-1 tabular-nums">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div>
                   <h3 className="font-fraunces text-lg text-ink mb-1.5 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="font-sans text-sm text-ink/55 leading-relaxed max-w-sm">
+                  <p className="font-sans text-sm text-ink/65 leading-relaxed max-w-sm">
                     {item.description}
                   </p>
                 </div>

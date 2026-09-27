@@ -38,7 +38,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
           open ? 'max-h-96 pb-5' : 'max-h-0',
         ].join(' ')}
       >
-        <p className="font-sans text-sm text-ink/55 leading-relaxed max-w-xl">{a}</p>
+        <p className="font-sans text-sm text-ink/65 leading-relaxed max-w-xl">{a}</p>
       </div>
     </div>
   )

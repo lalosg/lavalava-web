@@ -25,14 +25,14 @@ export function UnusualSection({ t }: Props) {
           <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-6 max-w-sm">
             {c.headline}
           </h2>
-          <p className="font-sans text-base md:text-lg text-ink/55 leading-relaxed max-w-2xl mb-8">
+          <p className="font-sans text-base md:text-lg text-ink/65 leading-relaxed max-w-2xl mb-8">
             {c.body}
           </p>
           <a
             href={waLink(c.whatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 font-sans text-sm font-semibold text-teal hover:text-teal/75 transition-colors"
+            className="inline-flex items-center gap-2.5 font-sans text-sm font-semibold text-teal-deep hover:text-teal-soft transition-colors"
           >
             <WhatsAppIcon size={15} />
             {c.cta}

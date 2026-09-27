@@ -71,7 +71,7 @@ export function LazyMap({
           <circle cx="12" cy="8" r="2" />
         </svg>
       </div>
-      <span className="font-sans text-sm text-ink/50 group-hover:text-ink/70 transition-colors duration-200">
+      <span className="font-sans text-sm text-ink/65 group-hover:text-ink/70 transition-colors duration-200">
         {ctaLabel}
       </span>
     </button>

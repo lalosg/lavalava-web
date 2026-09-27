@@ -15,6 +15,12 @@ const config: Config = {
         navy:        '#16233B',
         sand:        '#E4D8C4',
         teal:        '#5E7F84',
+        // Text-only teals. The brand teal (#5E7F84) is 3.95:1 on bone and 3.62:1 on
+        // navy — both below the 4.5:1 WCAG AA floor for normal text. These two are the
+        // same hue and saturation at different lightness, used ONLY for small text.
+        // Borders, icons, fills and the wave mark keep the brand teal unchanged.
+        'teal-deep': '#557478',   // 4.60:1 on bone      — text on light surfaces
+        'teal-soft': '#799AA0',   // 5.19:1 on navy      — text on navy surfaces
       },
       fontFamily: {
         fraunces: ['var(--font-fraunces)', 'Georgia', 'serif'],

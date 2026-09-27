@@ -20,7 +20,7 @@ export function HoursBlock({ t }: Props) {
     <section id="horarios" className="bg-navy py-20 md:py-24 section-px scroll-mt-20">
       <div className="max-w-6xl mx-auto">
         <RevealOnScroll>
-          <p className="eyebrow text-teal/70 mb-4">{c.eyebrow}</p>
+          <p className="eyebrow text-teal-soft mb-4">{c.eyebrow}</p>
           <h2 className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-12 whitespace-pre-line max-w-sm">
             {c.headline}
           </h2>
@@ -39,7 +39,7 @@ export function HoursBlock({ t }: Props) {
                   <span
                     className={[
                       'font-fraunces text-lg tabular-nums',
-                      closed ? 'text-bone/35' : 'text-bone',
+                      closed ? 'text-bone/50' : 'text-bone',
                     ].join(' ')}
                   >
                     {h.time}

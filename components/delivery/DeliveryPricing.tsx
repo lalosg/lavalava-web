@@ -36,7 +36,7 @@ export function DeliveryPricing({ t, locale }: Props) {
           <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-5 whitespace-pre-line max-w-sm">
             {c.headline}
           </h2>
-          <p className="font-sans text-base text-ink/55 leading-relaxed max-w-xl mb-12">
+          <p className="font-sans text-base text-ink/65 leading-relaxed max-w-xl mb-12">
             {c.intro}
           </p>
         </RevealOnScroll>
@@ -65,14 +65,14 @@ export function DeliveryPricing({ t, locale }: Props) {
         <RevealOnScroll delay={160}>
           <div className="mt-10 max-w-xl border-t border-[var(--line)] pt-8">
             <h3 className="font-fraunces text-lg text-ink mb-2">{c.roundTrip.title}</h3>
-            <p className="font-sans text-sm text-ink/55 leading-relaxed mb-4">
+            <p className="font-sans text-sm text-ink/65 leading-relaxed mb-4">
               {c.roundTrip.text}
             </p>
             <a
               href={waLink(t.pages.aDomicilio.content.hero.whatsappMessage)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex font-sans text-sm font-semibold text-teal hover:text-teal/75 transition-colors"
+              className="inline-flex font-sans text-sm font-semibold text-teal-deep hover:text-teal-soft transition-colors"
             >
               {t.pages.aDomicilio.content.hero.ctaPrimary} →
             </a>
@@ -80,7 +80,7 @@ export function DeliveryPricing({ t, locale }: Props) {
         </RevealOnScroll>
 
         <RevealOnScroll delay={200}>
-          <p className="mt-8 font-sans text-xs text-ink/40 leading-relaxed max-w-xl">
+          <p className="mt-8 font-sans text-xs text-ink/65 leading-relaxed max-w-xl">
             {c.disclaimer}
           </p>
         </RevealOnScroll>

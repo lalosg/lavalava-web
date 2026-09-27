@@ -35,7 +35,7 @@ export function PriceTag({ item, wasLabel, size = 'sm' }: Props) {
   return (
     <span className="inline-flex items-baseline gap-2">
       {/* The struck price carries a label so it is not read aloud as the price in effect */}
-      <s className={`font-sans text-ink/35 tabular-nums ${big ? 'text-base' : 'text-sm'}`}>
+      <s className={`font-sans text-ink/65 tabular-nums ${big ? 'text-base' : 'text-sm'}`}>
         <span className="sr-only">{wasLabel} </span>
         {formatPrice(item.price.amount)}
       </s>

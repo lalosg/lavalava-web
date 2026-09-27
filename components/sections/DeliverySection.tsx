@@ -14,7 +14,7 @@ export function DeliverySection({ t, locale }: Props) {
     <section className="bg-navy py-20 flex flex-col">
       <div className="max-w-6xl mx-auto w-full section-px">
         <RevealOnScroll>
-          <p className="eyebrow text-teal/70 mb-4">{t.delivery.eyebrow}</p>
+          <p className="eyebrow text-teal-soft mb-4">{t.delivery.eyebrow}</p>
           <h2 className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-6 whitespace-pre-line max-w-sm">
             {t.delivery.headline}
           </h2>
@@ -30,7 +30,7 @@ export function DeliverySection({ t, locale }: Props) {
                        bg-[repeating-linear-gradient(135deg,rgba(247,244,238,0.07)_0px,rgba(247,244,238,0.07)_2px,transparent_2px,transparent_14px)]
                        border border-bone/18 flex items-center justify-center"
           >
-            <span className="text-xs text-bone/25 font-sans tracking-eyebrow uppercase">
+            <span className="text-xs text-bone/50 font-sans tracking-eyebrow uppercase">
               FOTO — recogida a domicilio
             </span>
           </div>
@@ -69,7 +69,7 @@ export function DeliverySection({ t, locale }: Props) {
             soft-navigation path to the same pages. */}
           <a
             href={localePath(locale, '/a-domicilio')}
-            className="block mt-5 font-sans text-xs text-bone/45 hover:text-bone/70 transition-colors"
+            className="block mt-5 font-sans text-xs text-bone/50 hover:text-bone/70 transition-colors"
           >
             {t.delivery.learnMore}
           </a>
