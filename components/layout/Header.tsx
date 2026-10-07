@@ -1,9 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { WaveMark } from '@/components/ui/WaveMark'
 import { getT, localePath } from '@/lib/translations'
 import { cn } from '@/lib/utils'
 import type { Locale } from '@/lib/i18n'
@@ -14,46 +13,30 @@ interface Props {
 
 /** Past this many pixels the header is considered "off the hero". */
 const SOLID_AFTER = 24
-/** Ignore scroll jitter below this, so the bar does not flicker on a trackpad. */
-const DIRECTION_THRESHOLD = 6
-/** Never hide the bar until the reader is genuinely into the page. */
-const HIDE_AFTER = 240
 
 export function Header({ locale }: Props) {
   const t = getT(locale)
   // Only the homepage has a full-bleed photographic hero for the bar to float over.
   // The spokes open on bone, where a transparent header would simply be invisible.
-  // Derived from the path rather than passed down, because the layout renders above
-  // the page segment and cannot know which route is being served.
   const pathname = usePathname()
   const overHero = pathname === `/${locale}` || pathname === `/${locale}/`
+
   const [solid, setSolid] = useState(!overHero)
-  const [hidden, setHidden] = useState(false)
+  const [open, setOpen] = useState(false)
+  const panelRef = useRef<HTMLDivElement>(null)
 
+  // The bar never hides. An earlier version slid it away on scroll-down and brought it
+  // back on scroll-up; on a phone that reads as the navigation disappearing, and with
+  // the menu now living up here it would take the only route to the sub-pages with it.
   useEffect(() => {
-    let last = window.scrollY
     let frame = 0
-
     const read = () => {
-      const y = window.scrollY
-      setSolid(!overHero || y > SOLID_AFTER)
-
-      const delta = y - last
-      if (Math.abs(delta) > DIRECTION_THRESHOLD) {
-        // Hide going down, return going up — but never while near the top, where
-        // hiding would just look like the bar falling off the page.
-        setHidden(delta > 0 && y > HIDE_AFTER)
-        last = y
-      }
+      setSolid(!overHero || window.scrollY > SOLID_AFTER)
       frame = 0
     }
-
-    // Read on a frame rather than on every scroll event: the handler only ever
-    // sets state, and coalescing keeps it off the scroll critical path.
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(read)
     }
-
     read()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
@@ -62,23 +45,47 @@ export function Header({ locale }: Props) {
     }
   }, [overHero])
 
+  // Close the menu on route change, on Escape, and on a tap outside it.
+  useEffect(() => setOpen(false), [pathname])
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
+    const onPointer = (e: PointerEvent) => {
+      if (panelRef.current && !panelRef.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('pointerdown', onPointer)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('pointerdown', onPointer)
+    }
+  }, [open])
+
+  const nav = [
+    { label: t.nav.services, href: localePath(locale, '/servicios') },
+    { label: t.nav.delivery, href: localePath(locale, '/a-domicilio') },
+    { label: t.nav.location, href: localePath(locale, '/ubicacion') },
+  ]
+
   const linkBase = 'transition-colors duration-300'
-  const onPhoto = !solid
+  // Once the menu is open it sits on a bone panel, so the bar has to read as solid
+  // even if the reader is still at the very top of the hero.
+  const onPhoto = !solid && !open
 
   return (
     <header
+      ref={panelRef}
       className={cn(
         'fixed top-0 left-0 right-0 z-50',
-        'transition-[transform,background-color,border-color,backdrop-filter] duration-500 [transition-timing-function:var(--ease)]',
-        hidden ? '-translate-y-full' : 'translate-y-0',
-        solid
-          ? 'bg-bone/90 backdrop-blur-md border-b border-[var(--line)]'
+        'transition-[background-color,border-color,backdrop-filter] duration-500 [transition-timing-function:var(--ease)]',
+        solid || open
+          ? 'bg-bone/95 backdrop-blur-md border-b border-[var(--line)]'
           : 'bg-transparent border-b border-transparent',
       )}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href={`/${locale}`} className="flex items-center gap-3 group">
-          <WaveMark size="sm" draw className={onPhoto ? '[&_path]:stroke-white' : undefined} />
+        <Link href={`/${locale}`} className="flex items-center group">
           <span
             className={cn(
               'font-fraunces text-lg font-semibold tracking-[0.08em]',
@@ -90,12 +97,9 @@ export function Header({ locale }: Props) {
           </span>
         </Link>
 
+        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {[
-            { label: t.nav.services, href: localePath(locale, '/servicios') },
-            { label: t.nav.delivery, href: localePath(locale, '/a-domicilio') },
-            { label: t.nav.location, href: localePath(locale, '/ubicacion') },
-          ].map((item) => (
+          {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -112,41 +116,93 @@ export function Header({ locale }: Props) {
           ))}
         </nav>
 
-        <div className="flex items-center gap-1 text-xs font-semibold tracking-eyebrow">
-          <Link
-            href="/es"
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1 text-xs font-semibold tracking-eyebrow">
+            {(['es', 'en'] as const).map((code, i) => (
+              <span key={code} className="flex items-center">
+                {i > 0 && (
+                  <span className={cn('mx-1', linkBase, onPhoto ? 'text-white/60' : 'text-ink/65')}>
+                    ·
+                  </span>
+                )}
+                <Link
+                  href={`/${code}`}
+                  className={cn(
+                    'tap',
+                    linkBase,
+                    onPhoto
+                      ? locale === code
+                        ? 'text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.35)]'
+                        : 'text-white/75 hover:text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.35)]'
+                      : locale === code
+                        ? 'text-ink'
+                        : 'text-ink/65 hover:text-ink/90',
+                  )}
+                >
+                  {code.toUpperCase()}
+                </Link>
+              </span>
+            ))}
+          </div>
+
+          {/* Hamburger — mobile only, since md+ already shows the full nav */}
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
             className={cn(
-              'tap',
+              'md:hidden -mr-2 grid place-items-center h-11 w-11 rounded-full',
               linkBase,
-              onPhoto
-                ? locale === 'es'
-                  ? 'text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.35)]'
-                  : 'text-white/75 hover:text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.35)]'
-                : locale === 'es'
-                  ? 'text-ink'
-                  : 'text-ink/65 hover:text-ink/90',
+              onPhoto ? 'text-white' : 'text-ink',
             )}
           >
-            ES
-          </Link>
-          <span className={cn('mx-1', linkBase, onPhoto ? 'text-white/60' : 'text-ink/65')}>·</span>
-          <Link
-            href="/en"
-            className={cn(
-              'tap',
-              linkBase,
-              onPhoto
-                ? locale === 'en'
-                  ? 'text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.35)]'
-                  : 'text-white/75 hover:text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.35)]'
-                : locale === 'en'
-                  ? 'text-ink'
-                  : 'text-ink/65 hover:text-ink/90',
-            )}
-          >
-            EN
-          </Link>
+            {/* Two bars that cross into an X — no icon library, no extra bytes */}
+            <span className="relative block h-[14px] w-[22px]" aria-hidden="true">
+              <span
+                className={cn(
+                  'absolute left-0 h-[1.5px] w-full bg-current rounded-full',
+                  'transition-transform duration-300 [transition-timing-function:var(--ease)]',
+                  open ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0',
+                )}
+              />
+              <span
+                className={cn(
+                  'absolute left-0 h-[1.5px] w-full bg-current rounded-full',
+                  'transition-transform duration-300 [transition-timing-function:var(--ease)]',
+                  open ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'bottom-0',
+                )}
+              />
+            </span>
+          </button>
         </div>
+      </div>
+
+      {/* Dropdown panel. Rendered always so the links are in the DOM for crawlers;
+          collapsed with max-height + visibility so it is inert when closed. */}
+      <div
+        id="mobile-nav"
+        className={cn(
+          'md:hidden overflow-hidden border-t',
+          'transition-[max-height,opacity] duration-500 [transition-timing-function:var(--ease)]',
+          open
+            ? 'max-h-80 opacity-100 border-[var(--line)]'
+            : 'max-h-0 opacity-0 border-transparent invisible',
+        )}
+      >
+        <nav className="max-w-6xl mx-auto px-6 py-2 flex flex-col">
+          {nav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              tabIndex={open ? undefined : -1}
+              className="font-fraunces text-xl text-ink py-3.5 border-b border-[var(--line)] last:border-b-0 hover:text-ink/70 transition-colors"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </header>
   )

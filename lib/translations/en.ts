@@ -7,6 +7,8 @@ export const en: Translations = {
     location:  'Location',
     whatsapp:  'Message us',
     home:      'Home',
+    openMenu:  'Open menu',
+    closeMenu: 'Close menu',
   },
   hero: {
     eyebrow:         '01 — Premium Laundry & Dry Cleaning · Distrito Tec',

@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { WaveMark } from '@/components/ui/WaveMark'
 import { getT, localePath } from '@/lib/translations'
 import type { Locale } from '@/lib/i18n'
 
@@ -26,7 +25,6 @@ export function Footer({ locale }: Props) {
           {/* Brand */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <WaveMark size="sm" className="[&_path]:stroke-white/40" />
               <span className="font-fraunces text-base font-semibold tracking-[0.08em] text-white/80">
                 LAVALAVA
               </span>

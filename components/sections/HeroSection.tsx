@@ -7,7 +7,6 @@ import { RevealText } from '@/components/motion/RevealText'
 import heroDesktop from '@/public/images/hero-desktop.jpg'
 import heroMobile from '@/public/images/hero-mobile.jpg'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
-import { WaveMark } from '@/components/ui/WaveMark'
 import { waLink } from '@/lib/translations'
 import type { Translations } from '@/lib/translations'
 
@@ -79,7 +78,6 @@ export function HeroSection({ t, locale }: Props) {
           <div className="max-w-6xl mx-auto">
 
             <div className="hero-enter">
-              <WaveMark size="md" className="mb-5 [&_path]:stroke-bone" />
             </div>
 
             <div className="hero-enter" style={{ animationDelay: '80ms' }}>

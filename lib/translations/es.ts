@@ -5,6 +5,8 @@ export const es = {
     location:  'Ubicación',
     whatsapp:  'Escríbenos',
     home:      'Inicio',
+    openMenu:  'Abrir menú',
+    closeMenu: 'Cerrar menú',
   },
   hero: {
     eyebrow:          '01 — Lavandería · Tintorería · Distrito Tec',
