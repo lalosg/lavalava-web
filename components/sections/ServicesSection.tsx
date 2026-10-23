@@ -44,10 +44,12 @@ export function ServicesSection({ t, locale }: Props) {
 
                 {/* Image */}
                 <div className="relative aspect-[3/4] overflow-hidden mb-3">
-                  {/* Staggered by grid position so the cards uncover in reading order
-                      rather than all at once. The aspect-ratio box is on the parent, so
-                      the wipe changes nothing about layout and CLS stays at zero. */}
-                  <RevealImage delay={i * 80}>
+                  {/* No delay of its own. The stagger already comes from the card's
+                      RevealOnScroll (i * 60); adding i * 80 here started the image AFTER
+                      its own caption, so every card spent a moment showing a title over
+                      an empty frame. The image now leads, which is the only order that
+                      never looks broken. */}
+                  <RevealImage>
                     <div className="relative h-full w-full">
                       <Image
                         src={serviceImages[i]}

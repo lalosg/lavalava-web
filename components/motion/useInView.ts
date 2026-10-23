@@ -52,7 +52,9 @@ export function useInView({ delay = 0, eager = false }: Options = {}) {
         reveal()
         observer.unobserve(el)
       },
-      { threshold: 0, rootMargin: '0px 0px -10% 0px' },
+      // Fire while the element is still a fifth of a viewport below the fold. At -10%
+      // a full-width card on a phone was still mid-wipe when it reached eye level.
+      { threshold: 0, rootMargin: '0px 0px 20% 0px' },
     )
     observer.observe(el)
 

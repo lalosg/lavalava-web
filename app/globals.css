@@ -111,9 +111,15 @@ body {
 /* ── RevealImage — a clip-path wipe from the bottom, like lifting a cloth ────
    The scale settles from 1.06 so the frame is always full at every moment of
    the wipe; animating the clip alone would show the container behind it. */
+/* A shallow wipe, 22%, not a full-height curtain.
+   The curtain version is elegant on a 180px desktop thumbnail and wrong on a 477px
+   full-width card: it leaves a card-sized hole of bone with the caption already
+   legible underneath, which reads as an image that failed to load. Measured at 100%
+   it blanked the whole frame; at 72% it still blanked 343px. At 22% the photograph
+   is present from the first frame and the motion reads as a lift, not a reveal. */
 .reveal-image {
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path var(--dur-slow) var(--ease);
+  clip-path: inset(22% 0 0 0);
+  transition: clip-path var(--dur-base) var(--ease);
 }
 .reveal-image.is-visible {
   clip-path: inset(0 0 0 0);
@@ -121,8 +127,8 @@ body {
 .reveal-image__inner {
   display: block;
   height: 100%;
-  transform: scale(1.06);
-  transition: transform 1.6s var(--ease);
+  transform: scale(1.04);
+  transition: transform var(--dur-slow) var(--ease);
 }
 .reveal-image.is-visible .reveal-image__inner {
   transform: scale(1);

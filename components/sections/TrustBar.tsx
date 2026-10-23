@@ -7,7 +7,14 @@ interface Props {
 
 export function TrustBar({ t }: Props) {
   const items = [
-    <CountUp key="rating" value={t.trust.ratingValue} decimals={1} suffix={t.trust.ratingSuffix} />,
+    // Deliberately NOT a CountUp. Animating a rating from zero puts "1.8 ★ en Google"
+    // on screen for a beat — a precise, damaging, false claim about a business whose
+    // real rating is 5.0. A client tally climbing reads as a tally; a star rating
+    // climbing reads as the rating. Only the tally animates.
+    <span key="rating" className="tabular-nums">
+      {t.trust.ratingValue.toFixed(1)}
+      {t.trust.ratingSuffix}
+    </span>,
     <CountUp key="clients" value={t.trust.clientsValue} group suffix={t.trust.clientsSuffix} />,
     <span key="zone">{t.trust.zone}</span>,
   ]
