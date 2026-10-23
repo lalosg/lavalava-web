@@ -11,7 +11,7 @@ export const en: Translations = {
     closeMenu: 'Close menu',
   },
   hero: {
-    eyebrow:         '01 — Premium Laundry & Dry Cleaning · Distrito Tec',
+    eyebrow:         'Premium Laundry & Dry Cleaning · Distrito Tec',
     headline:        'More time\nfor you.',
     subheadStrong:   'Premium laundry & dry cleaning',
     subheadTertiary: 'Premium service in Distrito Tec, Monterrey. Laundry by the kilo and professional dry cleaning. Expert care for your everyday clothes and delicate garments, with pickup and home delivery.',
@@ -23,7 +23,7 @@ export const en: Translations = {
     text: 'Welcome to LAVALAVA — enjoy a special gift on your first visit.',
   },
   pillars: {
-    eyebrow: '01 — Why LAVALAVA',
+    eyebrow: 'Why LAVALAVA',
     items: [
       {
         title:       'Visible care',
@@ -53,7 +53,7 @@ export const en: Translations = {
     zone:          'Zona Tec',
   },
   services: {
-    eyebrow:  '02 — Services',
+    eyebrow:  'Services',
     headline: 'The care your\nclothes deserve.',
     items: [
       {
@@ -89,8 +89,22 @@ export const en: Translations = {
     ],
     cta: 'View all services →',
   },
+  // The signature band. Takes a claim the site already makes — that every garment is
+  // checked before processing — and says it in the trade's own writing system.
+  careLabel: {
+    eyebrow:  'The craft',
+    headline: 'We read the label\nbefore we touch\nthe garment.',
+    body:     'Every symbol sewn inside your clothes is an instruction: what temperature it washes at, whether it survives a dryer, whether it needs solvent, whether an iron may touch it. We read all of them before sorting, because that is where a garment gets ruined — not in the machine, but in the decision about which machine.',
+    symbols: [
+      { kind: 'wash',     label: 'Washing' },
+      { kind: 'dryclean', label: 'Dry cleaning' },
+      { kind: 'iron',     label: 'Ironing' },
+      { kind: 'bleach',   label: 'Bleaching' },
+      { kind: 'dry',      label: 'Drying' },
+    ],
+  },
   howItWorks: {
-    eyebrow:  '03 — How it works',
+    eyebrow:  'How it works',
     headline: 'As easy as\na message.',
     steps: [
       { number: '01', title: 'Message us',          description: 'Send us a WhatsApp. We reply immediately.' },
@@ -100,7 +114,7 @@ export const en: Translations = {
     ],
   },
   delivery: {
-    eyebrow:     '04 — Pickup & Delivery',
+    eyebrow:     'Pickup & Delivery',
     headline:    'Your clothes,\nwherever you are.',
     description: 'We pick up and deliver to your door. No lines, no waiting. Just send us a message and we handle the rest.',
     benefits: [
@@ -114,7 +128,7 @@ export const en: Translations = {
     learnMore:       'Learn about pickup & delivery →',
   },
   reviews: {
-    eyebrow:  '05 — Reviews',
+    eyebrow:  'Reviews',
     headline: 'What our\nclients say.',
     feedback: 'How did it go? Tell us via WhatsApp',
     // {rating} is replaced with the star count at render time
@@ -139,13 +153,13 @@ export const en: Translations = {
     ],
   },
   instagram: {
-    eyebrow:     '06 — @lavalava.vip',
+    eyebrow:     '@lavalava.vip',
     headline:    'Follow us on\nInstagram.',
     description: 'Share your experience and stay up to date.',
     cta:         'Follow on Instagram →',
   },
   location: {
-    eyebrow:  '07 — Location',
+    eyebrow:  'Location',
     headline: 'Minutes from\nTec.',
     address:  'Av. Junco de la Vega 2224B, Col. Roma',
     city:     'Distrito Tec, 64700 Monterrey, N.L.',
@@ -161,7 +175,7 @@ export const en: Translations = {
     moreInfo:   'View location & hours →',
   },
   faq: {
-    eyebrow:  '08 — Frequently asked questions',
+    eyebrow:  'Frequently asked questions',
     headline: 'Everything you\nneed to know.',
     items: [
       {
@@ -229,7 +243,7 @@ export const en: Translations = {
           whatsappMessage: "Hi LAVALAVA! I'd like to know more about your services.",
         },
         catalogue: {
-          eyebrow:     '01 — The catalogue',
+          eyebrow:     'The catalogue',
           headline:    'What we do.',
           intro:       'Seven services. The prices below are the ones on the counter — the same ones you pay if you message us on WhatsApp or book pickup and delivery.',
           wasLabel:    'was',
@@ -296,7 +310,7 @@ export const en: Translations = {
           ],
         },
         care: {
-          eyebrow:  '02 — How we work',
+          eyebrow:  'How we work',
           headline: 'What happens\nbetween drop-off\nand pickup.',
           steps: [
             {
@@ -318,14 +332,14 @@ export const en: Translations = {
           ],
         },
         unusual: {
-          eyebrow:  '03 — What if it is unusual?',
+          eyebrow:  'What if it is unusual?',
           headline: 'Just ask.',
           body:     'A wedding dress, a costume, a leather jacket, a rug, something inherited, something you cannot even identify the fabric of. Not everything is on the price list, and that does not mean we cannot do it. Send us a photo on WhatsApp and we will tell you honestly whether it is for us, what it would cost and how long it would take — or whether you are better off with a specialist.',
           cta:              'Send a photo on WhatsApp →',
           whatsappMessage:  'Hi LAVALAVA! I have a special garment and would like to know if you can work on it. Sending a photo.',
         },
         faq: {
-          eyebrow:  '04 — Frequently asked questions',
+          eyebrow:  'Frequently asked questions',
           headline: 'What people\nask us most.',
           items: [
             {
@@ -396,7 +410,7 @@ export const en: Translations = {
           whatsappMessage: "Hi LAVALAVA! I'd like to schedule a pickup.",
         },
         steps: {
-          eyebrow:  '01 — How it works',
+          eyebrow:  'How it works',
           headline: 'Four steps.\nZero lines.',
           intro:    'The whole thing happens over WhatsApp. No app to download, no account to create, no cart to fill.',
           items: [
@@ -423,7 +437,7 @@ export const en: Translations = {
           ],
         },
         coverage: {
-          eyebrow:       '02 — Coverage',
+          eyebrow:       'Coverage',
           headline:      'We reach all 24\nneighbourhoods in\nDistrito Tec.',
           intro:         'These are the neighbourhoods where we pick up and deliver, all of them inside the official Distrito Tec boundary in Monterrey. If you live in one of them, you are covered.',
           featuredLabel: 'Where we deliver most',
@@ -435,7 +449,7 @@ export const en: Translations = {
           },
         },
         pricing: {
-          eyebrow:   '03 — Pricing',
+          eyebrow:   'Pricing',
           headline:  'A flat fare\nper trip.',
           intro:     'Pickup and delivery are charged separately, each at a flat rate within our covered neighbourhoods. No distance surcharge: the fare is the same across all 24 neighbourhoods.',
           wasLabel:  'was',
@@ -447,7 +461,7 @@ export const en: Translations = {
           disclaimer: 'These fares cover the trip itself. Washing, dry cleaning or pressing your clothes is quoted separately, by service and by weight.',
         },
         included: {
-          eyebrow:  '04 — What you get',
+          eyebrow:  'What you get',
           headline: "What's included.",
           items: [
             {
@@ -469,7 +483,7 @@ export const en: Translations = {
           ],
         },
         faq: {
-          eyebrow:  '05 — Frequently asked questions',
+          eyebrow:  'Frequently asked questions',
           headline: 'Before you ask.',
           items: [
             {
@@ -534,7 +548,7 @@ export const en: Translations = {
           ctaSecondary:    'See opening hours ↓',
         },
         address: {
-          eyebrow:     '01 — Where we are',
+          eyebrow:     'Where we are',
           headline:    'The address,\nin plain text.',
           note:        'We are a street-level shop on Av. Junco de la Vega. If your phone drops you at the corner, look for number 2224B.',
           directions:  'Open in Google Maps →',
@@ -542,13 +556,13 @@ export const en: Translations = {
           whatsappMessage: 'Hi LAVALAVA! I am nearby but cannot find you — can you help?',
         },
         hours: {
-          eyebrow:  '02 — Opening hours',
+          eyebrow:  'Opening hours',
           headline: 'When we\nare open.',
           note:     'Closed on Sundays. If you need something outside these hours, send us a WhatsApp and we will see what we can do — we read messages even when the shop is shut.',
           closedLabel: 'Closed',
         },
         visit: {
-          eyebrow:  '03 — Your visit',
+          eyebrow:  'Your visit',
           headline: 'Before you\ncome in.',
           items: [
             {
@@ -570,7 +584,7 @@ export const en: Translations = {
           ],
         },
         faq: {
-          eyebrow:  '04 — Frequently asked questions',
+          eyebrow:  'Frequently asked questions',
           headline: 'Getting here,\nand when.',
           items: [
             {

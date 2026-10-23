@@ -9,6 +9,7 @@ import { WelcomeStrip } from '@/components/sections/WelcomeStrip'
 import { PillarsSection } from '@/components/sections/PillarsSection'
 import { TrustBar } from '@/components/sections/TrustBar'
 import { ServicesSection } from '@/components/sections/ServicesSection'
+import { CareLabelBand } from '@/components/sections/CareLabelBand'
 import { HowItWorksSection } from '@/components/sections/HowItWorksSection'
 import { DeliverySection } from '@/components/sections/DeliverySection'
 import { ReviewsSection } from '@/components/sections/ReviewsSection'
@@ -43,6 +44,7 @@ export default async function HomePage({ params }: Props) {
       <PillarsSection t={t} />
       <TrustBar t={t} />
       <ServicesSection t={t} locale={params.locale} />
+      <CareLabelBand t={t} />
       <HowItWorksSection t={t} />
       <DeliverySection t={t} locale={params.locale} />
       <ReviewsSection t={t} googleReviews={googleReviews} />
