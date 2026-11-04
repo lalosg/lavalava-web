@@ -25,6 +25,7 @@ export function Footer({ locale }: Props) {
           {/* Brand */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
+              {/* Wordmark: activo de marca, no encabezado. Se queda en la display. */}
               <span className="font-fraunces text-base font-semibold tracking-[0.08em] text-white/80">
                 LAVALAVA
               </span>

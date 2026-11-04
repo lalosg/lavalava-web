@@ -37,7 +37,7 @@ export function HoursBlock({ t }: Props) {
                   <span className="font-sans text-sm text-bone/55">{h.days}</span>
                   <span
                     className={[
-                      'font-fraunces text-lg tabular-nums',
+                      'font-sans font-semibold text-lg tabular-nums',
                       closed ? 'text-bone/50' : 'text-bone',
                     ].join(' ')}
                   >

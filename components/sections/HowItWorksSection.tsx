@@ -48,7 +48,7 @@ export function HowItWorksSection({ t }: Props) {
                     >
                       <span
                         className={[
-                          'font-fraunces text-sm transition-colors duration-700',
+                          'font-sans font-semibold text-sm tabular-nums transition-colors duration-700',
                           lit ? 'text-bone' : 'text-ink',
                         ].join(' ')}
                       >
@@ -57,7 +57,7 @@ export function HowItWorksSection({ t }: Props) {
                     </div>
 
                     <div className="pb-2">
-                      <h3 className="font-fraunces text-lg text-ink mb-1 leading-snug">
+                      <h3 className="font-sans font-semibold text-lg text-ink mb-1 leading-snug">
                         {step.title}
                       </h3>
                       <p className="font-sans text-sm text-ink/65 leading-relaxed max-w-xs">

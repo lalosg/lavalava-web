@@ -38,7 +38,7 @@ export function PillarsSection({ t }: Props) {
                   {pillarIcons[i]}
                 </div>
                 <div>
-                  <h2 className="font-fraunces text-xl text-ink mb-2">{item.title}</h2>
+                  <h2 className="font-sans font-semibold text-xl text-ink mb-2">{item.title}</h2>
                   <p className="font-sans text-sm text-ink/65 leading-relaxed max-w-xs">
                     {item.description}
                   </p>

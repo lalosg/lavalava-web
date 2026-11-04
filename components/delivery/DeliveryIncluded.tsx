@@ -34,7 +34,7 @@ export function DeliveryIncluded({ t }: Props) {
                   </svg>
                 </span>
                 <div>
-                  <h3 className="font-fraunces text-lg text-bone mb-1.5 leading-snug">
+                  <h3 className="font-sans font-semibold text-lg text-bone mb-1.5 leading-snug">
                     {item.title}
                   </h3>
                   <p className="font-sans text-sm text-bone/55 leading-relaxed max-w-sm">

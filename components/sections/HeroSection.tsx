@@ -93,7 +93,7 @@ export function HeroSection({ t, locale }: Props) {
 
             <div className="hero-enter" style={{ animationDelay: '240ms' }}>
               {/* Tier 2: service descriptor */}
-              <p className="font-fraunces text-white/90 leading-snug [text-shadow:0_1px_6px_rgba(0,0,0,0.25)]
+              <p className="font-sans text-white/90 leading-snug [text-shadow:0_1px_6px_rgba(0,0,0,0.25)]
                             text-xl md:text-lg">
                 {t.hero.subheadStrong}
               </p>

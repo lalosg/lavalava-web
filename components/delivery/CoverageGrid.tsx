@@ -43,7 +43,7 @@ export function CoverageGrid({ t }: Props) {
                 key={area.name}
                 className="border border-[var(--line)] bg-sand/25 px-5 py-6 flex items-center"
               >
-                <span className="font-fraunces text-lg md:text-xl text-ink leading-snug">
+                <span className="font-sans font-semibold text-lg md:text-xl text-ink leading-snug">
                   {area.name}
                 </span>
               </li>

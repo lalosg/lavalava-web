@@ -41,7 +41,7 @@ export function DeliverySteps({ t }: Props) {
                     >
                       <span
                         className={[
-                          'font-fraunces text-sm',
+                          'font-sans font-semibold text-sm tabular-nums',
                           isLast ? 'text-bone' : 'text-ink',
                         ].join(' ')}
                       >
@@ -50,7 +50,7 @@ export function DeliverySteps({ t }: Props) {
                     </div>
 
                     <div className="pb-1">
-                      <h3 className="font-fraunces text-xl text-ink mb-1.5 leading-snug">
+                      <h3 className="font-sans font-semibold text-xl text-ink mb-1.5 leading-snug">
                         {step.title}
                       </h3>
                       <p className="font-sans text-sm md:text-base text-ink/65 leading-relaxed max-w-md">

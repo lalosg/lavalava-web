@@ -19,7 +19,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
         className="w-full flex items-start justify-between gap-4 py-5 text-left"
         aria-expanded={open}
       >
-        <span className="font-fraunces text-base text-ink leading-snug pr-2">{q}</span>
+        <span className="font-sans font-semibold text-base text-ink leading-snug pr-2">{q}</span>
         <span
           className={[
             'flex-shrink-0 w-6 h-6 rounded-full border border-[var(--line)] flex items-center justify-center mt-0.5 transition-transform duration-200',

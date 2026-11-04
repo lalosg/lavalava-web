@@ -30,7 +30,7 @@ export function FaqAccordion({ eyebrow, headline, items, className = 'bg-bone' }
             <RevealOnScroll key={item.q} delay={i * 50}>
               <details className="group border-b border-[var(--line)]">
                 <summary className="flex items-start justify-between gap-6 py-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                  <h3 className="font-fraunces text-lg text-ink leading-snug">{item.q}</h3>
+                  <h3 className="font-sans font-semibold text-lg text-ink leading-snug">{item.q}</h3>
                   <span
                     className="flex-shrink-0 mt-1.5 text-ink/65 transition-transform duration-200 group-open:rotate-45"
                     aria-hidden="true"

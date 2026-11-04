@@ -73,7 +73,7 @@ export function ServicesSection({ t, locale }: Props) {
 
                 {/* Label */}
                 <div className="flex items-start gap-2 mb-1">
-                  <h3 className="font-fraunces text-base text-ink leading-snug">
+                  <h3 className="font-sans font-semibold text-base text-ink leading-snug">
                     {item.title}
                   </h3>
                   {item.badge && (
@@ -105,7 +105,7 @@ export function ServicesSection({ t, locale }: Props) {
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className="font-fraunces text-base text-bone">{deliveryService.title}</h3>
+                  <h3 className="font-sans font-semibold text-base text-bone">{deliveryService.title}</h3>
                   {deliveryService.badge && (
                     <span className="text-[10px] font-sans font-semibold tracking-eyebrow text-teal-deep uppercase">
                       {deliveryService.badge}

@@ -87,6 +87,9 @@ export function Header({ locale }: Props) {
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href={`/${locale}`} className="flex items-center group">
           <span
+            // El wordmark se queda en la display aunque esté por debajo del mínimo
+            // de 24px: es un activo de marca, no un encabezado (brief §12). Sustituir
+            // por el SVG aprobado cuando llegue.
             className={cn(
               'font-fraunces text-lg font-semibold tracking-[0.08em]',
               linkBase,
@@ -197,7 +200,7 @@ export function Header({ locale }: Props) {
               key={item.href}
               href={item.href}
               tabIndex={open ? undefined : -1}
-              className="font-fraunces text-xl text-ink py-3.5 border-b border-[var(--line)] last:border-b-0 hover:text-ink/70 transition-colors"
+              className="font-sans font-semibold text-xl text-ink py-3.5 border-b border-[var(--line)] last:border-b-0 hover:text-ink/70 transition-colors"
             >
               {item.label}
             </Link>

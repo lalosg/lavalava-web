@@ -44,7 +44,7 @@ export function DeliveryPricing({ t, locale }: Props) {
           {items.map((item, i) => (
             <RevealOnScroll key={item.id} delay={i * 80}>
               <div className="h-full border border-[var(--line)] bg-bone px-7 py-7 flex flex-col justify-between gap-5">
-                <h3 className="font-fraunces text-xl text-ink leading-snug">
+                <h3 className="font-sans font-semibold text-xl text-ink leading-snug">
                   {item.name[locale]}
                 </h3>
                 <PriceTag item={item} wasLabel={c.wasLabel} size="lg" />
@@ -63,7 +63,7 @@ export function DeliveryPricing({ t, locale }: Props) {
 
         <RevealOnScroll delay={160}>
           <div className="mt-10 max-w-xl border-t border-[var(--line)] pt-8">
-            <h3 className="font-fraunces text-lg text-ink mb-2">{c.roundTrip.title}</h3>
+            <h3 className="font-sans font-semibold text-lg text-ink mb-2">{c.roundTrip.title}</h3>
             <p className="font-sans text-sm text-ink/65 leading-relaxed mb-4">
               {c.roundTrip.text}
             </p>

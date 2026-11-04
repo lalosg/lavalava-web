@@ -81,7 +81,7 @@ export function ReviewsSection({ t, googleReviews }: Props) {
                 {/* Avatar + name */}
                 <div className="flex items-center gap-3">
                   <div className="w-7 h-7 rounded-full bg-sand flex items-center justify-center flex-shrink-0">
-                    <span className="font-fraunces text-[11px] text-ink font-medium">
+                    <span className="font-sans text-[11px] text-ink font-semibold">
                       {review.name[0]}
                     </span>
                   </div>

@@ -22,11 +22,11 @@ export function CareSteps({ t }: Props) {
           {c.steps.map((step, i) => (
             <RevealOnScroll key={step.title} delay={i * 70}>
               <div className="flex gap-4">
-                <span className="flex-shrink-0 font-fraunces text-sm text-teal-soft mt-1 tabular-nums">
+                <span className="flex-shrink-0 font-sans font-semibold text-sm text-teal-soft mt-1 tabular-nums">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div>
-                  <h3 className="font-fraunces text-lg text-bone mb-1.5 leading-snug">
+                  <h3 className="font-sans font-semibold text-lg text-bone mb-1.5 leading-snug">
                     {step.title}
                   </h3>
                   <p className="font-sans text-sm text-bone/55 leading-relaxed max-w-sm">

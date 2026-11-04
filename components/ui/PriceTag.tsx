@@ -17,6 +17,10 @@ interface Props {
  *
  * Expiry is enforced here via activePromo() because the JSON file has no clock; an
  * expired promo renders as the list price alone, which is always correct.
+ *
+ * Both figures are Source Sans 3 Semibold with tabular figures, never the display
+ * face. A price is read, compared and acted on — recognition beats expression, and
+ * tabular figures keep the digits aligned down a column of services.
  */
 export function PriceTag({ item, wasLabel, size = 'sm' }: Props) {
   const promo = activePromo(item)
@@ -25,7 +29,7 @@ export function PriceTag({ item, wasLabel, size = 'sm' }: Props) {
   if (!promo) {
     return (
       <span
-        className={`font-fraunces text-ink ${big ? 'text-2xl' : 'text-lg'} tabular-nums`}
+        className={`font-sans font-semibold text-ink ${big ? 'text-2xl' : 'text-lg'} tabular-nums`}
       >
         {formatPrice(item.price.amount)}
       </span>
@@ -40,7 +44,7 @@ export function PriceTag({ item, wasLabel, size = 'sm' }: Props) {
         {formatPrice(item.price.amount)}
       </s>
       <span
-        className={`font-fraunces text-[#2F6B4F] ${big ? 'text-2xl' : 'text-lg'} tabular-nums`}
+        className={`font-sans font-semibold text-[#2F6B4F] ${big ? 'text-2xl' : 'text-lg'} tabular-nums`}
       >
         {formatPrice(promo.amount)}
       </span>
