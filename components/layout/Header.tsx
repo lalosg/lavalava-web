@@ -107,7 +107,7 @@ export function Header({ locale }: Props) {
               key={item.href}
               href={item.href}
               className={cn(
-                'font-sans text-xs font-medium tracking-eyebrow uppercase',
+                'font-sans text-sm font-medium tracking-eyebrow uppercase',
                 linkBase,
                 onPhoto
                   ? 'text-white/90 hover:text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.35)]'

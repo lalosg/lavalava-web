@@ -37,7 +37,7 @@ export function DeliveryIncluded({ t }: Props) {
                   <h3 className="font-sans font-semibold text-lg text-bone mb-1.5 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="font-sans text-sm text-bone/55 leading-relaxed max-w-sm">
+                  <p className="font-sans text-base md:text-body text-bone/55 leading-relaxed max-w-sm">
                     {item.description}
                   </p>
                 </div>

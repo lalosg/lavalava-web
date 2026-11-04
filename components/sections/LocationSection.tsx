@@ -30,7 +30,7 @@ export function LocationSection({ t, locale }: Props) {
           <div className="flex flex-col md:flex-row gap-10">
             {/* Address */}
             <div className="flex flex-col gap-1">
-              <address className="not-italic font-sans text-sm text-ink/65 leading-relaxed">
+              <address className="not-italic font-sans text-base md:text-body text-ink/65 leading-relaxed">
                 {t.location.address}<br />
                 {t.location.city}
               </address>

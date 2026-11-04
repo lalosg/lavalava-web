@@ -29,7 +29,7 @@ export function CoverageGrid({ t }: Props) {
         <RevealOnScroll>
           <p className="eyebrow mb-4">{c.eyebrow}</p>
           <RevealText as="h2" text={c.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-5 max-w-lg" />
-          <p className="font-sans text-base text-ink/65 leading-relaxed max-w-xl mb-12">
+          <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed max-w-xl mb-12">
             {c.intro}
           </p>
         </RevealOnScroll>
@@ -69,7 +69,7 @@ export function CoverageGrid({ t }: Props) {
         {/* Outside the polygon — still worth a message */}
         <RevealOnScroll delay={140}>
           <div className="mt-12 max-w-xl">
-            <p className="font-sans text-sm text-ink/65 leading-relaxed mb-3">
+            <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed mb-3">
               {c.notListed.text}
             </p>
             <a

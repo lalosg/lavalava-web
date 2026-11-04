@@ -38,7 +38,7 @@ export function SpokeCrossLinks({ eyebrow, cards }: Props) {
                 <h2 className="font-fraunces text-2xl text-ink mb-2.5 leading-snug">
                   {card.title}
                 </h2>
-                <p className="font-sans text-sm text-ink/65 leading-relaxed mb-5 max-w-sm">
+                <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed mb-5 max-w-sm">
                   {card.description}
                 </p>
                 <span className="font-sans text-sm font-semibold text-teal-deep group-hover:text-teal-soft transition-colors">

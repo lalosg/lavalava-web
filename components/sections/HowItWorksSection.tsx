@@ -60,7 +60,7 @@ export function HowItWorksSection({ t }: Props) {
                       <h3 className="font-sans font-semibold text-lg text-ink mb-1 leading-snug">
                         {step.title}
                       </h3>
-                      <p className="font-sans text-sm text-ink/65 leading-relaxed max-w-xs">
+                      <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed max-w-xs">
                         {step.description}
                       </p>
                     </div>

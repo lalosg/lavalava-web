@@ -50,7 +50,7 @@ export function HoursBlock({ t }: Props) {
         </RevealOnScroll>
 
         <RevealOnScroll delay={140}>
-          <p className="mt-8 font-sans text-sm text-bone/50 leading-relaxed max-w-md">
+          <p className="mt-8 font-sans text-base md:text-body text-bone/50 leading-relaxed max-w-md">
             {c.note}
           </p>
         </RevealOnScroll>

@@ -18,7 +18,7 @@ export function DeliverySection({ t, locale }: Props) {
         <RevealOnScroll>
           <p className="eyebrow text-teal-soft mb-4">{t.delivery.eyebrow}</p>
           <RevealText as="h2" text={t.delivery.headline} className="font-fraunces text-4xl md:text-5xl text-bone leading-tight mb-6 max-w-sm" />
-          <p className="font-sans text-sm text-bone/50 leading-relaxed mb-10 max-w-md">
+          <p className="font-sans text-base md:text-body text-bone/50 leading-relaxed mb-10 max-w-md">
             {t.delivery.description}
           </p>
         </RevealOnScroll>
@@ -46,7 +46,7 @@ export function DeliverySection({ t, locale }: Props) {
                     <path d="M2 6l3 3 5-5" stroke="#5E7F84" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </span>
-                <span className="font-sans text-sm text-bone/65 leading-relaxed">{benefit}</span>
+                <span className="font-sans text-base md:text-body text-bone/65 leading-relaxed">{benefit}</span>
               </li>
             ))}
           </ul>
@@ -57,7 +57,7 @@ export function DeliverySection({ t, locale }: Props) {
             href={waLink(t.delivery.whatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-7 py-4 bg-teal-deep text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal-deep/90 press"
+            className="inline-flex items-center gap-2 px-7 py-4 bg-teal-deep text-white font-sans font-semibold text-base tracking-wide rounded-full hover:bg-teal-deep/90 press"
           >
             <WhatsAppIcon size={16} />
             {t.delivery.cta}

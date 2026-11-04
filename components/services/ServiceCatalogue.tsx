@@ -33,7 +33,7 @@ export function ServiceCatalogue({ t, locale }: Props) {
           <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-5 max-w-sm">
             {c.headline}
           </h2>
-          <p className="font-sans text-base text-ink/65 leading-relaxed max-w-xl mb-16">
+          <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed max-w-xl mb-16">
             {c.intro}
           </p>
         </RevealOnScroll>
@@ -58,10 +58,10 @@ export function ServiceCatalogue({ t, locale }: Props) {
                     <h3 className="font-fraunces text-2xl md:text-3xl text-ink leading-snug mb-4">
                       {service.name}
                     </h3>
-                    <p className="font-sans text-sm md:text-base text-ink/65 leading-relaxed mb-4">
+                    <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed mb-4">
                       {service.body}
                     </p>
-                    <p className="font-sans text-sm text-ink/65 leading-relaxed mb-6">
+                    <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed mb-6">
                       {service.detail}
                     </p>
                     <p className="font-sans text-xs text-ink/65">

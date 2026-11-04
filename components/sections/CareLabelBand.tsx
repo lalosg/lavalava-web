@@ -35,7 +35,7 @@ export function CareLabelBand({ t }: Props) {
                 text={c.headline}
                 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-6"
               />
-              <p className="font-sans text-base text-ink/65 leading-relaxed">{c.body}</p>
+              <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed">{c.body}</p>
             </RevealOnScroll>
           </div>
 

@@ -74,7 +74,7 @@ export function ReviewsSection({ t, googleReviews }: Props) {
                 </div>
 
                 {/* Text */}
-                <p className="font-sans text-sm text-ink/65 leading-relaxed flex-1">
+                <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed flex-1">
                   &ldquo;{review.text}&rdquo;
                 </p>
 

@@ -40,7 +40,7 @@ export function FaqAccordion({ eyebrow, headline, items, className = 'bg-bone' }
                     </svg>
                   </span>
                 </summary>
-                <p className="font-sans text-sm md:text-base text-ink/65 leading-relaxed pb-6 pr-10 max-w-xl">
+                <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed pb-6 pr-10 max-w-xl">
                   {item.a}
                 </p>
               </details>

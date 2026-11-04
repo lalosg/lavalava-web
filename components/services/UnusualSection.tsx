@@ -26,7 +26,7 @@ export function UnusualSection({ t }: Props) {
           <h2 className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-6 max-w-sm">
             {c.headline}
           </h2>
-          <p className="font-sans text-base md:text-lg text-ink/65 leading-relaxed max-w-2xl mb-8">
+          <p className="font-sans text-body md:text-lead text-ink/65 leading-relaxed max-w-2xl mb-8">
             {c.body}
           </p>
           <a

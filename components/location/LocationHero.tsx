@@ -24,7 +24,7 @@ export function LocationHero({ t }: Props) {
         <RevealOnScroll eager>
           <p className="eyebrow mb-5">{c.eyebrow}</p>
           <RevealText as="h1" eager text={c.headline} className="font-fraunces text-[2.75rem] leading-[1.05] md:text-6xl lg:text-7xl text-ink mb-8 max-w-3xl" />
-          <p className="font-sans text-base md:text-lg text-ink/65 leading-relaxed max-w-xl mb-10">
+          <p className="font-sans text-body md:text-lead text-ink/65 leading-relaxed max-w-xl mb-10">
             {c.lede}
           </p>
         </RevealOnScroll>
@@ -35,7 +35,7 @@ export function LocationHero({ t }: Props) {
               href={BUSINESS.sameAs[1]}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 bg-teal-deep text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-teal-deep/90 press"
+              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 bg-teal-deep text-white font-sans font-semibold text-base tracking-wide rounded-full hover:bg-teal-deep/90 press"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 2C8.69 2 6 4.69 6 8c0 4.25 6 13 6 13s6-8.75 6-13c0-3.31-2.69-6-6-6Z" />

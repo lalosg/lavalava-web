@@ -37,7 +37,7 @@ export function AddressBlock({ t }: Props) {
               {loc.city}
             </address>
 
-            <p className="font-sans text-sm text-ink/65 leading-relaxed mb-8 max-w-sm">
+            <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed mb-8 max-w-sm">
               {c.note}
             </p>
 

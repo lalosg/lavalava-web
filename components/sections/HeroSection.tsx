@@ -113,7 +113,7 @@ export function HeroSection({ t, locale }: Props) {
                 href={waLink(t.hero.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-navy text-white font-sans font-semibold text-sm tracking-wide rounded-full hover:bg-navy/90 press"
+                className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-navy text-white font-sans font-semibold text-base tracking-wide rounded-full hover:bg-navy/90 press"
               >
                 <WhatsAppIcon size={18} />
                 {t.hero.ctaPrimary}

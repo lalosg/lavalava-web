@@ -29,6 +29,14 @@ const config: Config = {
         fraunces: ['var(--font-fraunces)', 'Georgia', 'serif'],
         sans:     ['var(--font-source-sans)', 'system-ui', 'sans-serif'],
       },
+      fontSize: {
+        // Cuerpo estándar del brief: 17px en desktop (16px en móvil vía text-base).
+        // La escala de Tailwind salta de 16 a 18 y 17 es el tamaño que pide el
+        // sistema, así que se define una vez aquí.
+        body: ['1.0625rem', { lineHeight: '1.6' }],
+        // Párrafo lead: 20px desktop.
+        lead: ['1.25rem', { lineHeight: '1.5' }],
+      },
       letterSpacing: {
         eyebrow: '0.20em',
       },

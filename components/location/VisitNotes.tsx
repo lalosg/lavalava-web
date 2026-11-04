@@ -28,7 +28,7 @@ export function VisitNotes({ t }: Props) {
                   <h3 className="font-sans font-semibold text-lg text-ink mb-1.5 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="font-sans text-sm text-ink/65 leading-relaxed max-w-sm">
+                  <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed max-w-sm">
                     {item.description}
                   </p>
                 </div>

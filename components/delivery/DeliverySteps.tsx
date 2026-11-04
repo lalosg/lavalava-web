@@ -15,7 +15,7 @@ export function DeliverySteps({ t }: Props) {
         <RevealOnScroll>
           <p className="eyebrow mb-4">{c.eyebrow}</p>
           <RevealText as="h2" text={c.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-5 max-w-sm" />
-          <p className="font-sans text-base text-ink/65 leading-relaxed max-w-md mb-14">
+          <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed max-w-md mb-14">
             {c.intro}
           </p>
         </RevealOnScroll>
@@ -53,7 +53,7 @@ export function DeliverySteps({ t }: Props) {
                       <h3 className="font-sans font-semibold text-xl text-ink mb-1.5 leading-snug">
                         {step.title}
                       </h3>
-                      <p className="font-sans text-sm md:text-base text-ink/65 leading-relaxed max-w-md">
+                      <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed max-w-md">
                         {step.description}
                       </p>
                     </div>
