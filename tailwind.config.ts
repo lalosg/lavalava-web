@@ -23,6 +23,9 @@ const config: Config = {
         'teal-soft': '#799AA0',   // 5.19:1 on navy      — text on navy surfaces
       },
       fontFamily: {
+        // Display: Canela Web (Commercial Type, licencia web). La clave conserva el
+        // nombre `fraunces` en este paso para que el cambio de fuente sea un diff de
+        // una línea y no uno de 77 archivos. Se renombra cuando se asienten los roles.
         fraunces: ['var(--font-fraunces)', 'Georgia', 'serif'],
         sans:     ['var(--font-source-sans)', 'system-ui', 'sans-serif'],
       },

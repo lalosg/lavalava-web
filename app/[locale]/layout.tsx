@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { Fraunces, Source_Sans_3 } from 'next/font/google'
+import localFont from 'next/font/local'
+import { Source_Sans_3 } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { locales, type Locale } from '@/lib/i18n'
 import { getT, waLink } from '@/lib/translations'
@@ -13,10 +14,29 @@ import '../globals.css'
 // This is the root layout. It lives under [locale] rather than at app/ so that
 // <html lang> can reflect the actual locale — reading it from headers() in a
 // layout at app/ would opt the entire tree out of static generation.
-const fraunces = Fraunces({
-  subsets: ['latin'],
+// Canela Web, licensed from Commercial Type (order 2611-FFCWHZ, web licence).
+// The licence PDFs are deliberately NOT in this repo — they live outside it, and
+// the invoice has no business in a public git history. Only the .woff2 ships.
+//
+// Served through next/font/local rather than the @font-face that came in the
+// package, because next/font adds the content hash, the immutable cache header and
+// — the part that matters — a metrics-adjusted fallback family. That fallback is
+// what keeps CLS at 0 while the webfont loads; a hand-written @font-face would
+// reintroduce the layout shift this project measured away.
+//
+// The CSS variable keeps its old name on purpose: every component already says
+// `font-fraunces`, and renaming 77 usages would bury a one-line font swap inside a
+// diff nobody could review. The Tailwind key is what gets renamed, later, once the
+// typography roles settle.
+const canela = localFont({
+  src: '../fonts/Canela-Regular-Web.woff2',
+  weight: '400',
+  style: 'normal',
   variable: '--font-fraunces',
   display: 'swap',
+  // Georgia is the closest widely-installed serif by proportion; the adjust values
+  // are computed by Next from the real font metrics.
+  fallback: ['Georgia', 'serif'],
 })
 
 const sourceSans3 = Source_Sans_3({
@@ -91,7 +111,7 @@ export default function LocaleLayout({ children, params }: Props) {
   const t = getT(locale)
 
   return (
-    <html lang={locale} className={`${fraunces.variable} ${sourceSans3.variable}`}>
+    <html lang={locale} className={`${canela.variable} ${sourceSans3.variable}`}>
       <head>
         {/* Reveals start at opacity 0 and wait for JS. If the bundle fails to load,
             every section below the hero would stay invisible. @media (scripting: none)
