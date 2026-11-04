@@ -107,7 +107,7 @@ export function Header({ locale }: Props) {
               key={item.href}
               href={item.href}
               className={cn(
-                'font-sans text-sm font-medium tracking-eyebrow uppercase',
+                'font-sans text-sm font-medium tracking-[0.12em] uppercase',
                 linkBase,
                 onPhoto
                   ? 'text-white/90 hover:text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.35)]'
@@ -120,7 +120,7 @@ export function Header({ locale }: Props) {
         </nav>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 text-xs font-semibold tracking-eyebrow">
+          <div className="flex items-center gap-1 text-xs font-semibold tracking-[0.12em]">
             {(['es', 'en'] as const).map((code, i) => (
               <span key={code} className="flex items-center">
                 {i > 0 && (

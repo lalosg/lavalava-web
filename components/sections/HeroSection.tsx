@@ -88,7 +88,7 @@ export function HeroSection({ t, locale }: Props) {
 
             <div className="hero-enter" style={{ animationDelay: '160ms' }}>
               {/* Tier 1: primary headline */}
-              <RevealText as="h1" eager delay={160} text={t.hero.headline} className="font-fraunces text-white leading-[1.04] tracking-tight mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)] text-[4rem] md:text-4xl md:whitespace-nowrap lg:text-5xl" />
+              <RevealText as="h1" eager delay={160} text={t.hero.headline} className="font-fraunces text-white leading-[1.04] mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)] text-[4rem] md:text-4xl md:whitespace-nowrap lg:text-5xl" />
             </div>
 
             <div className="hero-enter" style={{ animationDelay: '240ms' }}>

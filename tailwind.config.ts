@@ -38,6 +38,12 @@ const config: Config = {
         lead: ['1.25rem', { lineHeight: '1.5' }],
       },
       letterSpacing: {
+        // 0.20em, por encima del 0.08-0.14em que el brief marca para eyebrows, y a
+        // propósito: solo lo llevan los rótulos EDITORIALES de sección, que se leen
+        // una vez y para los que la dirección bloqueada pide "wide-tracked uppercase".
+        // Lo de INTERFAZ — nav, toggle de idioma, badges, "tiempo de entrega" — usa
+        // 0.12em, porque esos se escanean para actuar y ahí la regla del brief sí
+        // aplica. No unificar los dos sin decidir cuál de los dos casos se rompe.
         eyebrow: '0.20em',
       },
       animation: {

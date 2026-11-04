@@ -65,7 +65,7 @@ export function ServiceCatalogue({ t, locale }: Props) {
                       {service.detail}
                     </p>
                     <p className="font-sans text-xs text-ink/65">
-                      <span className="uppercase tracking-eyebrow">{c.turnaroundLabel}</span>
+                      <span className="uppercase tracking-[0.12em]">{c.turnaroundLabel}</span>
                       <span className="mx-2 text-ink/65">·</span>
                       <span className="text-ink/70 font-semibold">{service.turnaround}</span>
                     </p>

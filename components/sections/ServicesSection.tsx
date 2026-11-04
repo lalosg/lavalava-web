@@ -77,7 +77,7 @@ export function ServicesSection({ t, locale }: Props) {
                     {item.title}
                   </h3>
                   {item.badge && (
-                    <span className="flex-shrink-0 text-xs font-sans font-semibold tracking-eyebrow text-teal-deep uppercase mt-0.5">
+                    <span className="flex-shrink-0 text-xs font-sans font-semibold tracking-[0.12em] text-teal-deep uppercase mt-0.5">
                       {item.badge}
                     </span>
                   )}
@@ -107,7 +107,7 @@ export function ServicesSection({ t, locale }: Props) {
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-sans font-semibold text-base text-bone">{deliveryService.title}</h3>
                   {deliveryService.badge && (
-                    <span className="text-xs font-sans font-semibold tracking-eyebrow text-teal-deep uppercase">
+                    <span className="text-xs font-sans font-semibold tracking-[0.12em] text-teal-deep uppercase">
                       {deliveryService.badge}
                     </span>
                   )}
