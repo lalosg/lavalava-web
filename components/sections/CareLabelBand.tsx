@@ -45,12 +45,19 @@ export function CareLabelBand({ t }: Props) {
           <RevealOnScroll delay={120}>
             <div className="border border-[var(--line)] bg-bone px-7 py-9 lg:min-w-[24rem]">
               {/* 3 + 2 on a phone. Five columns put "TINTORERÍA", "PLANCHADO" and
-                  "BLANQUEADO" in 70px each, and they ran into one another. */}
+                  "BLANQUEADO" in 70px each, and they ran into one another.
+
+                  These labels sit at 12px, the floor for the whole site. They were
+                  9px, which existed only to make five columns fit — the exact move
+                  the type brief forbids. Apple's own floor is 12px across its entire
+                  homepage, with SF Pro, which is optically cut for small sizes;
+                  Source Sans 3 is not, so 12 is a floor here and not a target.
+                  If a label stops fitting, the answer is fewer columns. */}
               <ul className="grid grid-cols-3 sm:grid-cols-5 gap-x-3 gap-y-7">
                 {c.symbols.map((s) => (
                   <li key={s.kind} className="flex flex-col items-center gap-3.5 text-center">
                     <CareSymbol kind={s.kind as CareKind} size={40} className="text-teal" />
-                    <span className="font-sans text-[9px] leading-tight tracking-eyebrow uppercase text-ink/65">
+                    <span className="font-sans text-xs leading-[1.35] tracking-[0.08em] uppercase text-ink/65">
                       {s.label}
                     </span>
                   </li>

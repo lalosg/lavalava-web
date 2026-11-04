@@ -81,7 +81,7 @@ export function HeroSection({ t, locale }: Props) {
             </div>
 
             <div className="hero-enter" style={{ animationDelay: '80ms' }}>
-              <p className="hidden md:block font-sans text-[10px] font-semibold tracking-[0.2em] uppercase text-white/70 mb-4 [text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
+              <p className="hidden md:block font-sans text-xs font-semibold tracking-[0.2em] uppercase text-white/70 mb-4 [text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
                 {t.hero.eyebrow}
               </p>
             </div>
