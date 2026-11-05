@@ -47,15 +47,57 @@ forward. Editorial numbered section labels (01 — … 08 —).
 - Palette: bone `#F7F4EE` / `#FAF8F3` (surface), ink `#1B2536` (text), navy
   `#16233B` (accent moments: final CTA + one mid-page band), muted sand
   `#E4D8C4`, DESATURATED teal `#5E7F84` (whisper only). Light dominates.
-- Type: **Fraunces** (headings/wordmark), **Source Sans 3** (body). Wide-tracked
-  uppercase eyebrow labels + `NN —` numbers.
+- Type: **Canela Web** (display) + **Source Sans 3** (functional). Wide-tracked
+  uppercase eyebrow labels. The `NN —` numbering was REMOVED in Sep 2026 — see the
+  typography system below; it survives only in the four "Cómo funciona" steps, which
+  are a real sequence.
 - WhatsApp CTA gets slightly more presence (subtle fill) than the otherwise
   quiet outline/text-link components.
 - AI photography = atmosphere/texture only (soft warm light, folded linen, calm
   interiors). NEVER fabricate the real store/staff or fake results/claims.
 
-## Build status (audited against real code, Sep 27 2026)
+## Build status (audited against real code, Nov 5 2026)
 Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
+
+> **Session update — Oct 23 to Nov 5 2026: typography system rebuilt end to end.**
+> Nine commits on `design/canela-display`, merged. Every number below was measured in
+> the rendered page with real CPU/network throttling, not read off the source.
+>
+> **The display face is now Canela Web**, licensed from Commercial Type (web licence,
+> order 2611-FFCWHZ). `app/fonts/Canela-Regular-Web.woff2`, 30.2 KB, 679 glyphs, full
+> Spanish coverage. **The licence PDFs are deliberately OUT of this repo** — they live
+> in `~/Documents/lavalava-licencias/`. Fonts now total 58 KB, down from 64 KB.
+>
+> ⚠️ **Two unlicensed copies were offered before this one and neither shipped.** The
+> first was the desktop TTF from a pirate mirror; the second was that same file
+> subsetted with the name table rewritten to "Lavalava" and the foundry, designer and
+> licence fields emptied. Glyph outlines were byte-identical, which is how it was
+> established. **If a font file appears whose provenance is not documented, check its
+> `name` table before wiring it up.**
+>
+> **Served through `next/font/local`, NOT the @font-face in the vendor package.**
+> next/font adds the content hash, the immutable cache header and a metrics-adjusted
+> fallback family. That fallback is what holds CLS at 0 while the webfont loads.
+>
+> **The CSS variable is still `--font-fraunces` and the Tailwind key is still
+> `fraunces`.** 77 component usages reference it. Renaming them would have buried a
+> one-line font swap inside an unreviewable diff. Rename it when something else is
+> already touching those files, not on its own.
+>
+> **Three bugs that only measuring the rendered page found:**
+> - **The line mask was clipping every descender.** `RevealText` wraps each line in
+>   `overflow:hidden` for the rise animation, and that clip stays. Canela descends to
+>   −0.225em, so the tail of every `g p y q` was cut in all 21 headlines. Fixed with
+>   padding-bottom 0.3em plus an equal negative margin — the clip box grows, layout
+>   does not move. **Do not remove that padding.**
+> - **The service description was a hover overlay on desktop**, unreachable by
+>   keyboard or touch, and the same paragraph sat in the DOM twice.
+> - **The homepage H1 scaled backwards** — 64px mobile, 48px desktop — because an old
+>   `md:whitespace-nowrap` forced one line. Now 44/60/72, matching the spokes.
+>
+> **Final Lighthouse (production build, warm server, real throttling):** performance
+> 99, accessibility 100, best practices 100, SEO 100. LCP 1.6s, CLS 0.00009, TBT
+> ~10ms, zero horizontal overflow on all five pages.
 
 > **Session update — Sep 22-27 2026: all three spokes WRITTEN, prices wired, motion layer built.**
 > The site went from "one real page plus three shells" to four finished pages with a
@@ -299,6 +341,9 @@ both the fallback content and the seed data the POS session imports.
    **Still the top open item.**
 4. **Instagram feed placeholder** — `INSTAGRAM_WIDGET_ID` undefined → six empty squares in
    prod. Needs a Behold.so account or an approved curated-grid fallback.
+4b. **The wordmark is live text, not the logo.** Header and footer render "LAVALAVA"
+   in Canela. Lalo has the final logo and can supply any format; it should be the
+   approved SVG, which is also what the type brief's §12 asks for.
 5. ~~i18n bugs on /en~~ — **DONE.**
 6. ~~Default create-next-app README~~ — **DONE.**
 7. ~~Heading order a11y~~ — **DONE.** Zero heading skips on every page, one h1 each.
@@ -359,6 +404,56 @@ Status as of Sep 27 2026.
     replaces a good page with a blank one), gate on `version`, and alert loudly whenever
     the fallback is used.
 
+## Typography system (settled Nov 2026 — read before changing any size)
+
+Two faces. **Canela is the exception, Source Sans 3 is the default.**
+
+| Role | Face / weight | mobile | desktop |
+|---|---|---|---|
+| Hero H1 | Canela 400 | 44 | 72 |
+| Section H2 | Canela 400 | 36 | 48 |
+| Card / functional heading | Source Sans 600 | 18 | 20 |
+| Lead paragraph | Source Sans 400 | 17 | 20 |
+| **Body** | Source Sans 400 | **16** | **17** (`text-base md:text-body`) |
+| Buttons | Source Sans 600 | 16 | 16 |
+| Navigation + language toggle | Source Sans 600 | 14 | 14 |
+| Secondary text, CTA links | Source Sans 600 | 14 | 14 |
+| Eyebrows | Source Sans 600 | 13 | 13 |
+| **Fine print only** | Source Sans | **12** | **12** |
+
+`body` (17px) and `lead` (20px) are named sizes in `tailwind.config.ts`; Tailwind's
+scale jumps 16 → 18 and the system needs 17.
+
+**Rules that cost real work to establish. Do not undo them:**
+
+1. **12px is for fine print, nothing else.** Copyright, fare disclaimers, "Precio
+   promocional", the two service badges, the five care captions. **Anything read in
+   order to decide or to act has a 14px floor.** Selling copy and CTA links drifted
+   down to 12px twice and had to be lifted out twice.
+   Reference, measured: apple.com never goes below 12px at any width — and it does
+   that with SF Pro, which is optically cut for small sizes. Source Sans 3 is not.
+2. **Canela never below 24px**, and never in navigation, buttons, form fields, prices
+   or compact UI. The two wordmarks (header, footer) are the sole exception: they are
+   a brand asset, not a heading, and both carry a comment saying so.
+3. **Prices are Source Sans 600 with tabular figures.** Never the display face. A
+   price is read, compared and acted on; recognition beats expression.
+4. **Tracking is decided per face and per job, not globally:**
+   - Canela: **0** on headlines, 0.08em on the wordmark. No negative tracking — it was
+     calibrated for Fraunces, which is a more compact face.
+   - Source Sans interface (nav, toggle, badges, "tiempo de entrega"): **0.12em**
+   - Source Sans editorial (the 27 `.eyebrow` section labels): **0.20em**, above the
+     brief's range on purpose, because the locked design direction asks for
+     wide-tracked eyebrows and nothing is near its container edge.
+   The obvious future "cleanup" is to unify those two values. It would break one.
+5. **Never animate opacity on above-the-fold content** — an element at opacity 0 does
+   not count as painted for LCP. This cost 3 Lighthouse points before it was found.
+6. **`.reveal-text__line` keeps its `padding-bottom: 0.3em` / `margin-bottom: -0.3em`.**
+   Without it the mask clips every descender.
+
+**Source brief:** the typography direction came from a document Lalo supplied. Where
+it conflicted with the locked design direction in this file, the brand direction won,
+and each of those calls is recorded in the relevant commit.
+
 ## Motion rules (do not undo these)
 - **No `motion`/framer dependency.** Every reveal is a CSS transition driven by
   IntersectionObserver in `components/motion/`. That kept ~34 kB out of an 87.3 kB shared
@@ -374,6 +469,69 @@ Status as of Sep 27 2026.
   visible with no JS (`@media (scripting: none)` + the `<noscript>` block in the layout).
 - **`teal-deep` / `teal-soft` are TEXT-ONLY tokens.** The brand teal fails AA for normal
   text on both bone and navy. Don't "simplify" them back to `--teal`.
+
+## Next session: front-end design — where it stands
+
+Typography is **closed**. The open thread is the one Lalo named: the site reads flat
+and static, and the goal is award-level, not template-level.
+
+**The diagnosis, measured rather than guessed:**
+```
+9 homepage sections  ->  9 times the same shape (eyebrow + h2 + content)
+27 headlines         ->  19 at exactly the same size
+29 components        ->  animate on enter ("pop")
+ 3 components        ->  respond continuously to scroll
+```
+The flatness is **structural and in the animation model**, not a shortage of
+carousels. Parallax, carousels and widgets were proposed and only one of them —
+continuous scroll-linked motion — addresses the actual cause. Carousels would also
+hide content, which this site cannot afford.
+
+**The four moves identified, in order of leverage:**
+1. Break the structural repetition — 2-3 sections with a genuinely different shape.
+2. Typographic contrast — one or two genuinely large moments. 19 headlines at one
+   size is a decision made once and repeated.
+3. Continuous scroll choreography on ONE sequence, not effects everywhere.
+4. Art direction on the photography. All six images share one temperature and one
+   composition, which flattens everything. **This is Lalo's to supply.**
+
+**Settled with Lalo and not to be re-litigated:**
+- Imagery is AI-generated, including video. Real photography is off the table.
+  Atmosphere and texture only — never a fabricated storefront, staff or customer.
+- The logo exists and Lalo can supply any format. The header and footer still render
+  the wordmark as live text and should use the approved SVG.
+- **The hero's job is to move people emotionally.** Information and SEO can live
+  further down the page.
+- The language switcher stays as text, not flags. Lalo verified aesop.com and
+  loropiana.com both use text.
+
+**Hero direction, half-decided.** A hybrid was agreed in principle: a typographic
+opening, then the garment transforming — wrinkled to pressed — driven by scroll. The
+production specs were worked out and are the deliverable Lalo owes:
+- 3s at 30fps (~90 frames maps to ~100vh of scroll), no audio
+- **1920x1080** for landscape and **1080x2160** for portrait — 9:16 crops 18-20% of
+  the width on modern phones, 9:18 crops 7-9%
+- Subject inside the central 75% on both axes
+- Deliver the highest-quality master per format; encoding is a build-side decision
+
+**One technique found late and worth starting from:** the 21st.dev parallax component
+is NOT video. It is three stacked WebP images, 188 KB total, each translated on Y at a
+different rate by scroll — back layer moves most, front moves least, transform only.
+That is 1/20 the weight of a scrubbed video with none of the seek problems. It argues
+for generating **three depth-separated layers** rather than a transformation clip, and
+the effect needs no GSAP: the existing rAF in `HeroParallax` already does translateY
+per layer.
+
+**Still true and still blocking a launch, unchanged since September:** the Places API
+key rejects lavalava.vip, neither env var is set in Vercel, `og-image.jpg` and the
+favicon are missing, `delivery.jpg` is missing, and the old Drupal site still serves
+lavalava.vip with the old prices.
+
+**Vercel preview deployments fail on branches.** `main` deploys fine; a push to
+`design/canela-display` failed in 21 seconds — too fast to have compiled, and a clean
+clone of that branch builds without error. Unresolved; the logs need Lalo's Vercel
+session (`npx vercel inspect <dpl> --logs`). Branch testing meanwhile is done over
+the LAN: `npx next start -H 0.0.0.0` and open the Mac's IP from the phone.
 
 ## Working rules
 - Verify mobile rendering + Core Web Vitals as you go (87% of traffic is mobile;
