@@ -321,11 +321,35 @@ button:hover > .arrow-slide {
    — contenido escondido, que es peor que el movimiento que se quería evitar.
    Así que aquí se deshace el apilado entero y queda una lista vertical normal: las
    fotos recuperan su proporción, el texto baja de la imagen y nadie pierde nada. */
+/* ── Secuencia de servicios: reparto vertical en móvil ───────────────────────
+   Se mide de abajo hacia arriba, que es como se decidió: primero el bloque navy
+   con la descripción, que nunca debe cortarse; luego la imagen a su proporción
+   3:4 completa; y lo que sobra arriba es para el eyebrow y el titular.
+
+   El titular se dimensiona con clamp sobre ese sobrante en vh, así que encoge en
+   pantallas cortas en vez de cortarse. En un iPhone 14 cabe a 2.6rem (más grande
+   que los 36px de antes); en un SE baja solo hasta donde siga siendo legible.
+
+   La imagen lleva un tope de altura que únicamente muerde en pantallas muy cortas
+   — un iPhone SE necesita 102px más de los que tiene, así que ahí la foto cede un
+   poco en lugar de empujar al titular fuera de la pantalla. */
+@media (max-width: 767px) {
+  .svc-deck  { height: calc(100vw * 4 / 3 + 7.5rem); max-height: calc(100svh - 64px - 7rem); }
+  .svc-media { max-height: calc(100svh - 64px - 7.5rem - 7rem); }
+  .svc-counter { bottom: calc(7.5rem + 1.4rem); }
+  .svc-headline {
+    font-size: clamp(1.4rem, 4.6vh, 2.6rem);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .svc-track  { height: auto !important; width: auto; left: auto; transform: none; }
   .svc-stage  { position: static; height: auto; overflow: visible; }
   .svc-grid   { display: grid; gap: 2.5rem; height: auto; }
   .svc-card   { position: relative; inset: auto; opacity: 1 !important; padding-top: 0; }
+  .svc-deck   { height: auto !important; max-height: none; display: grid; gap: 2.5rem; }
+  .svc-media  { max-height: none; }
+  .svc-head   { display: block; padding-bottom: 0; }
   .svc-counter { display: none; }
 }
 

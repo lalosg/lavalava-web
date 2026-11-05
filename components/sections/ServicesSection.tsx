@@ -27,12 +27,22 @@ export function ServicesSection({ t, locale }: Props) {
     <section className="bg-bone py-20 section-px">
       <div className="max-w-6xl mx-auto">
 
-        <RevealOnScroll>
-          <p className="eyebrow mb-4">{t.services.eyebrow}</p>
-          <RevealText as="h2" text={t.services.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 max-w-sm" />
-        </RevealOnScroll>
-
-        <ServicesShowcase t={t} images={serviceImages} />
+        {/* El encabezado se pasa al showcase: en móvil vive dentro del escenario
+            fijo, para quedarse visible mientras la secuencia cambia debajo. */}
+        <ServicesShowcase
+          t={t}
+          images={serviceImages}
+          header={
+            <RevealOnScroll>
+              <p className="eyebrow mb-3 md:mb-4">{t.services.eyebrow}</p>
+              <RevealText
+                as="h2"
+                text={t.services.headline}
+                className="svc-headline font-fraunces text-ink leading-[1.12] md:text-5xl md:leading-tight md:mb-12 max-w-sm"
+              />
+            </RevealOnScroll>
+          }
+        />
 
         {/* Servicio a domicilio — full-width navy feature */}
         {deliveryService && (

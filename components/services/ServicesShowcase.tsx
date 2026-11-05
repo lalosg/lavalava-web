@@ -8,6 +8,9 @@ import type { Translations } from '@/lib/translations'
 interface Props {
   t: Translations
   images: string[]
+  /** Eyebrow + headline. They live inside the pinned stage on a phone so they stay
+   *  visible while the sequence changes under them, and above the grid from md. */
+  header: React.ReactNode
 }
 
 /** How much scroll each service costs, as a fraction of the viewport. */
@@ -30,7 +33,7 @@ const SCROLL_PER_SERVICE = 0.7
  * passes. Intercepting scroll to animate it feels broken on a phone, and if the
  * reader keeps going they leave — they are never trapped.
  */
-export function ServicesShowcase({ t, images }: Props) {
+export function ServicesShowcase({ t, images, header }: Props) {
   const services = t.services.items.slice(0, 6)
   const trackRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<(HTMLElement | null)[]>([])
@@ -111,23 +114,28 @@ export function ServicesShowcase({ t, images }: Props) {
       style={{ height: `calc(100svh + ${(services.length - 1) * SCROLL_PER_SERVICE * 100}svh)` }}
     >
       {/* The stage: pinned on a phone, dissolved back into normal flow from md. */}
-      <div className="svc-stage sticky top-0 h-[100svh] overflow-hidden md:static md:h-auto md:overflow-visible">
-        <div className="svc-grid h-full md:grid md:grid-cols-3 md:gap-5">
+      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col pt-16 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
+
+        {/* Lo que sobre tras reservar imagen y descripción. El titular se dimensiona
+            con clamp sobre esa sobra, así que encoge en lugar de cortarse. */}
+        <div className="svc-head flex-1 min-h-0 flex flex-col justify-end px-4 pb-5 md:block md:px-0 md:pb-0">
+          {header}
+        </div>
+
+        <div className="svc-deck relative flex-none md:static md:grid md:grid-cols-3 md:gap-5">
           {services.map((item, i) => (
             <article
               key={item.title}
               ref={(el) => { cardsRef.current[i] = el }}
               // Stacked and faded on mobile; an ordinary grid cell from md.
               className={cn(
-                // En móvil: columna con la imagen arriba y el texto debajo, y pt-16
-                // para librar el header fijo. Desde md vuelve a ser celda de rejilla.
-                'svc-card absolute inset-0 flex flex-col pt-16 md:block md:relative md:inset-auto md:pt-0 md:opacity-100',
+                'svc-card absolute inset-0 flex flex-col md:block md:relative md:inset-auto md:opacity-100',
                 // Before hydration every card would otherwise be at full opacity and
                 // they would all show at once. The first is visible, the rest wait.
                 i === 0 ? 'opacity-100' : 'opacity-0 md:opacity-100',
               )}
             >
-              <div className="svc-media relative w-full aspect-[3/4] overflow-hidden md:aspect-[3/4]">
+              <div className="svc-media relative w-full flex-none aspect-[3/4] overflow-hidden md:aspect-[3/4]">
                 <Image
                   src={images[i]}
                   alt={item.title}
@@ -139,27 +147,33 @@ export function ServicesShowcase({ t, images }: Props) {
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1280px) 30vw, 260px"
                 />
-              </div>
+                {/* Degradado solo bajo el título, para que el blanco se lea sobre
+                    cualquier foto sin oscurecer la composición entera. */}
+                <div
+                  className="absolute inset-x-0 bottom-0 h-32 md:hidden bg-[linear-gradient(to_top,rgba(22,35,59,0.55),rgba(22,35,59,0))]"
+                  aria-hidden="true"
+                />
 
               {/* Title: loose on the photograph below md, under it from md. */}
               <h3
                 className={cn(
-                  'svc-title font-fraunces text-[1.75rem] leading-[1.15] text-ink mt-6 mb-2 px-4',
-                  'md:font-sans md:font-semibold md:text-xl md:leading-snug md:mt-3 md:mb-1 md:px-0',
+                  'svc-title absolute left-4 right-4 bottom-4 z-10 font-fraunces text-[1.9rem] leading-[1.1] text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.45)]',
+                  'md:static md:text-ink md:[text-shadow:none] md:font-sans md:font-semibold md:text-xl md:leading-snug md:mt-3 md:mb-1',
                 )}
               >
-                {item.title}
-              </h3>
+                  {item.title}
+                </h3>
+              </div>
 
               {/* Description: a navy panel anchored to the foot of the photograph on a
                   phone, plain body copy from md. */}
               <div
                 className={cn(
-                  'svc-desc px-4',
-                  'md:p-0',
+                  'svc-desc flex-1 bg-navy flex items-center pl-4 pr-20 py-5',
+                  'md:block md:flex-none md:bg-transparent md:p-0',
                 )}
               >
-                <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed">
+                <p className="font-sans text-base md:text-body text-bone/85 md:text-ink/65 leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -171,13 +185,13 @@ export function ServicesShowcase({ t, images }: Props) {
             targets and clutter the composition, and nobody arrives wanting service
             four. What a pinned section actually owes the reader is "how much is
             left", which is a question about anxiety, not navigation. */}
-        <div className="svc-counter absolute left-4 bottom-8 md:hidden flex items-center gap-3" aria-hidden="true">
-          <span className="font-sans text-xs font-semibold tracking-[0.12em] text-ink/65 tabular-nums">
+        <div className="svc-counter absolute right-4 z-10 md:hidden flex items-center gap-3" aria-hidden="true">
+          <span className="font-sans text-xs font-semibold tracking-[0.12em] text-white/85 tabular-nums [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
             {String(active + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
           </span>
-          <span className="block h-px w-16 bg-ink/20 overflow-hidden">
+          <span className="block h-px w-12 bg-white/35 overflow-hidden">
             <span
-              className="block h-full bg-ink/70 transition-[width] duration-500 [transition-timing-function:var(--ease)]"
+              className="block h-full bg-white/90 transition-[width] duration-500 [transition-timing-function:var(--ease)]"
               style={{ width: `${((active + 1) / services.length) * 100}%` }}
             />
           </span>
