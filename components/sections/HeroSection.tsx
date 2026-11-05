@@ -87,8 +87,14 @@ export function HeroSection({ t, locale }: Props) {
             </div>
 
             <div className="hero-enter" style={{ animationDelay: '160ms' }}>
-              {/* Tier 1: primary headline */}
-              <RevealText as="h1" eager delay={160} text={t.hero.headline} className="font-fraunces text-white leading-[1.04] mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)] text-[4rem] md:text-4xl md:whitespace-nowrap lg:text-5xl" />
+              {/* Tier 1: primary headline.
+                  44 / 60 / 72px, the same ramp as the three spoke heroes. It used to
+                  run 64 / 36 / 48 — larger on a phone than on a desktop — because an
+                  older three-tier hero used md:whitespace-nowrap to force the line to
+                  fit, and the size had to shrink to allow it. RevealText already
+                  splits the headline on its newline, so nothing needs the nowrap, and
+                  the brief puts a hero H1 at 38-44px mobile and 64-80px desktop. */}
+              <RevealText as="h1" eager delay={160} text={t.hero.headline} className="font-fraunces text-white leading-[1.04] mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.2)] text-[2.75rem] md:text-6xl lg:text-7xl" />
             </div>
 
             <div className="hero-enter" style={{ animationDelay: '240ms' }}>
