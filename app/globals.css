@@ -315,6 +315,39 @@ button:hover > .arrow-slide {
   }
 }
 
+/* ── Secuencia de servicios con movimiento reducido ──────────────────────────
+   En móvil la secuencia ES la maquetación: seis tarjetas apiladas en el mismo sitio,
+   y el scroll decide cuál se ve. Apagar solo la animación dejaba cinco en opacity 0
+   — contenido escondido, que es peor que el movimiento que se quería evitar.
+   Así que aquí se deshace el apilado entero y queda una lista vertical normal: las
+   fotos recuperan su proporción, el texto baja de la imagen y nadie pierde nada. */
+@media (prefers-reduced-motion: reduce) {
+  .svc-track  { height: auto !important; width: auto; left: auto; transform: none; }
+  .svc-stage  { position: static; height: auto; overflow: visible; }
+  .svc-grid   { display: grid; gap: 2rem; height: auto; }
+  .svc-card   { position: relative; inset: auto; opacity: 1 !important; }
+  .svc-media  { position: relative; inset: auto; aspect-ratio: 3 / 4; overflow: hidden; }
+  .svc-scrim  { display: none; }
+  .svc-title  {
+    position: static;
+    margin: 0.75rem 0 0.25rem;
+    font-family: var(--font-source-sans), system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.375;
+    color: var(--ink);
+    text-shadow: none;
+  }
+  .svc-desc {
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    padding: 0;
+  }
+  .svc-desc p { color: rgb(27 37 54 / 0.65); }
+  .svc-counter { display: none; }
+}
+
 /* ── Reduced motion ─────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

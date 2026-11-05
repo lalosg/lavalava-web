@@ -57,7 +57,6 @@ export const es = {
       {
         title:       'Lavandería por kilo',
         description: 'Lavado y secado profesional. Listo en 24 horas.',
-        badge:       'Más popular',
       },
       {
         title:       'Tintorería',
@@ -82,7 +81,6 @@ export const es = {
       {
         title:       'Servicio a domicilio',
         description: 'Recogemos y entregamos en tu puerta, con tarifa fija en 24 colonias del Distrito Tec.',
-        badge:       'Premium',
       },
     ],
     cta: 'Ver todos los servicios →',
