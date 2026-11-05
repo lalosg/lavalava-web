@@ -44,26 +44,27 @@ export function ServicesSection({ t, locale }: Props) {
           }
         />
 
-        {/* Servicio a domicilio — full-width navy feature */}
+        {/* Servicio a domicilio — en móvil es una cinta a sangre pegada al pie del
+            panel sand: cierra la secuencia y la separa de lo que sigue sin dejar
+            un marco bone de por medio. Desde md vuelve a ser un bloque dentro de
+            la retícula, con su respiro de 1.25rem. */}
         {deliveryService && (
-          <RevealOnScroll delay={80}>
-            <div className="mt-5 bg-navy p-6 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                  <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="font-sans font-semibold text-lg text-bone">{deliveryService.title}</h3>
-                </div>
-                <p className="font-sans text-sm text-bone/50 leading-relaxed">
-                  {deliveryService.description}
-                </p>
-              </div>
+          <div className="relative w-screen left-1/2 -translate-x-1/2 bg-navy px-5 py-6 flex items-center gap-4 md:w-auto md:left-auto md:translate-x-0 md:mt-5 md:p-6">
+            <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
             </div>
-          </RevealOnScroll>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-sans font-semibold text-lg text-bone">{deliveryService.title}</h3>
+              </div>
+              <p className="font-sans text-sm text-bone/50 leading-relaxed">
+                {deliveryService.description}
+              </p>
+              </div>
+          </div>
         )}
 
         <RevealOnScroll delay={120}>
