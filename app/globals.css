@@ -95,13 +95,24 @@ body {
    Each line is its own overflow-hidden window; the inner span starts pushed
    fully below it and slides up. The text is always in the DOM and always
    selectable — only its position is animated, never its presence. */
+/* El mask que hace posible la subida de línea también recorta lo que sobresale por
+   debajo de la caja. Canela baja a -0.225em en g/p/y/q y su envolvente segura
+   (winDescent) es 0.270em, así que con interlineados de titular (1.04-1.15) la cola
+   de la "g" caía fuera y se cortaba — y seguía cortada después de la animación,
+   porque el overflow:hidden no se va.
+   El relleno inferior agranda SOLO la zona de recorte; el margen negativo lo
+   devuelve, así que la maquetación no se mueve ni un píxel. */
 .reveal-text__line {
   display: block;
   overflow: hidden;
+  padding-bottom: 0.3em;
+  margin-bottom: -0.3em;
 }
 .reveal-text__inner {
   display: block;
-  transform: translateY(105%);
+  /* 125%, no 105%: la caja de recorte creció 0.3em con el relleno y el texto tiene
+     que partir por debajo de ella entera. */
+  transform: translateY(125%);
   transition: transform var(--dur-slow) var(--ease);
 }
 .reveal-text.is-visible .reveal-text__inner {
@@ -151,7 +162,7 @@ body {
   to   { transform: translateY(0); }
 }
 @keyframes hero-line-rise {
-  from { transform: translateY(105%); }
+  from { transform: translateY(125%); }
   to   { transform: translateY(0); }
 }
 @keyframes hero-settle {
