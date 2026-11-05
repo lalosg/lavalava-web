@@ -65,7 +65,7 @@ export function ServicesSection({ t, locale }: Props) {
                   {/* Hover overlay with description — desktop only */}
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 via-navy/40 to-transparent px-4 pt-10 pb-4
                                   opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block">
-                    <p className="font-sans text-xs text-white/85 leading-relaxed">
+                    <p className="font-sans text-sm text-white/85 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -73,7 +73,7 @@ export function ServicesSection({ t, locale }: Props) {
 
                 {/* Label */}
                 <div className="flex items-start gap-2 mb-1">
-                  <h3 className="font-sans font-semibold text-base text-ink leading-snug">
+                  <h3 className="font-sans font-semibold text-lg md:text-xl text-ink leading-snug">
                     {item.title}
                   </h3>
                   {item.badge && (
@@ -84,7 +84,7 @@ export function ServicesSection({ t, locale }: Props) {
                 </div>
 
                 {/* Description — mobile always visible, desktop on hover (overlay above) */}
-                <p className="font-sans text-xs text-ink/65 leading-relaxed md:hidden">
+                <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed md:hidden">
                   {item.description}
                 </p>
 
@@ -105,14 +105,14 @@ export function ServicesSection({ t, locale }: Props) {
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className="font-sans font-semibold text-base text-bone">{deliveryService.title}</h3>
+                  <h3 className="font-sans font-semibold text-lg text-bone">{deliveryService.title}</h3>
                   {deliveryService.badge && (
                     <span className="text-xs font-sans font-semibold tracking-[0.12em] text-teal-deep uppercase">
                       {deliveryService.badge}
                     </span>
                   )}
                 </div>
-                <p className="font-sans text-xs text-bone/50 leading-relaxed">
+                <p className="font-sans text-sm text-bone/50 leading-relaxed">
                   {deliveryService.description}
                 </p>
               </div>
@@ -128,7 +128,7 @@ export function ServicesSection({ t, locale }: Props) {
             soft-navigation path to the same pages. */}
           <a
             href={localePath(locale, '/servicios')}
-            className="tap inline-block mt-8 font-sans text-xs text-ink/65 hover:text-ink/90 transition-colors"
+            className="tap inline-block mt-8 font-sans text-sm font-semibold text-ink/65 hover:text-ink/90 transition-colors"
           >
             <ArrowLabel>{t.services.cta}</ArrowLabel>
           </a>

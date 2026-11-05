@@ -61,14 +61,14 @@ export function Footer({ locale }: Props) {
             <div className="flex items-center gap-3 mt-2">
               <Link
                 href="/es"
-                className={`tap ${locale === 'es' ? 'text-white/80 text-xs font-semibold' : 'text-white/50 text-xs font-semibold hover:text-white/60 transition-colors'}`}
+                className={`tap ${locale === 'es' ? 'text-white/80 text-sm font-semibold' : 'text-white/50 text-sm font-semibold hover:text-white/60 transition-colors'}`}
               >
                 ES
               </Link>
               <span className="text-white/50">·</span>
               <Link
                 href="/en"
-                className={`tap ${locale === 'en' ? 'text-white/80 text-xs font-semibold' : 'text-white/50 text-xs font-semibold hover:text-white/60 transition-colors'}`}
+                className={`tap ${locale === 'en' ? 'text-white/80 text-sm font-semibold' : 'text-white/50 text-sm font-semibold hover:text-white/60 transition-colors'}`}
               >
                 EN
               </Link>

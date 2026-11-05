@@ -85,7 +85,7 @@ export function ReviewsSection({ t, googleReviews }: Props) {
                       {review.name[0]}
                     </span>
                   </div>
-                  <span className="font-sans text-xs font-semibold text-ink/65">{review.name}</span>
+                  <span className="font-sans text-sm font-semibold text-ink/65">{review.name}</span>
                 </div>
               </div>
             ))}
@@ -100,7 +100,7 @@ export function ReviewsSection({ t, googleReviews }: Props) {
               href={waLink(t.reviews.feedbackMessage)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 border border-bone/20 text-bone/70 font-sans text-xs font-semibold tracking-eyebrow uppercase rounded-full hover:border-bone/40 hover:text-bone/90 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-bone/20 text-bone/70 font-sans text-sm font-semibold tracking-[0.12em] uppercase rounded-full hover:border-bone/40 hover:text-bone/90 transition-colors"
             >
               <WhatsAppIcon size={14} />
               WhatsApp

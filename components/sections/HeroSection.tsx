@@ -137,7 +137,7 @@ export function HeroSection({ t, locale }: Props) {
         {/* Tier 3: SEO/AEO stripe — full-bleed, pinned to very bottom */}
         <div className="hero-enter" style={{ animationDelay: '380ms' }}>
           <div className="w-full bg-navy/60 backdrop-blur-[3px] py-3 md:py-4 px-4 md:px-12">
-            <p className="max-w-6xl mx-auto font-sans text-white/85 text-sm md:text-xs leading-relaxed">
+            <p className="max-w-6xl mx-auto font-sans text-white/85 text-sm leading-relaxed">
               {t.hero.subheadTertiary}
             </p>
           </div>

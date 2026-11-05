@@ -34,7 +34,7 @@ export function LocationSection({ t, locale }: Props) {
                 {t.location.address}<br />
                 {t.location.city}
               </address>
-              <p className="font-sans text-xs text-teal-soft mt-1">{t.location.nearby}</p>
+              <p className="font-sans text-sm text-teal-soft mt-1">{t.location.nearby}</p>
               <a
                 href="https://share.google/2JPAcqEaTyrn6Dl3r"
                 target="_blank"
@@ -50,7 +50,7 @@ export function LocationSection({ t, locale }: Props) {
                 soft-navigation path to the same pages. */}
               <a
                 href={localePath(locale, '/ubicacion')}
-                className="tap mt-2 font-sans text-xs text-ink/65 hover:text-ink/90 transition-colors"
+                className="tap mt-2 font-sans text-sm font-semibold text-ink/65 hover:text-ink/90 transition-colors"
               >
                 <ArrowLabel>{t.location.moreInfo}</ArrowLabel>
               </a>

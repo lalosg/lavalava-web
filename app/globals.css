@@ -217,6 +217,16 @@ button:hover > .arrow-slide {
   outline-color: var(--teal-soft);
 }
 
+/* ── Suelo tipográfico ───────────────────────────────────────────────────────
+   12px es el mínimo del sitio y está reservado a letra pequeña de verdad: el
+   copyright y los avisos de tarifas. NO es un tamaño para texto que vende, para
+   descripciones de servicio ni para enlaces de llamada a la acción — esos tres
+   acabaron ahí una vez y había que subirlos de nuevo. Si algo se lee para decidir
+   o para actuar, su suelo son 14px.
+   Referencia medida: apple.com nunca baja de 12px en ningún ancho, y lo usa para
+   texto legal y etiquetas, con SF Pro, que está dibujada para tamaños pequeños.
+   Source Sans 3 no lo está. */
+
 /* ── Tap targets ─────────────────────────────────────────────────────────────
    Several standalone links render 16-20px tall — the language toggles are 18x16 —
    which is under the 24x24 CSS px floor in WCAG 2.2 SC 2.5.8 and simply hard to hit

@@ -120,7 +120,7 @@ export function Header({ locale }: Props) {
         </nav>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 text-xs font-semibold tracking-[0.12em]">
+          <div className="flex items-center gap-1 text-sm font-semibold tracking-[0.12em]">
             {(['es', 'en'] as const).map((code, i) => (
               <span key={code} className="flex items-center">
                 {i > 0 && (

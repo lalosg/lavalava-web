@@ -69,7 +69,7 @@ export function DeliverySection({ t, locale }: Props) {
             soft-navigation path to the same pages. */}
           <a
             href={localePath(locale, '/a-domicilio')}
-            className="tap block mt-5 font-sans text-xs text-bone/50 hover:text-bone/70 transition-colors"
+            className="tap block mt-5 font-sans text-sm font-semibold text-bone/50 hover:text-bone/70 transition-colors"
           >
             <ArrowLabel>{t.delivery.learnMore}</ArrowLabel>
           </a>
