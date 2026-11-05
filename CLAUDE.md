@@ -59,6 +59,83 @@ forward. Editorial numbered section labels (01 — … 08 —).
 ## Build status (audited against real code, Nov 5 2026)
 Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 
+> **Session update — Nov 5 2026: the services block is a pinned scroll sequence on phones.**
+> Five commits on `feat/services-scroll-mobile`, merged. This is the first of the four
+> "front-end design" moves below — #3, continuous scroll choreography on ONE sequence.
+> Every geometry number here was read from the rendered page at six viewport heights, not
+> from the source.
+>
+> **What it is.** Below `md`, the six services become one full-height stage that pins while
+> the page scrolls past it, crossfading photograph to photograph. **From `md` the 3×2 grid
+> is completely untouched** — Lalo's explicit constraint. `components/services/ServicesShowcase.tsx`.
+>
+> **ONE set of markup serves both breakpoints**, switched with responsive classes: each card
+> is `absolute inset-0` on mobile and a `relative` grid cell from md. The alternative — a
+> grid and a sequence side by side, each hidden at the other's breakpoint — would put all
+> six titles and descriptions in the DOM twice, which is the duplication removed from these
+> very cards in the typography session and which an AEO-first page cannot afford.
+>
+> **Sticky with reserved height, NOT scroll-jacking.** The page scrolls at the speed the
+> thumb asks for, with its own momentum; the sequence just holds still while it passes. The
+> track reserves `100svh + (n-1) × 0.7 × 100svh`. Opacity is written straight to the DOM
+> nodes in a rAF, never through React state — six cards re-rendering per frame is how a
+> smooth page becomes a janky one. Only the counter goes through state, and only when the
+> index actually changes.
+>
+> **The mobile stage is measured BOTTOM-UP, and that order is the design:** first the sand
+> panel that must never clip the description, then the photograph at its full 3:4, and
+> whatever is left at the top belongs to the eyebrow and the headline. The headline is sized
+> with `clamp()` over that remainder in `vh`, so on a short screen it **shrinks instead of
+> being cut**. The allocation lives in `.svc-*` in `globals.css`, not in Tailwind classes —
+> declaration order matters here and arbitrary values cannot control it.
+>
+> **The reserve constant is load-bearing: `8.5rem`.** It must be ≥ eyebrow (19.5) + its
+> margin (12) + two headline lines at 1.12× + padding (20). At 6rem the block was 35px short
+> and `justify-end` pushed the overflow **upward, behind the 66px header** — the eyebrow
+> "SERVICIOS" disappeared on any phone showing its URL bar, which is why it looked fine at
+> 844 and broken at 700. If the headline cap (`2.3rem`) or the eyebrow size changes, redo
+> that sum. Measured pinned at 667/700/750/800/844/932: the eyebrow clears the header by
+> 23–36px in all six.
+>
+> **Deliberate choices, each made against an alternative:**
+> - **Progress, not jump navigation.** `01 / 06` plus a hairline, top-right **inside the
+>   photograph** (it must be inside `.svc-deck`, or `top-4` resolves against the pinned
+>   stage and lands behind the menu). Six dots are tiny targets and clutter the
+>   composition, and nobody arrives wanting service four. What a pinned section owes the
+>   reader is "how much is left" — a question about anxiety, not navigation.
+> - **The description panel is `sand`, not navy.** `bg-navy` is used 18× and the homepage
+>   already carries four navy bands; the delivery ribbon directly below is one of them, and
+>   two navy bands touching read as a single block. Measured: sand gives 11.15× the
+>   luminance difference against navy and carries `ink/80` at 6.4:1. `ink` was rejected at
+>   1.02× (indistinguishable); `teal` as a surface fails AA with every text colour.
+> - **Servicio a domicilio is a full-bleed ribbon on mobile**, welded to the foot of the
+>   sand panel (gap measured 0) and edge to edge, using the same `w-screen left-1/2
+>   -translate-x-1/2` the track uses — document stays at 390, no horizontal overflow. Its
+>   `RevealOnScroll` was REMOVED: the wrapper's 20px travel opened a bone seam under the
+>   panel on the way in, and a band welded to something must not slide into place. From md
+>   it returns to the 1152px column with its 20px gap.
+> - **Reduced motion unwinds the stacking entirely** (`.svc-card { position: relative;
+>   opacity: 1 !important }` etc.). Simply disabling the animation left five of six cards
+>   at `opacity: 0`, because here the sequence *is* the layout. Verified 6/6 visible.
+>
+> **Verified:** 99 performance / 100 a11y / 100 BP / 100 SEO, LCP 1.6s, CLS 0.00009, zero
+> horizontal overflow; desktop cards still 371px.
+>
+> ⚠️ **`next start` does not rebuild CSS.** LAN testing runs a production server, so a
+> `globals.css` edit is invisible until `npx next build` runs again. A fix was reported as
+> landed when the phone was still being served the previous build's stylesheet. **Confirm a
+> CSS change by curling the served `/_next/static/css/*.css`, not by reading the source.**
+>
+> **Still open on this component** (Lalo: "todavía hay mejoras que aplicar"):
+> - The service images are **3:4 and lose 38–40% to the crop** at full bleed. **9:16
+>   masters would lose ~20%** — this is the single biggest visual win available here and
+>   it is an asset Lalo owes.
+> - The scroll rhythm (`SCROLL_PER_SERVICE = 0.7`) and the white title's size over the
+>   photograph have never been tuned against a real thumb, only measured.
+> - `text-bone/50` in the delivery ribbon looks washed out on the device; it is at the
+>   documented floor but worth re-examining at ribbon width.
+> - The desktop grid has had none of this attention and is still the original 3×2.
+
 > **Session update — Oct 23 to Nov 5 2026: typography system rebuilt end to end.**
 > Nine commits on `design/canela-display`, merged. Every number below was measured in
 > the rendered page with real CPU/network throttling, not read off the source.
@@ -362,6 +439,8 @@ question, but not sourced from anything):
 ## Files still needed from Lalo
 - `public/images/delivery.jpg` — the pickup/delivery photo. `DeliverySection` still renders
   the striped "FOTO — recogida a domicilio" placeholder until it exists.
+- **9:16 masters for the six service photographs.** The current 3:4 files lose 38–40% of
+  their width to the crop in the mobile scroll sequence; 9:16 would lose ~20%.
 - `public/images_backup/` currently sits inside `public/`, so it would be served at public
   URLs. It is gitignored, but move it out of the repo when convenient.
 
@@ -491,7 +570,9 @@ hide content, which this site cannot afford.
 1. Break the structural repetition — 2-3 sections with a genuinely different shape.
 2. Typographic contrast — one or two genuinely large moments. 19 headlines at one
    size is a decision made once and repeated.
-3. Continuous scroll choreography on ONE sequence, not effects everywhere.
+3. ~~Continuous scroll choreography on ONE sequence~~ — **STARTED Nov 5 2026**: the
+   services block on phones (see the session note above). Still to tune, and the
+   desktop grid has had none of it.
 4. Art direction on the photography. All six images share one temperature and one
    composition, which flattens everything. **This is Lalo's to supply.**
 
