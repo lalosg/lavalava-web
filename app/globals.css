@@ -324,27 +324,8 @@ button:hover > .arrow-slide {
 @media (prefers-reduced-motion: reduce) {
   .svc-track  { height: auto !important; width: auto; left: auto; transform: none; }
   .svc-stage  { position: static; height: auto; overflow: visible; }
-  .svc-grid   { display: grid; gap: 2rem; height: auto; }
-  .svc-card   { position: relative; inset: auto; opacity: 1 !important; }
-  .svc-media  { position: relative; inset: auto; aspect-ratio: 3 / 4; overflow: hidden; }
-  .svc-scrim  { display: none; }
-  .svc-title  {
-    position: static;
-    margin: 0.75rem 0 0.25rem;
-    font-family: var(--font-source-sans), system-ui, sans-serif;
-    font-weight: 600;
-    font-size: 1.25rem;
-    line-height: 1.375;
-    color: var(--ink);
-    text-shadow: none;
-  }
-  .svc-desc {
-    position: static;
-    background: transparent;
-    backdrop-filter: none;
-    padding: 0;
-  }
-  .svc-desc p { color: rgb(27 37 54 / 0.65); }
+  .svc-grid   { display: grid; gap: 2.5rem; height: auto; }
+  .svc-card   { position: relative; inset: auto; opacity: 1 !important; padding-top: 0; }
   .svc-counter { display: none; }
 }
 

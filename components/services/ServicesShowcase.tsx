@@ -119,13 +119,15 @@ export function ServicesShowcase({ t, images }: Props) {
               ref={(el) => { cardsRef.current[i] = el }}
               // Stacked and faded on mobile; an ordinary grid cell from md.
               className={cn(
-                'svc-card absolute inset-0 md:relative md:inset-auto md:opacity-100',
+                // En móvil: columna con la imagen arriba y el texto debajo, y pt-16
+                // para librar el header fijo. Desde md vuelve a ser celda de rejilla.
+                'svc-card absolute inset-0 flex flex-col pt-16 md:block md:relative md:inset-auto md:pt-0 md:opacity-100',
                 // Before hydration every card would otherwise be at full opacity and
                 // they would all show at once. The first is visible, the rest wait.
                 i === 0 ? 'opacity-100' : 'opacity-0 md:opacity-100',
               )}
             >
-              <div className="svc-media absolute inset-0 md:relative md:inset-auto md:aspect-[3/4] md:overflow-hidden">
+              <div className="svc-media relative w-full aspect-[3/4] overflow-hidden md:aspect-[3/4]">
                 <Image
                   src={images[i]}
                   alt={item.title}
@@ -139,18 +141,11 @@ export function ServicesShowcase({ t, images }: Props) {
                 />
               </div>
 
-              {/* Scrim, phones only: the copy sits on the photograph there and needs
-                  something under it. No text of its own, so nothing is duplicated. */}
-              <div
-                className="svc-scrim absolute inset-0 md:hidden bg-[linear-gradient(to_bottom,rgba(22,35,59,0.28)_0%,rgba(22,35,59,0)_38%,rgba(22,35,59,0)_55%,rgba(22,35,59,0.45)_100%)]"
-                aria-hidden="true"
-              />
-
               {/* Title: loose on the photograph below md, under it from md. */}
               <h3
                 className={cn(
-                  'svc-title absolute left-4 right-4 bottom-[8.5rem] font-fraunces text-[2rem] leading-[1.1] text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.35)]',
-                  'md:static md:text-ink md:[text-shadow:none] md:font-sans md:font-semibold md:text-xl md:leading-snug md:mt-3 md:mb-1',
+                  'svc-title font-fraunces text-[1.75rem] leading-[1.15] text-ink mt-6 mb-2 px-4',
+                  'md:font-sans md:font-semibold md:text-xl md:leading-snug md:mt-3 md:mb-1 md:px-0',
                 )}
               >
                 {item.title}
@@ -160,13 +155,11 @@ export function ServicesShowcase({ t, images }: Props) {
                   phone, plain body copy from md. */}
               <div
                 className={cn(
-                  // pr-20 en móvil: el botón flotante de WhatsApp vive abajo a la
-                  // derecha y se comía el final de la descripción.
-                  'svc-desc absolute inset-x-0 bottom-0 bg-navy/55 backdrop-blur-[2px] pl-4 pr-20 py-5',
-                  'md:static md:bg-transparent md:backdrop-blur-none md:p-0',
+                  'svc-desc px-4',
+                  'md:p-0',
                 )}
               >
-                <p className="font-sans text-base md:text-body text-white/90 md:text-ink/65 leading-relaxed">
+                <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -178,13 +171,13 @@ export function ServicesShowcase({ t, images }: Props) {
             targets and clutter the composition, and nobody arrives wanting service
             four. What a pinned section actually owes the reader is "how much is
             left", which is a question about anxiety, not navigation. */}
-        <div className="svc-counter absolute left-4 top-[5.5rem] md:hidden flex items-center gap-3" aria-hidden="true">
-          <span className="font-sans text-xs font-semibold tracking-[0.12em] text-white/85 tabular-nums [text-shadow:0_1px_8px_rgba(0,0,0,0.4)]">
+        <div className="svc-counter absolute left-4 bottom-8 md:hidden flex items-center gap-3" aria-hidden="true">
+          <span className="font-sans text-xs font-semibold tracking-[0.12em] text-ink/65 tabular-nums">
             {String(active + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
           </span>
-          <span className="block h-px w-16 bg-white/30 overflow-hidden">
+          <span className="block h-px w-16 bg-ink/20 overflow-hidden">
             <span
-              className="block h-full bg-white/90 transition-[width] duration-500 [transition-timing-function:var(--ease)]"
+              className="block h-full bg-ink/70 transition-[width] duration-500 [transition-timing-function:var(--ease)]"
               style={{ width: `${((active + 1) / services.length) * 100}%` }}
             />
           </span>
