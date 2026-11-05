@@ -1,6 +1,5 @@
-import Image from 'next/image'
 import { ArrowLabel } from '@/components/ui/ArrowLabel'
-import { RevealImage } from '@/components/motion/RevealImage'
+import { ServicesShowcase } from '@/components/services/ServicesShowcase'
 import { RevealText } from '@/components/motion/RevealText'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { localePath } from '@/lib/translations'
@@ -22,98 +21,50 @@ const serviceImages = [
 ]
 
 export function ServicesSection({ t, locale }: Props) {
-  const regularServices = t.services.items.slice(0, 6)
   const deliveryService = t.services.items[6]
 
   return (
     <section className="bg-bone py-20 section-px">
       <div className="max-w-6xl mx-auto">
 
-        <RevealOnScroll>
-          <p className="eyebrow mb-4">{t.services.eyebrow}</p>
-          <RevealText as="h2" text={t.services.headline} className="font-fraunces text-4xl md:text-5xl text-ink leading-tight mb-12 max-w-sm" />
-        </RevealOnScroll>
-
-        {/* Image-card grid: single column on mobile, 3-col from md. The cards were
-            two-up on phones, which made each image a narrow sliver and forced the title
-            and badge to wrap against each other. */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">
-          {regularServices.map((item, i) => (
-            <RevealOnScroll key={item.title} delay={i * 60}>
-              <div className="group">
-
-                {/* Image */}
-                <div className="relative aspect-[3/4] overflow-hidden mb-3">
-                  {/* No delay of its own. The stagger already comes from the card's
-                      RevealOnScroll (i * 60); adding i * 80 here started the image AFTER
-                      its own caption, so every card spent a moment showing a title over
-                      an empty frame. The image now leads, which is the only order that
-                      never looks broken. */}
-                  <RevealImage>
-                    <div className="relative h-full w-full">
-                      <Image
-                        src={serviceImages[i]}
-                        alt={item.title}
-                        fill
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                        // Cards render ~50vw on mobile and ~235px from the 3-col grid on desktop.
-                        // 33vw asked for ~475px at 1440 and wasted roughly half the bytes.
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 30vw, 260px"
-                      />
-                    </div>
-                  </RevealImage>
-                </div>
-
-                {/* Label */}
-                <div className="flex items-start gap-2 mb-1">
-                  <h3 className="font-sans font-semibold text-lg md:text-xl text-ink leading-snug">
-                    {item.title}
-                  </h3>
-                  {item.badge && (
-                    <span className="flex-shrink-0 text-xs font-sans font-semibold tracking-[0.12em] text-teal-deep uppercase mt-0.5">
-                      {item.badge}
-                    </span>
-                  )}
-                </div>
-
-                {/* Una sola descripción, visible en todos los anchos. Antes vivía en
-                    un overlay que solo aparecía al pasar el ratón en desktop: el texto
-                    quedaba oculto para quien navega con teclado o toca la pantalla, y
-                    el mismo párrafo acababa duplicado en el DOM. */}
-                <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed">
-                  {item.description}
-                </p>
-
-              </div>
+        {/* El encabezado se pasa al showcase: en móvil vive dentro del escenario
+            fijo, para quedarse visible mientras la secuencia cambia debajo. */}
+        <ServicesShowcase
+          t={t}
+          images={serviceImages}
+          header={
+            <RevealOnScroll>
+              <p className="eyebrow mb-3 md:mb-4">{t.services.eyebrow}</p>
+              <RevealText
+                as="h2"
+                text={t.services.headline}
+                className="svc-headline font-fraunces text-ink leading-[1.12] md:text-5xl md:leading-tight md:mb-12 max-w-sm"
+              />
             </RevealOnScroll>
-          ))}
-        </div>
+          }
+        />
 
-        {/* Servicio a domicilio — full-width navy feature */}
+        {/* Servicio a domicilio — en móvil es una cinta a sangre pegada al pie del
+            panel sand: cierra la secuencia y la separa de lo que sigue sin dejar
+            un marco bone de por medio. Desde md vuelve a ser un bloque dentro de
+            la retícula, con su respiro de 1.25rem. */}
         {deliveryService && (
-          <RevealOnScroll delay={80}>
-            <div className="mt-5 bg-navy p-6 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                  <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="font-sans font-semibold text-lg text-bone">{deliveryService.title}</h3>
-                  {deliveryService.badge && (
-                    <span className="text-xs font-sans font-semibold tracking-[0.12em] text-teal-deep uppercase">
-                      {deliveryService.badge}
-                    </span>
-                  )}
-                </div>
-                <p className="font-sans text-sm text-bone/50 leading-relaxed">
-                  {deliveryService.description}
-                </p>
-              </div>
+          <div className="relative w-screen left-1/2 -translate-x-1/2 bg-navy px-5 py-6 flex items-center gap-4 md:w-auto md:left-auto md:translate-x-0 md:mt-5 md:p-6">
+            <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
             </div>
-          </RevealOnScroll>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-sans font-semibold text-lg text-bone">{deliveryService.title}</h3>
+              </div>
+              <p className="font-sans text-sm text-bone/50 leading-relaxed">
+                {deliveryService.description}
+              </p>
+              </div>
+          </div>
         )}
 
         <RevealOnScroll delay={120}>

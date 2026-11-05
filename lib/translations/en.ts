@@ -59,7 +59,6 @@ export const en: Translations = {
       {
         title:       'Wash & fold by kilo',
         description: 'Professional wash and dry. Ready in 24 hours.',
-        badge:       'Most popular',
       },
       {
         title:       'Dry cleaning',
@@ -84,7 +83,6 @@ export const en: Translations = {
       {
         title:       'Pickup & delivery',
         description: 'We collect and deliver to your door, at a flat rate across 24 Distrito Tec neighbourhoods.',
-        badge:       'Premium',
       },
     ],
     cta: 'View all services →',
