@@ -114,7 +114,7 @@ export function ServicesShowcase({ t, images, header }: Props) {
       style={{ height: `calc(100svh + ${(services.length - 1) * SCROLL_PER_SERVICE * 100}svh)` }}
     >
       {/* The stage: pinned on a phone, dissolved back into normal flow from md. */}
-      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col pt-16 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
+      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
 
         {/* Lo que sobre tras reservar imagen y descripción. El titular se dimensiona
             con clamp sobre esa sobra, así que encoge en lugar de cortarse. */}
@@ -169,23 +169,26 @@ export function ServicesShowcase({ t, images, header }: Props) {
                   phone, plain body copy from md. */}
               <div
                 className={cn(
-                  'svc-desc flex-1 bg-navy flex items-center pl-4 pr-20 py-5',
+                  // sand, no navy: el bloque de servicio a domicilio que sigue es
+                  // navy, y dos bandas navy seguidas se leen como una sola. sand da
+                  // 11x de diferencia de luminancia y cambia el registro — se lee
+                  // como una tira de papel bajo la foto, no como otro panel oscuro.
+                  'svc-desc flex-1 bg-sand flex items-center pl-4 pr-20 py-5',
                   'md:block md:flex-none md:bg-transparent md:p-0',
                 )}
               >
-                <p className="font-sans text-base md:text-body text-bone/85 md:text-ink/65 leading-relaxed">
+                <p className="font-sans text-base md:text-body text-ink/80 md:text-ink/65 leading-relaxed">
                   {item.description}
                 </p>
               </div>
             </article>
           ))}
-        </div>
 
         {/* Counter and progress, phones only. Not jump navigation: six dots are tiny
             targets and clutter the composition, and nobody arrives wanting service
             four. What a pinned section actually owes the reader is "how much is
             left", which is a question about anxiety, not navigation. */}
-        <div className="svc-counter absolute right-4 z-10 md:hidden flex items-center gap-3" aria-hidden="true">
+        <div className="svc-counter absolute top-4 right-4 z-20 md:hidden flex items-center gap-3" aria-hidden="true">
           <span className="font-sans text-xs font-semibold tracking-[0.12em] text-white/85 tabular-nums [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
             {String(active + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
           </span>
@@ -196,6 +199,8 @@ export function ServicesShowcase({ t, images, header }: Props) {
             />
           </span>
         </div>
+        </div>
+
       </div>
     </div>
   )

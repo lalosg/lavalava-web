@@ -334,11 +334,10 @@ button:hover > .arrow-slide {
    — un iPhone SE necesita 102px más de los que tiene, así que ahí la foto cede un
    poco en lugar de empujar al titular fuera de la pantalla. */
 @media (max-width: 767px) {
-  .svc-deck  { height: calc(100vw * 4 / 3 + 7.5rem); max-height: calc(100svh - 64px - 7rem); }
-  .svc-media { max-height: calc(100svh - 64px - 7.5rem - 7rem); }
-  .svc-counter { bottom: calc(7.5rem + 1.4rem); }
+  .svc-deck  { height: calc(100vw * 4 / 3 + 6.5rem); max-height: calc(100svh - 5rem - 6rem); }
+  .svc-media { max-height: calc(100svh - 5rem - 6.5rem - 6rem); }
   .svc-headline {
-    font-size: clamp(1.4rem, 4.6vh, 2.6rem);
+    font-size: clamp(1.35rem, 4.2vh, 2.4rem);
   }
 }
 
