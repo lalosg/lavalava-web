@@ -62,13 +62,6 @@ export function ServicesSection({ t, locale }: Props) {
                       />
                     </div>
                   </RevealImage>
-                  {/* Hover overlay with description — desktop only */}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 via-navy/40 to-transparent px-4 pt-10 pb-4
-                                  opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block">
-                    <p className="font-sans text-sm text-white/85 leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
                 </div>
 
                 {/* Label */}
@@ -83,8 +76,11 @@ export function ServicesSection({ t, locale }: Props) {
                   )}
                 </div>
 
-                {/* Description — mobile always visible, desktop on hover (overlay above) */}
-                <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed md:hidden">
+                {/* Una sola descripción, visible en todos los anchos. Antes vivía en
+                    un overlay que solo aparecía al pasar el ratón en desktop: el texto
+                    quedaba oculto para quien navega con teclado o toca la pantalla, y
+                    el mismo párrafo acababa duplicado en el DOM. */}
+                <p className="font-sans text-base md:text-body text-ink/65 leading-relaxed">
                   {item.description}
                 </p>
 
