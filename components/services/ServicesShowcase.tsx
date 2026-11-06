@@ -8,6 +8,10 @@ import type { Translations } from '@/lib/translations'
 interface Props {
   t: Translations
   images: string[]
+  /** La cinta de servicio a domicilio. Va DENTRO del escenario, justo después del
+   *  mazo, para que quede soldada al pie de la descripción en todo momento en vez de
+   *  llegar al final del recorrido y dejar bone entremedias. */
+  footer: React.ReactNode
 }
 
 /** How much scroll each service costs, as a fraction of the viewport.
@@ -45,7 +49,7 @@ const TEXT_IN = 0.65
  * passes. Intercepting scroll to animate it feels broken on a phone, and if the
  * reader keeps going they leave — they are never trapped.
  */
-export function ServicesShowcase({ t, images }: Props) {
+export function ServicesShowcase({ t, images, footer }: Props) {
   const services = t.services.items.slice(0, 6)
   const trackRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<(HTMLElement | null)[]>([])
@@ -178,7 +182,7 @@ export function ServicesShowcase({ t, images }: Props) {
           justo ahí, así que no queda holgura delante de la imagen. Antes el escenario
           medía 100svh y el mazo su propia altura, y esa diferencia — 30px en un teléfono
           corto, 224 en uno alto — se abría como un hueco entre el encabezado y la foto. */}
-      <div className="svc-stage sticky top-0 z-10 bg-bone flex flex-col pt-[66px] overflow-hidden md:static md:block md:pt-0 md:overflow-visible md:bg-transparent">
+      <div className="svc-stage sticky top-0 flex flex-col pt-[66px] md:static md:block md:pt-0">
 
         <div className="svc-deck relative flex-none md:static md:grid md:grid-cols-3 md:gap-5">
           {services.map((item, i) => (
@@ -263,6 +267,8 @@ export function ServicesShowcase({ t, images }: Props) {
           </span>
         </div>
         </div>
+
+        {footer}
 
       </div>
     </div>

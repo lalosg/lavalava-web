@@ -50,7 +50,9 @@ if (r(desc).bottom > H + 1) fail.push('descripcion bajo el pliegue: '+Math.round
 // el texto de la descripcion cabe en su recuadro
 const dp=desc.querySelector('p').getBoundingClientRect();
 if (dp.top < r(desc).top - 1 || dp.bottom > r(desc).bottom + 1) fail.push('la descripcion no cabe en su recuadro');
-if (r(stage).height > H + 1) fail.push('escenario mas alto que la pantalla');
+// El escenario puede pasar de la pantalla: lleva el mazo MAS la cinta, y la cinta
+// asoma solo si sobra sitio. Lo que no puede pasar del pliegue es la descripcion,
+// que ya se comprueba arriba.
 // 5. sin desbordamiento horizontal
 if (document.documentElement.scrollWidth > W) fail.push('scroll horizontal: '+document.documentElement.scrollWidth);
 // 6. ningun titulo de servicio se parte
@@ -76,9 +78,17 @@ if (Math.abs((trk.offsetHeight - stg.offsetHeight) - scrollPx) > 2)
 // servicio, asi que ni su rect ni su offsetTop sirven aqui: los dos llevan ya el
 // desplazamiento del pegado. Lo comprobable es que no tenga margen superior en
 // movil, que es lo que la deja a ras del ultimo recuadro cuando aterriza.
-const ribW=trk.nextElementSibling;
-if (parseFloat(getComputedStyle(ribW).marginTop) !== 0) fail.push('la cinta lleva margen superior');
-if (getComputedStyle(ribW).position !== 'sticky') fail.push('la cinta dejo de ser sticky: volvera el hueco en blanco');
+// La cinta va soldada al pie de la descripcion: cero separacion, siempre. Si se
+// despega vuelve la franja de bone que se llenaba de golpe al final del recorrido.
+const ribbon=document.querySelector('.svc-ribbon');
+if (!ribbon) fail.push('no hay cinta');
+else {
+  if (Math.abs(ribbon.getBoundingClientRect().top - r(desc).bottom) > 1)
+    fail.push('la cinta se despego de la descripcion: '+Math.round(ribbon.getBoundingClientRect().top-r(desc).bottom)+'px');
+  if (getComputedStyle(ribbon).position === 'sticky') fail.push('la cinta volvio a ser sticky');
+  const rp=ribbon.querySelector('p').getBoundingClientRect();
+  if (rp.bottom > ribbon.getBoundingClientRect().bottom + 1) fail.push('el texto de la cinta no cabe');
+}
 
 // 7. la imagen ocupa el ancho completo
 if (Math.round(r(media).width) !== W) fail.push('la foto no ocupa el ancho: '+Math.round(r(media).width)+' de '+W);

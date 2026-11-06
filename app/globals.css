@@ -357,10 +357,15 @@ button:hover > .arrow-slide {
     /* 66px es el alto del menú. El escenario mide ese hueco más el mazo, y la pista
        mide el escenario más el recorrido — así su borde inferior coincide con el del
        recuadro y no queda bone entre el último servicio y la cinta de a domicilio. */
-    --svc-stage-h: calc(66px + min(100vw * 4 / 3 + 6.5rem, 100svh - 66px));
+    --svc-stage-h: calc(66px + min(100vw * 4 / 3 + 6.5rem, 100svh - 66px) + 8rem);
     height: calc(var(--svc-stage-h) + var(--svc-scroll));
   }
-  .svc-stage { height: var(--svc-stage-h); }
+  /* El escenario mide su contenido — mazo más cinta — y no la pantalla. La pista
+     usa una estimación de la cinta (8rem) porque CSS no puede leer su alto real; el
+     avance del scroll sí se mide en JS contra el alto real del escenario, así que el
+     pequeño desfase entre estimación y realidad no afecta a dónde termina la
+     secuencia. */
+  .svc-ribbon { height: 8rem; }
   .svc-media { width: 100vw; }
   .svc-deck  { height: calc(100vw * 4 / 3 + 6.5rem); max-height: calc(100svh - 66px); }
   .svc-desc  { min-height: 4.25rem; max-height: 6.5rem; }
@@ -381,7 +386,7 @@ button:hover > .arrow-slide {
   .svc-counter { display: none; }
   /* La lista desplegada no tiene secuencia que dejar asomar por debajo, así que la
      cinta vuelve al flujo: pegada al pie flotaría sobre las tarjetas. */
-  .svc-ribbon { position: static; }
+  .svc-ribbon { position: static; height: auto; }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────── */

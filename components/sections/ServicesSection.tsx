@@ -41,40 +41,34 @@ export function ServicesSection({ t, locale }: Props) {
             className="font-fraunces text-ink text-[2.25rem] leading-[1.12] md:text-5xl md:leading-tight mb-8 md:mb-12 max-w-sm"
           />
         </RevealOnScroll>
-
-        <ServicesShowcase t={t} images={serviceImages} />
-
-        {/* Servicio a domicilio — en móvil es una cinta a sangre pegada al pie del
-            panel sand: cierra la secuencia y la separa de lo que sigue sin dejar
-            un marco bone de por medio. Desde md vuelve a ser un bloque dentro de
-            la retícula, con su respiro de 1.25rem. */}
-        {deliveryService && (
-          /* Pegada al pie de la pantalla durante toda la secuencia, en vez de aparecer
-             al final. El escenario va por encima (z-10 y fondo bone), así que donde la
-             secuencia ocupa la pantalla entera la cinta queda detrás y no se ve; solo
-             asoma en la franja que el escenario deja libre, que es justo el hueco que
-             antes quedaba en blanco. El envoltorio existe porque `left-1/2` en un
-             elemento `sticky` es un umbral de pegado, no un desplazamiento: el truco
-             de sangrado necesita seguir viviendo en un `relative`. */
-          <div className="svc-ribbon sticky bottom-0 z-0 md:static">
-          <div className="relative w-screen left-1/2 -translate-x-1/2 bg-navy px-5 py-6 flex items-center gap-4 md:w-auto md:left-auto md:translate-x-0 md:mt-5 md:p-6">
-            <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
-              </svg>
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <h3 className="font-sans font-semibold text-lg text-bone">{deliveryService.title}</h3>
+        {/* La cinta viaja DENTRO del escenario fijo, justo después del mazo, para
+            quedar soldada al pie de la descripción. Fuera de él llegaba solo al
+            terminar el recorrido, así que entre el último recuadro y ella quedaba una
+            franja de bone y la cinta se presentaba de golpe. No es sticky ni se
+            adelanta a nada: ocupa siempre el mismo sitio del apilado, debajo de la
+            descripción, y asoma cuando la pantalla da para ello. */}
+        <ServicesShowcase
+          t={t}
+          images={serviceImages}
+          footer={
+            deliveryService ? (
+              <div className="svc-ribbon relative w-screen left-1/2 -translate-x-1/2 flex-none bg-navy px-5 py-6 flex items-center gap-4 md:w-auto md:left-auto md:translate-x-0 md:mt-5 md:p-6">
+                <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-sans font-semibold text-lg text-bone mb-1">{deliveryService.title}</h3>
+                  <p className="font-sans text-sm text-bone/50 leading-relaxed">
+                    {deliveryService.description}
+                  </p>
+                </div>
               </div>
-              <p className="font-sans text-sm text-bone/50 leading-relaxed">
-                {deliveryService.description}
-              </p>
-              </div>
-          </div>
-          </div>
-        )}
+            ) : null
+          }
+        />
 
         <RevealOnScroll delay={120}>
           {/* Plain <a>, not next/link: importing Link into the homepage's server
