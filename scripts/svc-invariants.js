@@ -47,6 +47,9 @@ const natR=img.naturalWidth/img.naturalHeight, boxR=r(media).width/r(media).heig
 if (Math.abs(natR-boxR) > 0.005) fail.push('imagen recortada: box '+boxR.toFixed(3)+' vs nat '+natR.toFixed(3));
 // 4. nada por debajo del pliegue dentro de la pantalla fija
 if (r(desc).bottom > H + 1) fail.push('descripcion bajo el pliegue: '+Math.round(r(desc).bottom)+' > '+H);
+// el texto de la descripcion cabe en su recuadro
+const dp=desc.querySelector('p').getBoundingClientRect();
+if (dp.top < r(desc).top - 1 || dp.bottom > r(desc).bottom + 1) fail.push('la descripcion no cabe en su recuadro');
 if (r(stage).height > H + 1) fail.push('escenario mas alto que la pantalla');
 // 5. sin desbordamiento horizontal
 if (document.documentElement.scrollWidth > W) fail.push('scroll horizontal: '+document.documentElement.scrollWidth);
@@ -64,12 +67,12 @@ document.querySelectorAll('.svc-title').forEach(t=>{
 });
 // 7. la imagen ocupa el ancho completo
 if (Math.round(r(media).width) !== W) fail.push('la foto no ocupa el ancho: '+Math.round(r(media).width)+' de '+W);
-// 8. la foto arranca en el borde del escenario: ninguna holgura delante de ella
-const stTop=document.querySelector('.svc-stage').getBoundingClientRect().top;
-if (Math.round(r(media).top - stTop) !== 0) fail.push('holgura sobre la foto: '+Math.round(r(media).top-stTop)+'px');
+// 8. la foto libra el menu y no deja holgura delante de ella
+if (r(media).top < hdr.bottom - 1) fail.push('la foto se mete bajo el menu');
+if (r(media).top > hdr.bottom + 1) fail.push('holgura sobre la foto: '+Math.round(r(media).top-hdr.bottom)+'px');
 
 return JSON.stringify({H, ok: fail.length===0, fail, titlesWrapped: wrapped,
  imgW:Math.round(r(media).width), bleed: Math.round(r(media).width)===W,
  bonePerSide: Math.round((W-r(media).width)/2),
  headlinePx:+parseFloat(getComputedStyle(h2).fontSize).toFixed(1), panelH:Math.round(r(desc).height),
- descBottom:Math.round(r(desc).bottom)})})()
+ descBottom:Math.round(r(desc).bottom), boneBelow:Math.round(H-r(desc).bottom)})})()

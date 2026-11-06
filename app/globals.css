@@ -343,14 +343,14 @@ button:hover > .arrow-slide {
    El resultado es que nada se recorta en ninguna altura de pantalla, por construcción.
    Y el tamaño dinámico es CSS puro: ni JS, ni ResizeObserver, ni reflow por frame. */
 @media (max-width: 767px) {
-  /* La pantalla fija contiene dos piezas y nada más. La fotografía manda: ocupa todo
-     el ancho y su alto sale de ese ancho por su 3:4 exacto, así que no se recorta
-     nunca. El recuadro sand se queda con lo que sobre de la pantalla, de modo que la
-     descripción cae siempre en el borde inferior y entre el encabezado y la imagen no
-     queda holgura ninguna. El encabezado vive fuera del escenario — ver el comentario
-     en ServicesSection.tsx. */
+  /* La fotografía al ancho completo con su 3:4 exacto, y el recuadro justo debajo con
+     su altura de siempre. El recuadro puede apretarse si la pantalla no da — un
+     iPhone corto deja 70px para él — pero nunca crece más de 6.5rem, que es lo que
+     medía antes de todo esto. El encabezado vive fuera del escenario, ver el
+     comentario en ServicesSection.tsx. */
   .svc-media { width: 100vw; }
-  .svc-desc  { min-height: 5.5rem; }
+  .svc-deck  { height: calc(100vw * 4 / 3 + 6.5rem); max-height: calc(100svh - 66px); }
+  .svc-desc  { min-height: 4.25rem; max-height: 6.5rem; }
   .svc-title { font-size: clamp(1.5rem, 8.6vw, 2.25rem); }
 }
 
@@ -361,6 +361,10 @@ button:hover > .arrow-slide {
   .svc-card   { position: relative; inset: auto; opacity: 1 !important; padding-top: 0; }
   .svc-deck   { height: auto !important; max-height: none; display: grid; gap: 2.5rem; }
   .svc-media  { max-height: none; width: auto; margin-inline: 0; }
+  /* La lista desplegada no tiene un presupuesto de pantalla que respetar, así que el
+     recuadro recupera su altura natural — si no, una descripción de tres líneas se
+     recortaría contra el tope de 6.5rem que sí necesita la secuencia fijada. */
+  .svc-desc   { min-height: 0; max-height: none; }
   .svc-counter { display: none; }
 }
 
