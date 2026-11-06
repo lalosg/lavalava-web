@@ -163,12 +163,15 @@ export function ServicesShowcase({ t, images }: Props) {
       style={{ height: `calc(100svh + ${(services.length - 1) * SCROLL_PER_SERVICE * 100}svh)` }}
     >
       {/* The stage: pinned on a phone, dissolved back into normal flow from md. */}
-      {/* Columna simple: el encabezado arriba bajo el menú, el mazo abajo. Ninguno
-          necesita `justify-*` porque el reparto lo decide el calc de globals.css y
-          por construcción suma 100svh exactos — no sobra ni falta espacio que repartir. */}
-      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col justify-end pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
+      {/* El mazo ocupa el escenario entero y la foto arranca en su borde superior, de
+          modo que no queda holgura delante. Antes el escenario medía 100svh y el mazo
+          su propia altura, así que la diferencia — 30px en un teléfono corto, 224 en uno
+          alto — se abría como un hueco de bone entre el encabezado y la imagen, distinto
+          en cada aparato. Ahora el sobrante se lo queda el recuadro sand, que es una
+          banda a propósito y no un hueco. */}
+      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col overflow-hidden md:static md:block md:h-auto md:overflow-visible">
 
-        <div className="svc-deck relative flex-none md:static md:grid md:grid-cols-3 md:gap-5">
+        <div className="svc-deck relative flex-1 min-h-0 md:static md:grid md:grid-cols-3 md:gap-5">
           {services.map((item, i) => (
             <article
               key={item.title}
@@ -224,7 +227,11 @@ export function ServicesShowcase({ t, images }: Props) {
                   // navy, y dos bandas navy seguidas se leen como una sola. sand da
                   // 11x de diferencia de luminancia y cambia el registro — se lee
                   // como una tira de papel bajo la foto, no como otro panel oscuro.
-                  'svc-desc flex-1 bg-sand flex items-center pl-4 pr-20 py-5',
+                  // `items-start`, no `items-center`: el recuadro se queda con el sobrante de
+                  // la pantalla, y en un teléfono alto eso son más de 300px. Centrado, el
+                  // texto flotaba en medio de un campo vacío; anclado arriba va pegado a la
+                  // foto y el sobrante se lee como margen inferior, no como hueco.
+                  'svc-desc flex-1 bg-sand flex items-start pl-4 pr-20 py-5',
                   'md:block md:flex-none md:bg-transparent md:p-0',
                 )}
               >
@@ -239,7 +246,10 @@ export function ServicesShowcase({ t, images }: Props) {
             targets and clutter the composition, and nobody arrives wanting service
             four. What a pinned section actually owes the reader is "how much is
             left", which is a question about anxiety, not navigation. */}
-        <div className="svc-counter absolute top-4 right-4 z-20 md:hidden flex items-center gap-3" aria-hidden="true">
+        {/* A 5rem, no a 1rem: la foto arranca en el borde de la pantalla y el menú flota
+            sobre sus primeros 64px. Más arriba el contador quedaría detrás de la barra
+            cada vez que el lector sube y el menú reaparece. */}
+        <div className="svc-counter absolute top-20 right-4 z-20 md:hidden flex items-center gap-3" aria-hidden="true">
           <span className="font-sans text-xs font-semibold tracking-[0.12em] text-white/85 tabular-nums [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
             {String(active + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
           </span>

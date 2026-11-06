@@ -343,15 +343,14 @@ button:hover > .arrow-slide {
    El resultado es que nada se recorta en ninguna altura de pantalla, por construcción.
    Y el tamaño dinámico es CSS puro: ni JS, ni ResizeObserver, ni reflow por frame. */
 @media (max-width: 767px) {
-  /* La pantalla fija contiene exactamente dos cosas: la fotografía y su recuadro.
-     El encabezado se quedó fuera, en flujo normal — ver el comentario en
-     ServicesSection.tsx. Con eso el reparto deja de ser una suma que hay que vigilar:
-     el mazo mide lo que miden sus dos piezas y se ancla al pie del escenario, así que
-     la descripción cae siempre en el borde inferior de la pantalla y la foto queda
-     justo encima, a sangre y con su 3:4 exacto, en cualquier altura. */
-  .svc-stage { --svc-img-w: 100vw; }
-  .svc-deck  { height: calc(var(--svc-img-w) * 4 / 3 + 6.5rem); }
-  .svc-media { width: var(--svc-img-w); }
+  /* La pantalla fija contiene dos piezas y nada más. La fotografía manda: ocupa todo
+     el ancho y su alto sale de ese ancho por su 3:4 exacto, así que no se recorta
+     nunca. El recuadro sand se queda con lo que sobre de la pantalla, de modo que la
+     descripción cae siempre en el borde inferior y entre el encabezado y la imagen no
+     queda holgura ninguna. El encabezado vive fuera del escenario — ver el comentario
+     en ServicesSection.tsx. */
+  .svc-media { width: 100vw; }
+  .svc-desc  { min-height: 5.5rem; }
   .svc-title { font-size: clamp(1.5rem, 8.6vw, 2.25rem); }
 }
 

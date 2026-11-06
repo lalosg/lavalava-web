@@ -64,9 +64,12 @@ document.querySelectorAll('.svc-title').forEach(t=>{
 });
 // 7. la imagen ocupa el ancho completo
 if (Math.round(r(media).width) !== W) fail.push('la foto no ocupa el ancho: '+Math.round(r(media).width)+' de '+W);
+// 8. la foto arranca en el borde del escenario: ninguna holgura delante de ella
+const stTop=document.querySelector('.svc-stage').getBoundingClientRect().top;
+if (Math.round(r(media).top - stTop) !== 0) fail.push('holgura sobre la foto: '+Math.round(r(media).top-stTop)+'px');
 
 return JSON.stringify({H, ok: fail.length===0, fail, titlesWrapped: wrapped,
  imgW:Math.round(r(media).width), bleed: Math.round(r(media).width)===W,
  bonePerSide: Math.round((W-r(media).width)/2),
- headlinePx:+parseFloat(getComputedStyle(h2).fontSize).toFixed(1),
+ headlinePx:+parseFloat(getComputedStyle(h2).fontSize).toFixed(1), panelH:Math.round(r(desc).height),
  descBottom:Math.round(r(desc).bottom)})})()
