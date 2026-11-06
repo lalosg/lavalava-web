@@ -28,21 +28,20 @@ const fail=[];
 const hdr=document.querySelector('header').getBoundingClientRect();
 const H=innerHeight, W=innerWidth;
 const stage=document.querySelector('.svc-stage');
-const eb=document.querySelector('.svc-head .eyebrow');
-const h2=document.querySelector('.svc-headline');
+const sec=document.querySelector('.svc-track').closest('section');
+const eb=sec.querySelector('.eyebrow');
+const h2=sec.querySelector('h2');
 const media=document.querySelector('.svc-media');
 const img=media.querySelector('img');
 const desc=document.querySelector('.svc-desc');
 const r=e=>e.getBoundingClientRect();
 
-// 1. nada de texto bajo el menu
-if (r(eb).top < hdr.bottom) fail.push('eyebrow bajo el menu: '+Math.round(r(eb).top)+' < '+Math.round(hdr.bottom));
-if (r(h2).top < hdr.bottom) fail.push('titular bajo el menu');
+// 1. el encabezado vive fuera del escenario fijo: nunca puede quedar recortado
+if (document.querySelector('.svc-stage .eyebrow')) fail.push('el encabezado volvio a entrar en el escenario fijo');
 // 2. nada recortado en silencio
-document.querySelectorAll('.svc-stage,.svc-head,.svc-desc').forEach(e=>{
+document.querySelectorAll('.svc-stage,.svc-desc,.svc-deck').forEach(e=>{
   if (e.scrollHeight - e.clientHeight > 1) fail.push('recorte en .'+e.className.split(' ')[0]+': '+(e.scrollHeight-e.clientHeight)+'px');
 });
-if (r(h2).bottom > r(media).top + 1) fail.push('titular invade la foto');
 // 3. cero recorte de imagen
 const natR=img.naturalWidth/img.naturalHeight, boxR=r(media).width/r(media).height;
 if (Math.abs(natR-boxR) > 0.005) fail.push('imagen recortada: box '+boxR.toFixed(3)+' vs nat '+natR.toFixed(3));
@@ -63,13 +62,11 @@ document.querySelectorAll('.svc-title').forEach(t=>{
   const tb=t.getBoundingClientRect(), mb=r(media);
   if (tb.top < mb.top || tb.bottom > mb.bottom+1) fail.push('titulo fuera de la foto');
 });
-// 7. suelo tipografico
-const fs=parseFloat(getComputedStyle(h2).fontSize);
-if (fs < 24) fail.push('Canela bajo 24px: '+fs.toFixed(1));
+// 7. la imagen ocupa el ancho completo
+if (Math.round(r(media).width) !== W) fail.push('la foto no ocupa el ancho: '+Math.round(r(media).width)+' de '+W);
 
 return JSON.stringify({H, ok: fail.length===0, fail, titlesWrapped: wrapped,
  imgW:Math.round(r(media).width), bleed: Math.round(r(media).width)===W,
  bonePerSide: Math.round((W-r(media).width)/2),
- ebTop:Math.round(r(eb).top), gapMenu:Math.round(r(eb).top-hdr.bottom),
- headlinePx:+fs.toFixed(1), h2Lines:h2.querySelectorAll('.reveal-text__line').length,
+ headlinePx:+parseFloat(getComputedStyle(h2).fontSize).toFixed(1),
  descBottom:Math.round(r(desc).bottom)})})()

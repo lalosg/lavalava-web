@@ -27,27 +27,22 @@ export function ServicesSection({ t, locale }: Props) {
     <section className="bg-bone py-20 section-px">
       <div className="max-w-6xl mx-auto">
 
-        {/* El encabezado se pasa al showcase: en móvil vive dentro del escenario
-            fijo, para quedarse visible mientras la secuencia cambia debajo. */}
-        <ServicesShowcase
-          t={t}
-          images={serviceImages}
-          header={
-            <RevealOnScroll>
-              <p className="eyebrow mb-3 md:mb-4">{t.services.eyebrow}</p>
-              <RevealText
-                as="h2"
-                // Sin el salto fijo: en móvil la frase va en UNA línea y su cuerpo
-                // lo decide la caja. En desktop `max-w-sm` la sigue partiendo en dos
-                // exactamente donde estaba.
-                text={t.services.headline.replace('\n', ' ')}
-                // El ancho de desktop decide dónde parte la frase ahora que el salto fijo
-                // se fue. 21rem la rompe tras "que", que es donde partía antes.
-                className="svc-headline font-fraunces text-ink leading-[1.12] md:text-5xl md:leading-tight md:mb-12 md:max-w-[21rem]"
-              />
-            </RevealOnScroll>
-          }
-        />
+        {/* El encabezado vive AQUÍ, en flujo normal, no dentro del escenario fijo.
+            Dentro no cabía: en un iPhone con sus barras, menú + foto a sangre sin
+            recortar + recuadro piden 694px de los ~658 disponibles, con el titular ya
+            en cero. Meterlo dentro obligaba a encogerlo a 10px o a esconderlo bajo el
+            menú — las dos cosas se vieron en dispositivo. Aquí se lee entero, a su
+            tamaño, y sube con el scroll antes de que la secuencia tome la pantalla. */}
+        <RevealOnScroll>
+          <p className="eyebrow mb-3 md:mb-4">{t.services.eyebrow}</p>
+          <RevealText
+            as="h2"
+            text={t.services.headline}
+            className="font-fraunces text-ink text-[2.25rem] leading-[1.12] md:text-5xl md:leading-tight mb-8 md:mb-12 max-w-sm"
+          />
+        </RevealOnScroll>
+
+        <ServicesShowcase t={t} images={serviceImages} />
 
         {/* Servicio a domicilio — en móvil es una cinta a sangre pegada al pie del
             panel sand: cierra la secuencia y la separa de lo que sigue sin dejar

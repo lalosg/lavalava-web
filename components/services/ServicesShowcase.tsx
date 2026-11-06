@@ -8,9 +8,6 @@ import type { Translations } from '@/lib/translations'
 interface Props {
   t: Translations
   images: string[]
-  /** Eyebrow + headline. They live inside the pinned stage on a phone so they stay
-   *  visible while the sequence changes under them, and above the grid from md. */
-  header: React.ReactNode
 }
 
 /** How much scroll each service costs, as a fraction of the viewport.
@@ -48,7 +45,7 @@ const TEXT_IN = 0.65
  * passes. Intercepting scroll to animate it feels broken on a phone, and if the
  * reader keeps going they leave — they are never trapped.
  */
-export function ServicesShowcase({ t, images, header }: Props) {
+export function ServicesShowcase({ t, images }: Props) {
   const services = t.services.items.slice(0, 6)
   const trackRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<(HTMLElement | null)[]>([])
@@ -170,14 +167,6 @@ export function ServicesShowcase({ t, images, header }: Props) {
           necesita `justify-*` porque el reparto lo decide el calc de globals.css y
           por construcción suma 100svh exactos — no sobra ni falta espacio que repartir. */}
       <div className="svc-stage sticky top-0 h-[100svh] flex flex-col justify-end pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
-
-        {/* El eyebrow arranca en el borde superior de esta caja, que es justo debajo
-            del menú, y el titular va pegado a él. La holgura sobrante queda ABAJO,
-            entre el titular y la fotografía, nunca arriba: así "SERVICIOS" no puede
-            quedar bajo la barra en ninguna altura de pantalla. */}
-        <div className="svc-head flex-1 min-h-0 flex flex-col px-4 pb-5 md:block md:px-0 md:pb-0">
-          {header}
-        </div>
 
         <div className="svc-deck relative flex-none md:static md:grid md:grid-cols-3 md:gap-5">
           {services.map((item, i) => (

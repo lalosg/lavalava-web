@@ -343,32 +343,15 @@ button:hover > .arrow-slide {
    El resultado es que nada se recorta en ninguna altura de pantalla, por construcción.
    Y el tamaño dinámico es CSS puro: ni JS, ni ResizeObserver, ni reflow por frame. */
 @media (max-width: 767px) {
-  .svc-stage {
-    --svc-top:      5rem;      /* menú (4rem) + aire bajo el menú (1rem) */
-    --svc-eyebrow:  2rem;      /* "SERVICIOS" (20px) + su margen inferior (12px) */
-    --svc-gap:      1rem;      /* respiro entre la frase y la fotografía */
-    --svc-panel:    6.5rem;    /* el recuadro sand, anclado al pie */
-
-    /* La imagen es el 100% del ancho. Punto. Su alto sale del ancho por su 3:4
-       exacto, así que no se recorta nunca, ni arriba, ni abajo, ni a los lados. */
-    --svc-img-w:    100vw;
-    /* La caja inteligente: lo que quede. Puede quedar poco. */
-    --svc-head-h:   calc(100svh - var(--svc-top) - var(--svc-eyebrow) - var(--svc-gap)
-                         - var(--svc-panel) - var(--svc-img-w) * 4 / 3);
-  }
-
-  .svc-deck  { height: calc(var(--svc-img-w) * 4 / 3 + var(--svc-panel)); }
+  /* La pantalla fija contiene exactamente dos cosas: la fotografía y su recuadro.
+     El encabezado se quedó fuera, en flujo normal — ver el comentario en
+     ServicesSection.tsx. Con eso el reparto deja de ser una suma que hay que vigilar:
+     el mazo mide lo que miden sus dos piezas y se ancla al pie del escenario, así que
+     la descripción cae siempre en el borde inferior de la pantalla y la foto queda
+     justo encima, a sangre y con su 3:4 exacto, en cualquier altura. */
+  .svc-stage { --svc-img-w: 100vw; }
+  .svc-deck  { height: calc(var(--svc-img-w) * 4 / 3 + 6.5rem); }
   .svc-media { width: var(--svc-img-w); }
-
-  /* Una sola línea, y el cuerpo sale de la altura de la caja (1.12 = su interlineado).
-     El `min()` con vw impide que una caja generosa la haga tan grande que no quepa de
-     ancho. Sin suelo de 24px aquí: la regla tipográfica cede ante el requerimiento,
-     por decisión expresa de Lalo — la frase se adapta, no se corta. */
-  .svc-headline {
-    white-space: nowrap;
-    font-size: clamp(0.625rem, min(calc(var(--svc-head-h) / 1.12), 7.2vw), 2.3rem);
-  }
-
   .svc-title { font-size: clamp(1.5rem, 8.6vw, 2.25rem); }
 }
 
@@ -379,7 +362,6 @@ button:hover > .arrow-slide {
   .svc-card   { position: relative; inset: auto; opacity: 1 !important; padding-top: 0; }
   .svc-deck   { height: auto !important; max-height: none; display: grid; gap: 2.5rem; }
   .svc-media  { max-height: none; width: auto; margin-inline: 0; }
-  .svc-head   { display: block; padding-bottom: 0; }
   .svc-counter { display: none; }
 }
 
