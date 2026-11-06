@@ -72,8 +72,13 @@ const trk=document.querySelector('.svc-track'), stg=document.querySelector('.svc
 const scrollPx=parseFloat(getComputedStyle(trk).getPropertyValue('--svc-scroll'))/100*H;
 if (Math.abs((trk.offsetHeight - stg.offsetHeight) - scrollPx) > 2)
   fail.push('pista y escenario descuadrados: '+(trk.offsetHeight-stg.offsetHeight)+' vs '+Math.round(scrollPx));
-const rib=trk.nextElementSibling.getBoundingClientRect();
-if (Math.abs(rib.top - trk.getBoundingClientRect().bottom) > 1) fail.push('hueco entre la pista y la cinta');
+// La cinta es `sticky bottom-0` para asomar bajo la secuencia desde el primer
+// servicio, asi que ni su rect ni su offsetTop sirven aqui: los dos llevan ya el
+// desplazamiento del pegado. Lo comprobable es que no tenga margen superior en
+// movil, que es lo que la deja a ras del ultimo recuadro cuando aterriza.
+const ribW=trk.nextElementSibling;
+if (parseFloat(getComputedStyle(ribW).marginTop) !== 0) fail.push('la cinta lleva margen superior');
+if (getComputedStyle(ribW).position !== 'sticky') fail.push('la cinta dejo de ser sticky: volvera el hueco en blanco');
 
 // 7. la imagen ocupa el ancho completo
 if (Math.round(r(media).width) !== W) fail.push('la foto no ocupa el ancho: '+Math.round(r(media).width)+' de '+W);

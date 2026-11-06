@@ -49,6 +49,14 @@ export function ServicesSection({ t, locale }: Props) {
             un marco bone de por medio. Desde md vuelve a ser un bloque dentro de
             la retícula, con su respiro de 1.25rem. */}
         {deliveryService && (
+          /* Pegada al pie de la pantalla durante toda la secuencia, en vez de aparecer
+             al final. El escenario va por encima (z-10 y fondo bone), así que donde la
+             secuencia ocupa la pantalla entera la cinta queda detrás y no se ve; solo
+             asoma en la franja que el escenario deja libre, que es justo el hueco que
+             antes quedaba en blanco. El envoltorio existe porque `left-1/2` en un
+             elemento `sticky` es un umbral de pegado, no un desplazamiento: el truco
+             de sangrado necesita seguir viviendo en un `relative`. */
+          <div className="svc-ribbon sticky bottom-0 z-0 md:static">
           <div className="relative w-screen left-1/2 -translate-x-1/2 bg-navy px-5 py-6 flex items-center gap-4 md:w-auto md:left-auto md:translate-x-0 md:mt-5 md:p-6">
             <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -64,6 +72,7 @@ export function ServicesSection({ t, locale }: Props) {
                 {deliveryService.description}
               </p>
               </div>
+          </div>
           </div>
         )}
 

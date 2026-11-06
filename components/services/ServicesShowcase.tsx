@@ -178,7 +178,7 @@ export function ServicesShowcase({ t, images }: Props) {
           justo ahí, así que no queda holgura delante de la imagen. Antes el escenario
           medía 100svh y el mazo su propia altura, y esa diferencia — 30px en un teléfono
           corto, 224 en uno alto — se abría como un hueco entre el encabezado y la foto. */}
-      <div className="svc-stage sticky top-0 flex flex-col pt-[66px] overflow-hidden md:static md:block md:pt-0 md:overflow-visible">
+      <div className="svc-stage sticky top-0 z-10 bg-bone flex flex-col pt-[66px] overflow-hidden md:static md:block md:pt-0 md:overflow-visible md:bg-transparent">
 
         <div className="svc-deck relative flex-none md:static md:grid md:grid-cols-3 md:gap-5">
           {services.map((item, i) => (

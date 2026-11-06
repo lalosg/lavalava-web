@@ -379,6 +379,9 @@ button:hover > .arrow-slide {
      recortaría contra el tope de 6.5rem que sí necesita la secuencia fijada. */
   .svc-desc   { min-height: 0; max-height: none; }
   .svc-counter { display: none; }
+  /* La lista desplegada no tiene secuencia que dejar asomar por debajo, así que la
+     cinta vuelve al flujo: pegada al pie flotaría sobre las tarjetas. */
+  .svc-ribbon { position: static; }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────── */
