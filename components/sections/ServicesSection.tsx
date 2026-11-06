@@ -37,8 +37,13 @@ export function ServicesSection({ t, locale }: Props) {
               <p className="eyebrow mb-3 md:mb-4">{t.services.eyebrow}</p>
               <RevealText
                 as="h2"
-                text={t.services.headline}
-                className="svc-headline font-fraunces text-ink leading-[1.12] md:text-5xl md:leading-tight md:mb-12 max-w-sm"
+                // Sin el salto fijo: en móvil la frase va en UNA línea y su cuerpo
+                // lo decide la caja. En desktop `max-w-sm` la sigue partiendo en dos
+                // exactamente donde estaba.
+                text={t.services.headline.replace('\n', ' ')}
+                // El ancho de desktop decide dónde parte la frase ahora que el salto fijo
+                // se fue. 21rem la rompe tras "que", que es donde partía antes.
+                className="svc-headline font-fraunces text-ink leading-[1.12] md:text-5xl md:leading-tight md:mb-12 md:max-w-[21rem]"
               />
             </RevealOnScroll>
           }

@@ -346,41 +346,30 @@ button:hover > .arrow-slide {
   .svc-stage {
     --svc-top:      5rem;      /* menú (4rem) + aire bajo el menú (1rem) */
     --svc-eyebrow:  2rem;      /* "SERVICIOS" (20px) + su margen inferior (12px) */
-    --svc-gap:      1.25rem;   /* respiro entre el titular y la fotografía */
-    --svc-panel:    6.5rem;    /* el recuadro sand: las seis descripciones son 2 líneas */
-    /* Dos líneas de Canela en su suelo de 24px. Es lo que el titular necesita como
-       mínimo, y por tanto lo que la imagen tiene que dejarle. */
-    --svc-head-min: 3.375rem;
+    --svc-gap:      1rem;      /* respiro entre la frase y la fotografía */
+    --svc-panel:    6.5rem;    /* el recuadro sand, anclado al pie */
 
-    --svc-fixed:    calc(var(--svc-top) + var(--svc-eyebrow) + var(--svc-gap) + var(--svc-panel));
-    --svc-img-w:    min(100vw, (100svh - var(--svc-fixed) - var(--svc-head-min)) * 3 / 4);
-    /* Lo que queda para el titular una vez servidos los cuatro de arriba. Por el
-       `min()` anterior no puede ser menor que --svc-head-min. */
-    --svc-head-h:   calc(100svh - var(--svc-fixed) - var(--svc-img-w) * 4 / 3);
+    /* La imagen es el 100% del ancho. Punto. Su alto sale del ancho por su 3:4
+       exacto, así que no se recorta nunca, ni arriba, ni abajo, ni a los lados. */
+    --svc-img-w:    100vw;
+    /* La caja inteligente: lo que quede. Puede quedar poco. */
+    --svc-head-h:   calc(100svh - var(--svc-top) - var(--svc-eyebrow) - var(--svc-gap)
+                         - var(--svc-panel) - var(--svc-img-w) * 4 / 3);
   }
 
   .svc-deck  { height: calc(var(--svc-img-w) * 4 / 3 + var(--svc-panel)); }
-  .svc-media { width: var(--svc-img-w); margin-inline: auto; }
+  .svc-media { width: var(--svc-img-w); }
 
-  /* 2.24 = dos líneas a un interlineado de 1.12. El titular ocupa exactamente la caja
-     que le queda, ni un píxel más, y el clamp impide que baje del suelo de Canela o
-     suba del tamaño del H2 de sección. */
-  .svc-headline { font-size: clamp(1.5rem, calc(var(--svc-head-h) / 2.24), 2.3rem); }
-
-  /* El contador vive arriba a la derecha DE LA FOTOGRAFÍA. Cuando la imagen se
-     estrecha, el mazo sigue siendo ancho, así que hay que descontar la mitad del bone
-     que aparece a los lados o el contador se saldría de la foto. */
-  .svc-counter {
-    right: calc((100vw - var(--svc-img-w)) / 2 + 1rem);
+  /* Una sola línea, y el cuerpo sale de la altura de la caja (1.12 = su interlineado).
+     El `min()` con vw impide que una caja generosa la haga tan grande que no quepa de
+     ancho. Sin suelo de 24px aquí: la regla tipográfica cede ante el requerimiento,
+     por decisión expresa de Lalo — la frase se adapta, no se corta. */
+  .svc-headline {
+    white-space: nowrap;
+    font-size: clamp(0.625rem, min(calc(var(--svc-head-h) / 1.12), 7.2vw), 2.3rem);
   }
 
-  /* Se mide contra el ANCHO DE LA FOTO, no contra el de la pantalla: el título vive
-     dentro de la imagen, y cuando la imagen se estrecha su caja se estrecha con ella.
-     Medirlo en vw hacía que el título más largo se partiera en cuanto aparecía bone
-     a los lados. 0.086 es el mismo 8.6% de antes, ahora sobre la referencia correcta. */
-  .svc-title {
-    font-size: clamp(1.5rem, calc(var(--svc-img-w) * 0.086), 2.25rem);
-  }
+  .svc-title { font-size: clamp(1.5rem, 8.6vw, 2.25rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {

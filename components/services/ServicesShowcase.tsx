@@ -169,7 +169,7 @@ export function ServicesShowcase({ t, images, header }: Props) {
       {/* Columna simple: el encabezado arriba bajo el menú, el mazo abajo. Ninguno
           necesita `justify-*` porque el reparto lo decide el calc de globals.css y
           por construcción suma 100svh exactos — no sobra ni falta espacio que repartir. */}
-      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
+      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col justify-end pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
 
         {/* El eyebrow arranca en el borde superior de esta caja, que es justo debajo
             del menú, y el titular va pegado a él. La holgura sobrante queda ABAJO,
