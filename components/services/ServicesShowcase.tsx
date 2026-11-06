@@ -166,16 +166,16 @@ export function ServicesShowcase({ t, images, header }: Props) {
       style={{ height: `calc(100svh + ${(services.length - 1) * SCROLL_PER_SERVICE * 100}svh)` }}
     >
       {/* The stage: pinned on a phone, dissolved back into normal flow from md. */}
-      {/* `justify-end` ancla el mazo al pie del escenario. Mientras sobra espacio no
-          hace nada — el encabezado es `flex-1` y se lo queda todo. Cuando falta, que
-          es lo que pasa en un teléfono corto ahora que la foto no se recorta, manda el
-          desbordamiento HACIA ARRIBA: se sacrifica el titular de sección antes que el
-          recuadro con la descripción, que es el que lleva información. */}
-      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col justify-end pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
+      {/* Columna simple: el encabezado arriba bajo el menú, el mazo abajo. Ninguno
+          necesita `justify-*` porque el reparto lo decide el calc de globals.css y
+          por construcción suma 100svh exactos — no sobra ni falta espacio que repartir. */}
+      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
 
-        {/* Lo que sobre tras reservar imagen y descripción. El titular se dimensiona
-            con clamp sobre esa sobra, así que encoge en lugar de cortarse. */}
-        <div className="svc-head flex-1 min-h-0 flex flex-col justify-end px-4 pb-5 md:block md:px-0 md:pb-0">
+        {/* El eyebrow arranca en el borde superior de esta caja, que es justo debajo
+            del menú, y el titular va pegado a él. La holgura sobrante queda ABAJO,
+            entre el titular y la fotografía, nunca arriba: así "SERVICIOS" no puede
+            quedar bajo la barra en ninguna altura de pantalla. */}
+        <div className="svc-head flex-1 min-h-0 flex flex-col px-4 pb-5 md:block md:px-0 md:pb-0">
           {header}
         </div>
 
