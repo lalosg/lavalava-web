@@ -13,8 +13,23 @@ interface Props {
   header: React.ReactNode
 }
 
-/** How much scroll each service costs, as a fraction of the viewport. */
-const SCROLL_PER_SERVICE = 0.7
+/** How much scroll each service costs, as a fraction of the viewport.
+ *  At 0.7 a single thumb flick carried the reader past two services, so nothing
+ *  ever sat still. 0.9 plus the dwell below means one flick is about one service. */
+const SCROLL_PER_SERVICE = 0.9
+
+/** Fraction of each service's scroll segment the photograph holds perfectly still
+ *  before the dissolve begins. Without it the sequence is never at rest: a linear
+ *  crossfade across the whole segment means the reader is almost always looking at
+ *  a blend rather than at a photograph. */
+const DWELL = 0.45
+
+/** The words cut, the photograph dissolves. Inside the dissolve window, the outgoing
+ *  text is gone by TEXT_OUT and the incoming text arrives at TEXT_IN, so there is a
+ *  beat in the middle with no words at all. Fading both at the image's rate printed
+ *  two titles and two descriptions on top of each other for most of the transition. */
+const TEXT_OUT = 0.35
+const TEXT_IN = 0.65
 
 /**
  * The six services: a pinned, scroll-driven sequence on phones; the untouched 3x2
@@ -37,6 +52,7 @@ export function ServicesShowcase({ t, images, header }: Props) {
   const services = t.services.items.slice(0, 6)
   const trackRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<(HTMLElement | null)[]>([])
+  const textsRef = useRef<HTMLElement[][]>([])
   const [active, setActive] = useState(0)
   const activeRef = useRef(0)
 
@@ -53,6 +69,14 @@ export function ServicesShowcase({ t, images, header }: Props) {
     // index actually changes.
     const clearInline = () => {
       cardsRef.current.forEach((el) => { if (el) el.style.opacity = '' })
+      textsRef.current.forEach((group) => group?.forEach((el) => { el.style.opacity = '' }))
+    }
+
+    // Collected once rather than queried every frame.
+    const collectText = () => {
+      textsRef.current = cardsRef.current.map((card) =>
+        card ? Array.from(card.querySelectorAll<HTMLElement>('[data-svc-text]')) : [],
+      )
     }
 
     // From md up this is a plain grid and nothing should be driving opacity.
@@ -64,6 +88,13 @@ export function ServicesShowcase({ t, images, header }: Props) {
       return
     }
 
+    collectText()
+
+    const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v)
+    /** Smoothstep: the dissolve eases in and out instead of starting and stopping
+     *  abruptly at the edges of its window. */
+    const smooth = (v: number) => v * v * (3 - 2 * v)
+
     let frame = 0
     const read = () => {
       const rect = track.getBoundingClientRect()
@@ -71,14 +102,35 @@ export function ServicesShowcase({ t, images, header }: Props) {
       const progress = span > 0 ? Math.min(Math.max(-rect.top / span, 0), 1) : 0
       const exact = progress * (services.length - 1)
 
+      // The current pair, and how far through their segment we are.
+      const seg = Math.max(0, Math.min(Math.floor(exact), services.length - 2))
+      const f = exact - seg
+      const u = f <= DWELL ? 0 : (f - DWELL) / (1 - DWELL)
+
+      // The incoming card fades in ON TOP of an outgoing card that stays fully
+      // opaque. A symmetric crossfade — both at 0.5 in the middle — composites to
+      // only 75% coverage, so the bone background washed through the photograph and
+      // both titles and both descriptions were legible at once. Verified in a
+      // screenshot at the midpoint before this was changed. Cards paint in DOM
+      // order, so no z-index is needed.
+      const blend = smooth(u)
+      const outAlpha = 1 - clamp01(u / TEXT_OUT)
+      const inAlpha = clamp01((u - TEXT_IN) / (1 - TEXT_IN))
+
       cardsRef.current.forEach((el, i) => {
         if (!el) return
-        // Linear crossfade between neighbours; everything further away is fully out.
-        const d = Math.abs(exact - i)
-        el.style.opacity = String(d >= 1 ? 0 : 1 - d)
+        // Only ever two cards are painted: everything already passed is dropped to
+        // zero rather than left opaque underneath, so the compositor holds two
+        // full-screen layers instead of six.
+        el.style.opacity = i === seg ? '1' : i === seg + 1 ? String(blend) : '0'
+        const alpha = i === seg ? outAlpha : i === seg + 1 ? inAlpha : 1
+        textsRef.current[i]?.forEach((node) => { node.style.opacity = String(alpha) })
       })
 
-      const next = Math.round(exact)
+      // Flips once the incoming photograph is more than half there. Rounding `exact`
+      // instead moved the counter in the middle of the dwell, while the screen was
+      // still showing the previous service.
+      const next = blend >= 0.5 ? seg + 1 : seg
       if (next !== activeRef.current) {
         activeRef.current = next
         setActive(next)
@@ -89,7 +141,7 @@ export function ServicesShowcase({ t, images, header }: Props) {
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(read) }
     const onChange = () => {
       if (mqDesktop.matches || mqReduced.matches) clearInline()
-      else read()
+      else { collectText(); read() }
     }
 
     read()
@@ -155,9 +207,14 @@ export function ServicesShowcase({ t, images, header }: Props) {
                 />
 
               {/* Title: loose on the photograph below md, under it from md. */}
+              {/* Sized in globals.css, not here: below md it scales with the width
+                  it has to fit into, which is what decides whether the longest
+                  title wraps. Tailwind cannot express that and keep the md
+                  override legible. */}
               <h3
+                data-svc-text
                 className={cn(
-                  'svc-title absolute left-4 right-4 bottom-4 z-10 font-fraunces text-[1.9rem] leading-[1.1] text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.45)]',
+                  'svc-title absolute left-4 right-4 bottom-4 z-10 font-fraunces leading-[1.1] text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.45)]',
                   'md:static md:text-ink md:[text-shadow:none] md:font-sans md:font-semibold md:text-xl md:leading-snug md:mt-3 md:mb-1',
                 )}
               >
@@ -177,7 +234,7 @@ export function ServicesShowcase({ t, images, header }: Props) {
                   'md:block md:flex-none md:bg-transparent md:p-0',
                 )}
               >
-                <p className="font-sans text-base md:text-body text-ink/80 md:text-ink/65 leading-relaxed">
+                <p data-svc-text className="font-sans text-base md:text-body text-ink/80 md:text-ink/65 leading-relaxed">
                   {item.description}
                 </p>
               </div>

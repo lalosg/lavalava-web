@@ -339,6 +339,15 @@ button:hover > .arrow-slide {
   .svc-headline {
     font-size: clamp(1.35rem, 4.2vh, 2.3rem);
   }
+  /* El título flota sobre la foto, así que lo que decide su tamaño es el ancho que
+     tiene para no partirse, no la altura. Medido en Canela: el más largo de los doce
+     (“Arreglos y Composturas”, 22 caracteres) mide 10em, y el hueco es 100vw - 2rem.
+     8.6vw lo deja dentro con holgura en 320, 360, 390 y 430 px — ninguno de los doce
+     se parte en ninguno de esos anchos. El suelo de 1.75rem queda por encima del
+     mínimo de 24px que tiene Canela. */
+  .svc-title {
+    font-size: clamp(1.75rem, 8.6vw, 2.25rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

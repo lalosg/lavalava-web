@@ -126,15 +126,44 @@ Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 > landed when the phone was still being served the previous build's stylesheet. **Confirm a
 > CSS change by curling the served `/_next/static/css/*.css`, not by reading the source.**
 >
-> **Still open on this component** (Lalo: "todavía hay mejoras que aplicar"):
+> **Rhythm and title tuned, Nov 6 2026 — and the tuning uncovered a real defect.**
+> A screenshot taken at the midpoint of a transition showed **both titles and both
+> descriptions legible at once**, over a washed-out photograph. The cause was the
+> crossfade model: two cards at 0.5 composite to 1-(0.5)(0.5) = **75% coverage**, so a
+> quarter of the bone background came through. Three changes, all in
+> `ServicesShowcase.tsx`:
+> - **The incoming card now fades in ON TOP of an outgoing card that stays fully
+>   opaque** (cards paint in DOM order; no z-index needed). Never any background wash.
+>   Only two cards are painted at a time — everything already passed drops to zero
+>   rather than sitting opaque underneath, so the compositor holds two full-screen
+>   layers instead of six.
+> - **`DWELL = 0.45`**: the photograph holds perfectly still for the first 45% of each
+>   service's scroll segment. A linear fade across the whole segment meant the reader
+>   was almost always looking at a blend rather than at a photograph. Measured: **55% of
+>   the sequence is now at rest**, ~414px per service.
+> - **The words cut, the photograph dissolves.** `TEXT_OUT = 0.35` / `TEXT_IN = 0.65`
+>   inside the dissolve window, so there is a beat with **no words at all** — measured at
+>   17% of the scroll, 126px per service. Fading the text at the image's rate is what
+>   printed two titles on top of each other.
+> - **`SCROLL_PER_SERVICE` 0.7 → 0.9.** At 0.7 one thumb flick carried the reader past
+>   two services. The track is 5.5 screens (was 4.5), 34% of the page.
+> - **The title is fluid: `clamp(1.75rem, 8.6vw, 2.25rem)` in `globals.css`.** It was a
+>   fixed 1.9rem, which wrapped on a 320px phone and looked small on a 430px one. Sized
+>   on **vw, not vh** — unlike `.svc-headline` — because what decides a title is whether
+>   it fits the width. Verified: all **48 combinations** (6 titles × 2 locales ×
+>   320/360/390/430) render on one line.
+>
+> Re-measured after: 99 / 100 / 100 / 100, LCP 1.6s, CLS 0, TBT 0ms; desktop still 371px
+> cards with zero inline styles; reduced motion 6/6 visible with zero inline writes.
+>
+> **Still open on this component:**
 > - The service images are **3:4 and lose 38–40% to the crop** at full bleed. **9:16
->   masters would lose ~20%** — this is the single biggest visual win available here and
->   it is an asset Lalo owes.
-> - The scroll rhythm (`SCROLL_PER_SERVICE = 0.7`) and the white title's size over the
->   photograph have never been tuned against a real thumb, only measured.
+>   masters would lose ~20%** — the single biggest visual win available here, and an
+>   asset Lalo owes.
 > - `text-bone/50` in the delivery ribbon looks washed out on the device; it is at the
 >   documented floor but worth re-examining at ribbon width.
 > - The desktop grid has had none of this attention and is still the original 3×2.
+> - The dwell/cut constants were tuned by measurement, not yet against a real thumb.
 
 > **Session update — Oct 23 to Nov 5 2026: typography system rebuilt end to end.**
 > Nine commits on `design/canela-display`, merged. Every number below was measured in
