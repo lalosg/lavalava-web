@@ -65,6 +65,16 @@ document.querySelectorAll('.svc-title').forEach(t=>{
   const tb=t.getBoundingClientRect(), mb=r(media);
   if (tb.top < mb.top || tb.bottom > mb.bottom+1) fail.push('titulo fuera de la foto');
 });
+// 7bis. el recorrido fijado = pista menos escenario. Si no coinciden, la secuencia
+// termina antes que la pista y ese resto se recorre como bone entre el ultimo
+// recuadro y la cinta de a domicilio.
+const trk=document.querySelector('.svc-track'), stg=document.querySelector('.svc-stage');
+const scrollPx=parseFloat(getComputedStyle(trk).getPropertyValue('--svc-scroll'))/100*H;
+if (Math.abs((trk.offsetHeight - stg.offsetHeight) - scrollPx) > 2)
+  fail.push('pista y escenario descuadrados: '+(trk.offsetHeight-stg.offsetHeight)+' vs '+Math.round(scrollPx));
+const rib=trk.nextElementSibling.getBoundingClientRect();
+if (Math.abs(rib.top - trk.getBoundingClientRect().bottom) > 1) fail.push('hueco entre la pista y la cinta');
+
 // 7. la imagen ocupa el ancho completo
 if (Math.round(r(media).width) !== W) fail.push('la foto no ocupa el ancho: '+Math.round(r(media).width)+' de '+W);
 // 8. la foto libra el menu y no deja holgura delante de ella

@@ -348,6 +348,19 @@ button:hover > .arrow-slide {
      iPhone corto deja 70px para él — pero nunca crece más de 6.5rem, que es lo que
      medía antes de todo esto. El encabezado vive fuera del escenario, ver el
      comentario en ServicesSection.tsx. */
+  /* El escenario mide lo que miden el hueco del menú y el mazo, NO 100svh. Con
+     100svh le sobraba una franja por debajo del recuadro — 158px en un teléfono
+     alto — y al terminar el recorrido esa franja quedaba como un hueco de bone entre
+     el recuadro y la cinta de servicio a domicilio. El tope del mazo sigue impidiendo
+     que el conjunto pase de la pantalla. */
+  .svc-track {
+    /* 66px es el alto del menú. El escenario mide ese hueco más el mazo, y la pista
+       mide el escenario más el recorrido — así su borde inferior coincide con el del
+       recuadro y no queda bone entre el último servicio y la cinta de a domicilio. */
+    --svc-stage-h: calc(66px + min(100vw * 4 / 3 + 6.5rem, 100svh - 66px));
+    height: calc(var(--svc-stage-h) + var(--svc-scroll));
+  }
+  .svc-stage { height: var(--svc-stage-h); }
   .svc-media { width: 100vw; }
   .svc-deck  { height: calc(100vw * 4 / 3 + 6.5rem); max-height: calc(100svh - 66px); }
   .svc-desc  { min-height: 4.25rem; max-height: 6.5rem; }

@@ -93,9 +93,16 @@ export function ServicesShowcase({ t, images }: Props) {
     const smooth = (v: number) => v * v * (3 - 2 * v)
 
     let frame = 0
+    const stage = track.querySelector<HTMLElement>('.svc-stage')
+
     const read = () => {
       const rect = track.getBoundingClientRect()
-      const span = rect.height - window.innerHeight
+      // Contra la altura del ESCENARIO, no la de la pantalla. El escenario mide su
+      // contenido — menú más mazo — y se queda fijo exactamente ese tramo. Midiendo
+      // contra la pantalla, la secuencia terminaba antes de que la pista acabara, y
+      // ese resto se recorría como una franja de bone entre el último recuadro y la
+      // cinta de servicio a domicilio.
+      const span = rect.height - (stage?.offsetHeight ?? window.innerHeight)
       const progress = span > 0 ? Math.min(Math.max(-rect.top / span, 0), 1) : 0
       const exact = progress * (services.length - 1)
 
@@ -160,14 +167,18 @@ export function ServicesShowcase({ t, images }: Props) {
     <div
       ref={trackRef}
       className="svc-track relative w-screen left-1/2 -translate-x-1/2 md:w-auto md:left-auto md:translate-x-0 md:h-auto"
-      style={{ height: `calc(100svh + ${(services.length - 1) * SCROLL_PER_SERVICE * 100}svh)` }}
+      // Solo el recorrido va en línea. La altura la arma globals.css sumando ese
+      // recorrido a la altura REAL del escenario, no a 100svh: la pista medía una
+      // pantalla entera por abajo mientras el escenario medía su contenido, y esa
+      // diferencia quedaba como un hueco de bone entre el último recuadro y la cinta.
+      style={{ '--svc-scroll': `${(services.length - 1) * SCROLL_PER_SERVICE * 100}svh` } as React.CSSProperties}
     >
       {/* The stage: pinned on a phone, dissolved back into normal flow from md. */}
       {/* `pt-16` para que la fotografía libre el menú, y nada más: el mazo arranca
           justo ahí, así que no queda holgura delante de la imagen. Antes el escenario
           medía 100svh y el mazo su propia altura, y esa diferencia — 30px en un teléfono
           corto, 224 en uno alto — se abría como un hueco entre el encabezado y la foto. */}
-      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col pt-[66px] overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
+      <div className="svc-stage sticky top-0 flex flex-col pt-[66px] overflow-hidden md:static md:block md:pt-0 md:overflow-visible">
 
         <div className="svc-deck relative flex-none md:static md:grid md:grid-cols-3 md:gap-5">
           {services.map((item, i) => (
