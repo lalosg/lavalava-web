@@ -334,8 +334,15 @@ button:hover > .arrow-slide {
    — un iPhone SE necesita 102px más de los que tiene, así que ahí la foto cede un
    poco en lugar de empujar al titular fuera de la pantalla. */
 @media (max-width: 767px) {
-  .svc-deck  { height: calc(100vw * 4 / 3 + 6.5rem); max-height: calc(100svh - 5rem - 8.5rem); }
-  .svc-media { max-height: calc(100svh - 5rem - 6.5rem - 8.5rem); }
+  /* CERO recorte, por decisión de Lalo (Nov 6 2026): el ancho lo dicta la pantalla y
+     el alto sale del ancho. Los seis archivos son 1086x1448 — exactamente 3:4 — así
+     que con `aspect-[3/4]` a 100vw la fotografía se ve entera, sin recorte arriba,
+     abajo ni a los lados. El tope de altura que había aquí es lo que la recortaba:
+     comía hasta un 35% en un teléfono corto para que todo cupiese en una pantalla.
+     Consecuencia conocida y aceptada para esta prueba: en pantallas por debajo de
+     ~690px de alto útil ya no cabe foto + recuadro + titular, y el titular de sección
+     se sale por arriba (ver `justify-end` en el escenario). */
+  .svc-deck  { height: calc(100vw * 4 / 3 + 6.5rem); }
   .svc-headline {
     font-size: clamp(1.35rem, 4.2vh, 2.3rem);
   }

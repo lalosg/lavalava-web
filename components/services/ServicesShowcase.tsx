@@ -166,7 +166,12 @@ export function ServicesShowcase({ t, images, header }: Props) {
       style={{ height: `calc(100svh + ${(services.length - 1) * SCROLL_PER_SERVICE * 100}svh)` }}
     >
       {/* The stage: pinned on a phone, dissolved back into normal flow from md. */}
-      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
+      {/* `justify-end` ancla el mazo al pie del escenario. Mientras sobra espacio no
+          hace nada — el encabezado es `flex-1` y se lo queda todo. Cuando falta, que
+          es lo que pasa en un teléfono corto ahora que la foto no se recorta, manda el
+          desbordamiento HACIA ARRIBA: se sacrifica el titular de sección antes que el
+          recuadro con la descripción, que es el que lleva información. */}
+      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col justify-end pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
 
         {/* Lo que sobre tras reservar imagen y descripción. El titular se dimensiona
             con clamp sobre esa sobra, así que encoge en lugar de cortarse. */}
