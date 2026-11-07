@@ -121,6 +121,31 @@ Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 > Final: **99 performance / 100 a11y / 100 best practices / 100 SEO**, LCP 1.6s, CLS 0,
 > harness green on 658/700/734/769/800/852 in both locales, desktop 371px cards unchanged,
 > reduced motion 6/6 visible.
+>
+> **Nov 7 2026 — desktop homologated to the mobile look.** The 3×2 grid, its sizes and its
+> distribution are untouched; what changed is the card's skin. Lalo's four points:
+> - **A bug the request happened to fix:** the service title already existed on desktop,
+>   but `md:static` took it out of positioning inside a box with `overflow:hidden`, so it
+>   sat in flow BEHIND the `fill` image. It was in the DOM and invisible on every large
+>   screen, and nobody had noticed.
+> - The title now stays **absolute inside the photograph at every size**, white over the
+>   same navy gradient as mobile. Mobile sizes it in CSS against the photo's width; from
+>   md it steps by breakpoint (24 / 28 / 32px) because the card does not follow the
+>   viewport. At md the column is 221px, so the longest title takes two lines rather than
+>   go below Canela's 24px floor.
+> - **The sand panel is now on desktop too.** The card is a flex column from md and the
+>   grid stretches, so `flex-1` on the panel makes every panel in a row the same height
+>   even when the descriptions run 2 vs 3 lines — verified 94/94/94 and 122/122/122.
+>   The `pr-20` that cleared the mobile counter becomes symmetric from md; there is no
+>   counter on desktop and none was added.
+> - **The delivery ribbon is full bleed at every size, its content is not.** The band runs
+>   edge to edge; the inner box is `max-w-6xl mx-auto` with the padding OUTSIDE the max
+>   width, which is the only arrangement where its text starts exactly where the first
+>   card does. With the padding inside it landed 32px off at 1440. Verified aligned at
+>   768 / 1024 / 1440 / 1920.
+>
+> Desktop Lighthouse 99/100/100/100, LCP 0.9s. Mobile unchanged and still green on the
+> harness in both locales.
 
 > **Session update — Nov 5 2026: the services block is a pinned scroll sequence on phones.**
 > Five commits on `feat/services-scroll-mobile`, merged. This is the first of the four

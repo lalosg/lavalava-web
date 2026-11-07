@@ -191,7 +191,7 @@ export function ServicesShowcase({ t, images, footer }: Props) {
               ref={(el) => { cardsRef.current[i] = el }}
               // Stacked and faded on mobile; an ordinary grid cell from md.
               className={cn(
-                'svc-card absolute inset-0 flex flex-col md:block md:relative md:inset-auto md:opacity-100',
+                'svc-card absolute inset-0 flex flex-col md:relative md:inset-auto md:opacity-100',
                 // Before hydration every card would otherwise be at full opacity and
                 // they would all show at once. The first is visible, the rest wait.
                 i === 0 ? 'opacity-100' : 'opacity-0 md:opacity-100',
@@ -212,39 +212,48 @@ export function ServicesShowcase({ t, images, footer }: Props) {
                 {/* Degradado solo bajo el título, para que el blanco se lea sobre
                     cualquier foto sin oscurecer la composición entera. */}
                 <div
-                  className="absolute inset-x-0 bottom-0 h-32 md:hidden bg-[linear-gradient(to_top,rgba(22,35,59,0.55),rgba(22,35,59,0))]"
+                  className="absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(to_top,rgba(22,35,59,0.55),rgba(22,35,59,0))]"
                   aria-hidden="true"
                 />
 
               {/* Title: loose on the photograph below md, under it from md. */}
-              {/* Sized in globals.css, not here: below md it scales with the width
-                  it has to fit into, which is what decides whether the longest
-                  title wraps. Tailwind cannot express that and keep the md
-                  override legible. */}
+              {/* Dentro de la fotografía en todos los tamaños. En desktop era
+                  `md:static`, y estándo dentro de un contenedor con overflow oculto
+                  eso lo dejaba en flujo DETRÁS de la imagen, que va absoluta: el
+                  título existía en el DOM y no se veía en ninguna pantalla grande.
+                  El cuerpo en móvil lo fija globals.css contra el ancho de la foto;
+                  de md en adelante escala por breakpoint porque la tarjeta no sigue
+                  al viewport. En md la columna mide 221px y el título más largo pasa
+                  a dos líneas antes que bajar del suelo de 24px de Canela. */}
               <h3
                 data-svc-text
                 className={cn(
                   'svc-title absolute left-4 right-4 bottom-4 z-10 font-fraunces leading-[1.1] text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.45)]',
-                  'md:static md:text-ink md:[text-shadow:none] md:font-sans md:font-semibold md:text-xl md:leading-snug md:mt-3 md:mb-1',
+                  'md:text-2xl lg:text-[1.75rem] xl:text-[2rem]',
                 )}
               >
                   {item.title}
                 </h3>
               </div>
 
-              {/* Description: a navy panel anchored to the foot of the photograph on a
-                  phone, plain body copy from md. */}
+              {/* El recuadro de la descripción, bajo la fotografía, en todos los
+                  tamaños. En desktop era texto suelto sobre bone. */}
               <div
                 className={cn(
                   // sand, no navy: el bloque de servicio a domicilio que sigue es
                   // navy, y dos bandas navy seguidas se leen como una sola. sand da
                   // 11x de diferencia de luminancia y cambia el registro — se lee
                   // como una tira de papel bajo la foto, no como otro panel oscuro.
+                  // `flex-1` también en desktop: la tarjeta es columna flex y la
+                  // retícula estira, así que los recuadros de una misma fila acaban
+                  // a la misma altura aunque las descripciones tengan 2 o 3 líneas.
+                  // El `pr-20` de móvil era para librar el contador, que en desktop
+                  // no existe, así que ahí el margen vuelve a ser simétrico.
                   'svc-desc flex-1 bg-sand flex items-center pl-4 pr-20 py-5',
-                  'md:block md:flex-none md:bg-transparent md:p-0',
+                  'md:px-5 md:py-5',
                 )}
               >
-                <p data-svc-text className="font-sans text-base md:text-body text-ink/80 md:text-ink/65 leading-relaxed">
+                <p data-svc-text className="font-sans text-base md:text-body text-ink/80 leading-relaxed">
                   {item.description}
                 </p>
               </div>

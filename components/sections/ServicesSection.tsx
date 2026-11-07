@@ -52,18 +52,20 @@ export function ServicesSection({ t, locale }: Props) {
           images={serviceImages}
           footer={
             deliveryService ? (
-              <div className="svc-ribbon relative w-screen left-1/2 -translate-x-1/2 flex-none bg-navy px-5 py-6 flex items-center gap-4 md:w-auto md:left-auto md:translate-x-0 md:mt-5 md:p-6">
-                <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-sans font-semibold text-lg text-bone mb-1">{deliveryService.title}</h3>
-                  <p className="font-sans text-sm text-bone/50 leading-relaxed">
-                    {deliveryService.description}
-                  </p>
+              <div className="svc-ribbon relative w-screen left-1/2 -translate-x-1/2 flex-none bg-navy section-px md:mt-5">
+                <div className="max-w-6xl mx-auto py-6 flex items-center gap-4 md:py-7">
+                  <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                      <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-sans font-semibold text-lg text-bone mb-1">{deliveryService.title}</h3>
+                    <p className="font-sans text-sm text-bone/50 leading-relaxed">
+                      {deliveryService.description}
+                    </p>
+                  </div>
                 </div>
               </div>
             ) : null
