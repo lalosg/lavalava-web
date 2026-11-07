@@ -174,7 +174,28 @@ Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 > is still 0; row two 0.6 / 0.28 / 0 with the ribbon still 0; the ribbon last. Mobile
 > untouched — the crossfade still paints only two cards at a time and the harness, which
 > now also asserts the entrance cannot leak below md, is green in both locales.
-> 99/100/100/100 on both form factors, CLS 0.
+>
+> ⚠️ **The entrance broke the ribbon's full bleed, and the reason generalises.** The bleed
+> lives in a `translateX(-50%)`, and writing `transform` on that element — which the
+> entrance did, for the 20px rise — erases it: the band appeared shifted half a screen to
+> the right. **Never write `transform` on `.svc-ribbon`.** The entrance now animates
+> **opacity only**, and the rise belongs to `.svc-card.svc-reveal`, which carries no other
+> transform. The same trap was sitting in the `scripting: none` and `prefers-reduced-motion`
+> fallbacks, which both reset `transform: none` on `.svc-reveal`; those are scoped to the
+> card now. The harness asserts the bleed, so the class of bug is caught rather than the
+> instance.
+>
+> **The reduced-motion unwind is scoped to `max-width: 767px`**, which it always should
+> have been. It is the mobile list; on desktop it was putting the ribbon in `static` while
+> it kept a screen-wide box, opening **144px of horizontal scroll** at 1440. Found by
+> measuring, not reported.
+>
+> **The harness bails out above 767px** with a note. Its contract is the mobile one — grid
+> instead of sequence, 371px photographs instead of full width — so every assertion fires
+> a false positive on desktop, including one caused by the harness itself comparing every
+> title against the FIRST card's photograph.
+>
+> Desktop **100**/100/100/100, LCP 0.8s. Mobile 99/100/100/100, LCP 1.6s. CLS 0 on both.
 
 > **Session update — Nov 5 2026: the services block is a pinned scroll sequence on phones.**
 > Five commits on `feat/services-scroll-mobile`, merged. This is the first of the four

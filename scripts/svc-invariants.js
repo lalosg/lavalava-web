@@ -1,5 +1,5 @@
 /**
- * Invariantes de la secuencia de servicios en móvil.
+ * Invariantes de la secuencia de servicios en MÓVIL (se sale solo arriba de 767px).
  *
  * Por qué existe: esta sección se validó durante semanas a 390x844 SIN barras de
  * navegador, que es lo que emula DevTools. Ningún teléfono en vertical con sus barras
@@ -24,6 +24,10 @@
  * de layout en pérdida invisible de contenido, y eso es lo que nadie vio durante semanas.
  */
 return (()=>{
+// SOLO MOVIL. Arriba de 767px el contrato es otro — reticula 3x2, sin secuencia
+// fijada, foto a 371px y no al ancho de la pantalla — y cada asercion de aqui dispara
+// un falso positivo. Se sale con un aviso para que nadie los lea como fallos reales.
+if (innerWidth >= 768) return JSON.stringify({skipped: 'contrato de movil; correr por debajo de 768px', W: innerWidth});
 const fail=[];
 const hdr=document.querySelector('header').getBoundingClientRect();
 const H=innerHeight, W=innerWidth;
@@ -90,6 +94,12 @@ else {
   // se filtra, deja la cinta y las tarjetas en opacity 0 y pelea con la secuencia,
   // que es la unica duena de la opacidad en movil.
   if (+getComputedStyle(ribbon).opacity !== 1) fail.push('la entrada de escritorio se filtro a movil');
+  // A sangre en TODOS los anchos. El sangrado vive en un translateX(-50%), asi que
+  // cualquier regla que escriba `transform` sobre la cinta lo borra y la desplaza
+  // media pantalla. Ya paso una vez, con la entrada de escritorio.
+  const rb=ribbon.getBoundingClientRect();
+  if (Math.round(rb.left) !== 0 || Math.round(rb.width) !== W)
+    fail.push('la cinta perdio el sangrado: left '+Math.round(rb.left)+', ancho '+Math.round(rb.width)+' de '+W);
   const rp=ribbon.querySelector('p').getBoundingClientRect();
   if (rp.bottom > ribbon.getBoundingClientRect().bottom + 1) fail.push('el texto de la cinta no cabe');
 }

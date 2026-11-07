@@ -387,16 +387,27 @@ button:hover > .arrow-slide {
    en vez de acumular un retardo creciente que dejaría la sexta tarjeta medio segundo
    tarde. */
 @media (min-width: 768px) {
+  /* La entrada anima SOLO la opacidad, porque la cinta de a domicilio lleva su
+     sangrado en un `translateX(-50%)` y escribir `transform` aquí se lo borraba: la
+     banda aparecía desplazada media pantalla a la derecha. El ascenso se lo queda la
+     tarjeta, que no usa ninguna otra transformación. */
   .svc-reveal {
     opacity: 0;
+    transition: opacity var(--dur-base) var(--ease);
+    transition-delay: var(--svc-delay, 0ms);
+    will-change: opacity;
+  }
+  .svc-reveal.is-visible {
+    opacity: 1;
+  }
+  .svc-card.svc-reveal {
     transform: translateY(var(--travel));
     transition: opacity var(--dur-base) var(--ease),
                 transform var(--dur-base) var(--ease);
     transition-delay: var(--svc-delay, 0ms);
     will-change: opacity, transform;
   }
-  .svc-reveal.is-visible {
-    opacity: 1;
+  .svc-card.svc-reveal.is-visible {
     transform: none;
   }
   .svc-reveal.is-settled {
@@ -411,12 +422,19 @@ button:hover > .arrow-slide {
 @media (scripting: none) {
   .svc-reveal {
     opacity: 1 !important;
-    transform: none !important;
     transition: none !important;
+  }
+  /* Solo la tarjeta: la cinta necesita conservar su `translateX(-50%)`. */
+  .svc-card.svc-reveal {
+    transform: none !important;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* Este desarmado es de MÓVIL: deshace la secuencia fijada y deja una lista vertical.
+   Sin el `max-width`, en escritorio ponía la cinta en `static` conservando su ancho de
+   pantalla, lo que abría 144px de scroll horizontal, y tocaba la retícula sin
+   necesidad. La entrada de escritorio se apaga aparte, en el bloque siguiente. */
+@media (prefers-reduced-motion: reduce) and (max-width: 767px) {
   .svc-track  { height: auto !important; width: auto; left: auto; transform: none; }
   .svc-stage  { position: static; height: auto; overflow: visible; }
   .svc-grid   { display: grid; gap: 2.5rem; height: auto; }
@@ -431,8 +449,13 @@ button:hover > .arrow-slide {
   /* La lista desplegada no tiene secuencia que dejar asomar por debajo, así que la
      cinta vuelve al flujo: pegada al pie flotaría sobre las tarjetas. */
   .svc-ribbon { position: static; height: auto; }
-  /* La entrada de desktop también se apaga aquí: las tarjetas ya están puestas. */
-  .svc-reveal  { opacity: 1 !important; transform: none; transition: none; }
+}
+
+/* La entrada de escritorio se apaga en cualquier ancho, pero el `transform: none` es
+   solo para la tarjeta: la cinta vive de su `translateX(-50%)`. */
+@media (prefers-reduced-motion: reduce) {
+  .svc-reveal { opacity: 1 !important; transition: none; }
+  .svc-card.svc-reveal { transform: none; }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────── */
