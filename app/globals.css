@@ -321,33 +321,55 @@ button:hover > .arrow-slide {
    — contenido escondido, que es peor que el movimiento que se quería evitar.
    Así que aquí se deshace el apilado entero y queda una lista vertical normal: las
    fotos recuperan su proporción, el texto baja de la imagen y nadie pierde nada. */
-/* ── Secuencia de servicios: reparto vertical en móvil ───────────────────────
-   Se mide de abajo hacia arriba, que es como se decidió: primero el bloque navy
-   con la descripción, que nunca debe cortarse; luego la imagen a su proporción
-   3:4 completa; y lo que sobra arriba es para el eyebrow y el titular.
+/* ── Secuencia de servicios: el reparto vertical en móvil ─────────────────
+   Antes esto era una SUMA de cuatro constantes que debía caber en 100svh, y nada
+   comprobaba que cupiera: exigía 852px y ningún teléfono en vertical con las barras
+   del navegador llega a eso de small viewport. El encabezado absorbía el déficit
+   desbordándose hacia arriba, donde `overflow:hidden` lo recortaba en silencio. En un
+   iPhone real "SERVICIOS" y la primera línea del titular no existían nunca.
 
-   El titular se dimensiona con clamp sobre ese sobrante en vh, así que encoge en
-   pantallas cortas en vez de cortarse. En un iPhone 14 cabe a 2.6rem (más grande
-   que los 36px de antes); en un SE baja solo hasta donde siga siendo legible.
+   Ahora el invariante está DENTRO de la expresión, no en un comentario. Se reparte de
+   arriba hacia abajo con un solo absorbente explícito, y en cascada:
 
-   La imagen lleva un tope de altura que únicamente muerde en pantallas muy cortas
-   — un iPhone SE necesita 102px más de los que tiene, así que ahí la foto cede un
-   poco en lugar de empujar al titular fuera de la pantalla. */
+     1. El eyebrow queda fijo justo bajo el menú. Nunca cede.
+     2. El recuadro de la descripción queda fijo al pie. Nunca cede.
+     3. La imagen conserva su 3:4 exacto — CERO recorte, siempre.
+     4. El titular es el comodín: encoge su tipografía hasta el suelo de Canela (24px)
+        para caber en lo que quede.
+     5. Si ni a 24px cabe, cede la imagen, pero ESTRECHÁNDOSE, no recortándose. Por eso
+        `--svc-img-w` lleva un `min()`: a sangre mientras sea geométricamente posible,
+        y un poco más angosta cuando la pantalla no da para más.
+
+   El resultado es que nada se recorta en ninguna altura de pantalla, por construcción.
+   Y el tamaño dinámico es CSS puro: ni JS, ni ResizeObserver, ni reflow por frame. */
 @media (max-width: 767px) {
-  .svc-deck  { height: calc(100vw * 4 / 3 + 6.5rem); max-height: calc(100svh - 5rem - 8.5rem); }
-  .svc-media { max-height: calc(100svh - 5rem - 6.5rem - 8.5rem); }
-  .svc-headline {
-    font-size: clamp(1.35rem, 4.2vh, 2.3rem);
+  /* La fotografía al ancho completo con su 3:4 exacto, y el recuadro justo debajo con
+     su altura de siempre. El recuadro puede apretarse si la pantalla no da — un
+     iPhone corto deja 70px para él — pero nunca crece más de 6.5rem, que es lo que
+     medía antes de todo esto. El encabezado vive fuera del escenario, ver el
+     comentario en ServicesSection.tsx. */
+  /* El escenario mide lo que miden el hueco del menú y el mazo, NO 100svh. Con
+     100svh le sobraba una franja por debajo del recuadro — 158px en un teléfono
+     alto — y al terminar el recorrido esa franja quedaba como un hueco de bone entre
+     el recuadro y la cinta de servicio a domicilio. El tope del mazo sigue impidiendo
+     que el conjunto pase de la pantalla. */
+  .svc-track {
+    /* 66px es el alto del menú. El escenario mide ese hueco más el mazo, y la pista
+       mide el escenario más el recorrido — así su borde inferior coincide con el del
+       recuadro y no queda bone entre el último servicio y la cinta de a domicilio. */
+    --svc-stage-h: calc(66px + min(100vw * 4 / 3 + 6.5rem, 100svh - 66px) + 8rem);
+    height: calc(var(--svc-stage-h) + var(--svc-scroll));
   }
-  /* El título flota sobre la foto, así que lo que decide su tamaño es el ancho que
-     tiene para no partirse, no la altura. Medido en Canela: el más largo de los doce
-     (“Arreglos y Composturas”, 22 caracteres) mide 10em, y el hueco es 100vw - 2rem.
-     8.6vw lo deja dentro con holgura en 320, 360, 390 y 430 px — ninguno de los doce
-     se parte en ninguno de esos anchos. El suelo de 1.75rem queda por encima del
-     mínimo de 24px que tiene Canela. */
-  .svc-title {
-    font-size: clamp(1.75rem, 8.6vw, 2.25rem);
-  }
+  /* El escenario mide su contenido — mazo más cinta — y no la pantalla. La pista
+     usa una estimación de la cinta (8rem) porque CSS no puede leer su alto real; el
+     avance del scroll sí se mide en JS contra el alto real del escenario, así que el
+     pequeño desfase entre estimación y realidad no afecta a dónde termina la
+     secuencia. */
+  .svc-ribbon { height: 8rem; }
+  .svc-media { width: 100vw; }
+  .svc-deck  { height: calc(100vw * 4 / 3 + 6.5rem); max-height: calc(100svh - 66px); }
+  .svc-desc  { min-height: 4.25rem; max-height: 6.5rem; }
+  .svc-title { font-size: clamp(1.5rem, 8.6vw, 2.25rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -356,9 +378,15 @@ button:hover > .arrow-slide {
   .svc-grid   { display: grid; gap: 2.5rem; height: auto; }
   .svc-card   { position: relative; inset: auto; opacity: 1 !important; padding-top: 0; }
   .svc-deck   { height: auto !important; max-height: none; display: grid; gap: 2.5rem; }
-  .svc-media  { max-height: none; }
-  .svc-head   { display: block; padding-bottom: 0; }
+  .svc-media  { max-height: none; width: auto; margin-inline: 0; }
+  /* La lista desplegada no tiene un presupuesto de pantalla que respetar, así que el
+     recuadro recupera su altura natural — si no, una descripción de tres líneas se
+     recortaría contra el tope de 6.5rem que sí necesita la secuencia fijada. */
+  .svc-desc   { min-height: 0; max-height: none; }
   .svc-counter { display: none; }
+  /* La lista desplegada no tiene secuencia que dejar asomar por debajo, así que la
+     cinta vuelve al flujo: pegada al pie flotaría sobre las tarjetas. */
+  .svc-ribbon { position: static; height: auto; }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────── */

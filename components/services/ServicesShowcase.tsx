@@ -8,9 +8,10 @@ import type { Translations } from '@/lib/translations'
 interface Props {
   t: Translations
   images: string[]
-  /** Eyebrow + headline. They live inside the pinned stage on a phone so they stay
-   *  visible while the sequence changes under them, and above the grid from md. */
-  header: React.ReactNode
+  /** La cinta de servicio a domicilio. Va DENTRO del escenario, justo después del
+   *  mazo, para que quede soldada al pie de la descripción en todo momento en vez de
+   *  llegar al final del recorrido y dejar bone entremedias. */
+  footer: React.ReactNode
 }
 
 /** How much scroll each service costs, as a fraction of the viewport.
@@ -48,7 +49,7 @@ const TEXT_IN = 0.65
  * passes. Intercepting scroll to animate it feels broken on a phone, and if the
  * reader keeps going they leave — they are never trapped.
  */
-export function ServicesShowcase({ t, images, header }: Props) {
+export function ServicesShowcase({ t, images, footer }: Props) {
   const services = t.services.items.slice(0, 6)
   const trackRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<(HTMLElement | null)[]>([])
@@ -96,9 +97,16 @@ export function ServicesShowcase({ t, images, header }: Props) {
     const smooth = (v: number) => v * v * (3 - 2 * v)
 
     let frame = 0
+    const stage = track.querySelector<HTMLElement>('.svc-stage')
+
     const read = () => {
       const rect = track.getBoundingClientRect()
-      const span = rect.height - window.innerHeight
+      // Contra la altura del ESCENARIO, no la de la pantalla. El escenario mide su
+      // contenido — menú más mazo — y se queda fijo exactamente ese tramo. Midiendo
+      // contra la pantalla, la secuencia terminaba antes de que la pista acabara, y
+      // ese resto se recorría como una franja de bone entre el último recuadro y la
+      // cinta de servicio a domicilio.
+      const span = rect.height - (stage?.offsetHeight ?? window.innerHeight)
       const progress = span > 0 ? Math.min(Math.max(-rect.top / span, 0), 1) : 0
       const exact = progress * (services.length - 1)
 
@@ -163,16 +171,18 @@ export function ServicesShowcase({ t, images, header }: Props) {
     <div
       ref={trackRef}
       className="svc-track relative w-screen left-1/2 -translate-x-1/2 md:w-auto md:left-auto md:translate-x-0 md:h-auto"
-      style={{ height: `calc(100svh + ${(services.length - 1) * SCROLL_PER_SERVICE * 100}svh)` }}
+      // Solo el recorrido va en línea. La altura la arma globals.css sumando ese
+      // recorrido a la altura REAL del escenario, no a 100svh: la pista medía una
+      // pantalla entera por abajo mientras el escenario medía su contenido, y esa
+      // diferencia quedaba como un hueco de bone entre el último recuadro y la cinta.
+      style={{ '--svc-scroll': `${(services.length - 1) * SCROLL_PER_SERVICE * 100}svh` } as React.CSSProperties}
     >
       {/* The stage: pinned on a phone, dissolved back into normal flow from md. */}
-      <div className="svc-stage sticky top-0 h-[100svh] flex flex-col pt-20 overflow-hidden md:static md:block md:h-auto md:pt-0 md:overflow-visible">
-
-        {/* Lo que sobre tras reservar imagen y descripción. El titular se dimensiona
-            con clamp sobre esa sobra, así que encoge en lugar de cortarse. */}
-        <div className="svc-head flex-1 min-h-0 flex flex-col justify-end px-4 pb-5 md:block md:px-0 md:pb-0">
-          {header}
-        </div>
+      {/* `pt-16` para que la fotografía libre el menú, y nada más: el mazo arranca
+          justo ahí, así que no queda holgura delante de la imagen. Antes el escenario
+          medía 100svh y el mazo su propia altura, y esa diferencia — 30px en un teléfono
+          corto, 224 en uno alto — se abría como un hueco entre el encabezado y la foto. */}
+      <div className="svc-stage sticky top-0 flex flex-col pt-[66px] md:static md:block md:pt-0">
 
         <div className="svc-deck relative flex-none md:static md:grid md:grid-cols-3 md:gap-5">
           {services.map((item, i) => (
@@ -257,6 +267,8 @@ export function ServicesShowcase({ t, images, header }: Props) {
           </span>
         </div>
         </div>
+
+        {footer}
 
       </div>
     </div>

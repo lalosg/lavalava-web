@@ -59,6 +59,69 @@ forward. Editorial numbered section labels (01 — … 08 —).
 ## Build status (audited against real code, Nov 5 2026)
 Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 
+> **Session update — Nov 6 2026: the services sequence, finished — and the lesson that cost the day.**
+> Nine commits on `test/services-no-crop`, merged. This session took far too many
+> iterations and the reason is worth more than the code: **I validated against an emulated
+> viewport that no real phone has.**
+>
+> ⚠️ **THE RULE THAT CAME OUT OF THIS — read it before touching any full-screen layout.**
+> Chrome DevTools device mode does NOT model the browser chrome, so there `svh == lvh ==
+> dvh == 852`. **No phone in portrait with its bars reaches 852 of *small viewport*.** Lalo's
+> iPhone reports **~658** and his Poco F5 **~769**. For weeks this section was measured at
+> 390×844 and reported as correct while it was broken in his hand. **The realistic band is
+> 600–880, and the LOW end is the normal case, not the high one.**
+>
+> **`scripts/svc-invariants.js` exists because of that**, and it is the main deliverable
+> here. It is browser-side assertions, run over the band in both locales (the run loop is
+> in its header comment). It asserts: nothing clipped in silence (`scrollHeight ===
+> clientHeight` on every clipping box — **this is the one that matters**, it turns invisible
+> content loss into a loud failure), the photograph at the full width with its own ratio,
+> the photograph clearing the menu with no gap in front of it, the description inside its
+> panel, the ribbon welded to the description, the pinned travel equalling track minus
+> stage, no title escaping its photograph, and no horizontal overflow. **It caught two real
+> regressions while being written.** Extend it rather than eyeballing.
+>
+> **The layout, settled (mobile; desktop 3×2 grid untouched throughout):**
+> - The **heading is OUTSIDE the pinned stage**, in normal flow, 36px over two lines. It
+>   does not fit inside: menu + a full-width uncropped 3:4 photograph + the panel need
+>   694px of an iPhone's ~658, with the heading already at zero. Putting it inside forced
+>   it to 10px or hid it under the menu, and both shipped before being caught. **Do not
+>   move it back in** — the harness asserts it.
+> - **The photograph is 100vw with its exact 3:4 and is never cropped.** Lalo's call,
+>   stated three times. The files are 1086×1448, exactly 3:4, so at full width they lose
+>   nothing. It clears the menu by `pt-[66px]`, measured, with zero slack in front of it.
+> - **The sand panel is 6.5rem**, compressing to 4.25rem only where the screen cannot hold
+>   it, and reaches the viewport bottom on a short phone.
+> - **The delivery ribbon lives INSIDE the stage**, as the element after the deck, welded
+>   to the description (gap 0, asserted). It is **not sticky** — a sticky version was built
+>   and rejected: pinned to the foot of the screen it appeared above the heading and over
+>   the photograph.
+> - Three heights derive from one value: `--svc-stage-h` is the menu clearance plus the
+>   deck plus an **8rem estimate of the ribbon**; the track is that plus `--svc-scroll`;
+>   and `read()` measures its span against the stage's **real** `offsetHeight`, so the
+>   estimate cannot move where the sequence ends. Measuring the span against the viewport
+>   instead is what left a band of bone before the ribbon arrived.
+>
+> **Earlier in the same session, and still true:** the crossfade was rebuilt. A screenshot
+> at the midpoint showed **two titles and two descriptions legible at once** over a milky
+> photograph — two cards at 0.5 composite to 75% coverage, so the bone came through. The
+> incoming card now fades in ON TOP of an outgoing card that stays opaque, only the two in
+> play are painted, `DWELL = 0.45` holds each photograph still for the first 45% of its
+> segment (55% of the sequence is at rest), and the words cut in their own narrower window
+> so a beat passes with no text. `SCROLL_PER_SERVICE` is 0.9.
+>
+> **Two corrections to earlier notes in this file:**
+> - **9:16 masters would make this WORSE, not better.** That advice was computed for a
+>   full-viewport frame and does not apply here. A taller source crops more. What this
+>   composition would actually want, if the heading and the panel were ever to share one
+>   screen with a full-bleed photograph, is something near **1:1**.
+> - The "3:4 loses 38–40% to the crop" line was wrong. At the full width the files lose
+>   nothing; what cropped them was a height cap that no longer exists.
+>
+> Final: **99 performance / 100 a11y / 100 best practices / 100 SEO**, LCP 1.6s, CLS 0,
+> harness green on 658/700/734/769/800/852 in both locales, desktop 371px cards unchanged,
+> reduced motion 6/6 visible.
+
 > **Session update — Nov 5 2026: the services block is a pinned scroll sequence on phones.**
 > Five commits on `feat/services-scroll-mobile`, merged. This is the first of the four
 > "front-end design" moves below — #3, continuous scroll choreography on ONE sequence.
@@ -157,9 +220,9 @@ Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 > cards with zero inline styles; reduced motion 6/6 visible with zero inline writes.
 >
 > **Still open on this component:**
-> - The service images are **3:4 and lose 38–40% to the crop** at full bleed. **9:16
->   masters would lose ~20%** — the single biggest visual win available here, and an
->   asset Lalo owes.
+> - ~~The service images are 3:4 and lose 38–40% to the crop; 9:16 masters would lose
+>   ~20%~~ — **BOTH CLAIMS WERE WRONG, corrected Nov 6 2026.** At the full width the 3:4
+>   files lose nothing, and a 9:16 master would crop MORE. See the Nov 6 session note.
 > - `text-bone/50` in the delivery ribbon looks washed out on the device; it is at the
 >   documented floor but worth re-examining at ribbon width.
 > - The desktop grid has had none of this attention and is still the original 3×2.
@@ -468,8 +531,6 @@ question, but not sourced from anything):
 ## Files still needed from Lalo
 - `public/images/delivery.jpg` — the pickup/delivery photo. `DeliverySection` still renders
   the striped "FOTO — recogida a domicilio" placeholder until it exists.
-- **9:16 masters for the six service photographs.** The current 3:4 files lose 38–40% of
-  their width to the crop in the mobile scroll sequence; 9:16 would lose ~20%.
 - `public/images_backup/` currently sits inside `public/`, so it would be served at public
   URLs. It is gitignored, but move it out of the repo when convenient.
 
@@ -599,9 +660,10 @@ hide content, which this site cannot afford.
 1. Break the structural repetition — 2-3 sections with a genuinely different shape.
 2. Typographic contrast — one or two genuinely large moments. 19 headlines at one
    size is a decision made once and repeated.
-3. ~~Continuous scroll choreography on ONE sequence~~ — **STARTED Nov 5 2026**: the
-   services block on phones (see the session note above). Still to tune, and the
-   desktop grid has had none of it.
+3. ~~Continuous scroll choreography on ONE sequence~~ — **DONE Nov 6 2026**: the
+   services block on phones, finished and asserted (see the Nov 6 session note). The
+   **desktop 3×2 grid has had none of this attention** and is still the original.
+   Treat the mobile sequence as closed unless Lalo reopens it.
 4. Art direction on the photography. All six images share one temperature and one
    composition, which flattens everything. **This is Lalo's to supply.**
 
@@ -631,6 +693,23 @@ That is 1/20 the weight of a scrubbed video with none of the seek problems. It a
 for generating **three depth-separated layers** rather than a transformation clip, and
 the effect needs no GSAP: the existing rAF in `HeroParallax` already does translateY
 per layer.
+
+**Where to start the next FED session.** Services is closed. In order of leverage the
+remaining design work is move 1 (break the structural repetition — nine sections with
+the same eyebrow+h2+content shape), move 2 (typographic contrast — one or two genuinely
+large moments), and the desktop services grid. Before touching any of it, read the
+⚠️ viewport rule in the Nov 6 session note and run `scripts/svc-invariants.js` once
+against the current build so a regression is visible immediately.
+
+**Working agreement earned the hard way, Nov 6 2026:**
+- When a request is **one change**, make **that change** and nothing else. Restructuring
+  a component to satisfy a one-line ask is how this session lost a day: twice a fix
+  shipped alongside an unrequested change that broke something Lalo had already approved.
+- **Do not ship a build whose own measurements say it is unusable.** A 10px headline was
+  measured, shipped anyway as "evidence", and rightly rejected. If the numbers say it
+  will not work, say so in one line and propose the alternative instead of shipping it.
+- **Verify against the served build, not the source.** `next start` does not rebuild CSS,
+  and a fix was reported as landed while the phone was being served the old stylesheet.
 
 **Still true and still blocking a launch, unchanged since September:** the Places API
 key rejects lavalava.vip, neither env var is set in Vercel, `og-image.jpg` and the
