@@ -146,6 +146,35 @@ Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 >
 > Desktop Lighthouse 99/100/100/100, LCP 0.9s. Mobile unchanged and still green on the
 > harness in both locales.
+>
+> **Nov 7 2026, second pass — the desktop entrance is back.** Lalo was right that it had
+> been lost: before the mobile sequence replaced the grid, every card was wrapped in
+> `RevealOnScroll delay={i*60}`, and that went with it.
+>
+> It returns as a **class, not a component**, and the whole rule lives inside
+> `@media (min-width: 768px)`. That is the point: on a phone the opacity of these same
+> cards is written frame by frame by the scroll, so anything else touching their opacity
+> there would fight the sequence. Below md the class simply does not exist.
+>
+> - **The delay comes from the COLUMN (`i % 3 * 90ms`), not the index.** Row one sweeps
+>   left to right, and row two repeats the same sweep when it arrives, instead of
+>   accumulating a delay that would land card six half a second late. It is set inline so
+>   it ships in the server HTML and does not wait on hydration.
+> - The ribbon carries `270ms`, the fourth beat after the three columns. Without it, on a
+>   tall screen it enters alongside row two instead of closing it.
+> - A **second effect**, deliberately not folded into the existing one: that one returns
+>   early precisely on desktop, which is where this has to work.
+> - ⚠️ **`md:opacity-100` had to come off the card.** Tailwind emits responsive variants
+>   AFTER the file's own rules, so it beat `.svc-reveal` and the cards were visible from
+>   the start. Desktop opacity is now `.svc-reveal`'s alone, with its own no-JS fallback
+>   placed after it (`scripting: none`, with `!important`, since the general block sits
+>   earlier in the file and would have lost the cascade).
+>
+> Measured: everything at 0 at the top; row one 0.64 / 0.35 / 0 then settled while row two
+> is still 0; row two 0.6 / 0.28 / 0 with the ribbon still 0; the ribbon last. Mobile
+> untouched — the crossfade still paints only two cards at a time and the harness, which
+> now also asserts the entrance cannot leak below md, is green in both locales.
+> 99/100/100/100 on both form factors, CLS 0.
 
 > **Session update — Nov 5 2026: the services block is a pinned scroll sequence on phones.**
 > Five commits on `feat/services-scroll-mobile`, merged. This is the first of the four

@@ -52,7 +52,13 @@ export function ServicesSection({ t, locale }: Props) {
           images={serviceImages}
           footer={
             deliveryService ? (
-              <div className="svc-ribbon relative w-screen left-1/2 -translate-x-1/2 flex-none bg-navy section-px md:mt-5">
+              // 270ms: el cuarto tiempo tras las tres columnas (0 / 90 / 180). Sin él, en una
+              // pantalla alta la franja entra a la vez que la segunda fila en lugar de
+              // cerrarla.
+              <div
+                style={{ '--svc-delay': '270ms' } as React.CSSProperties}
+                className="svc-ribbon svc-reveal relative w-screen left-1/2 -translate-x-1/2 flex-none bg-navy section-px md:mt-5"
+              >
                 <div className="max-w-6xl mx-auto py-6 flex items-center gap-4 md:py-7">
                   <div className="w-10 h-10 rounded-full border border-sand/40 flex items-center justify-center flex-shrink-0">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4D8C4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

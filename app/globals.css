@@ -372,6 +372,50 @@ button:hover > .arrow-slide {
   .svc-title { font-size: clamp(1.5rem, 8.6vw, 2.25rem); }
 }
 
+/* ── Entrada de las tarjetas en DESKTOP ─────────────────────────────────
+   Cada tarjeta iba envuelta en `RevealOnScroll delay={i*60}` antes de que la secuencia
+   móvil sustituyera la retícula, y la entrada se perdió por el camino.
+
+   Vuelve como una clase y NO como componente, por una razón concreta: en móvil la
+   opacidad de estas mismas tarjetas la escribe el scroll fotograma a fotograma, así que
+   cualquier cosa que también toque su opacidad ahí pelearía con la secuencia. Toda la
+   regla vive dentro de `min-width: 768px`, de modo que por debajo de md la clase no
+   existe y el trabajo de móvil queda intacto por construcción.
+
+   El retardo lo pone cada tarjeta en línea según su COLUMNA, no su índice: así la fila
+   entra de izquierda a derecha y la segunda fila repite el mismo barrido cuando le toca,
+   en vez de acumular un retardo creciente que dejaría la sexta tarjeta medio segundo
+   tarde. */
+@media (min-width: 768px) {
+  .svc-reveal {
+    opacity: 0;
+    transform: translateY(var(--travel));
+    transition: opacity var(--dur-base) var(--ease),
+                transform var(--dur-base) var(--ease);
+    transition-delay: var(--svc-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .svc-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  .svc-reveal.is-settled {
+    will-change: auto;
+  }
+}
+
+/* Después de la regla de arriba a propósito, y con `!important`: sin JS nadie va a
+   añadir `is-visible`, y una tarjeta en opacity 0 para siempre es peor que no tener
+   entrada. El bloque `scripting: none` general está antes en el archivo y por orden de
+   cascada habría perdido contra `.svc-reveal`. */
+@media (scripting: none) {
+  .svc-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .svc-track  { height: auto !important; width: auto; left: auto; transform: none; }
   .svc-stage  { position: static; height: auto; overflow: visible; }
@@ -387,6 +431,8 @@ button:hover > .arrow-slide {
   /* La lista desplegada no tiene secuencia que dejar asomar por debajo, así que la
      cinta vuelve al flujo: pegada al pie flotaría sobre las tarjetas. */
   .svc-ribbon { position: static; height: auto; }
+  /* La entrada de desktop también se apaga aquí: las tarjetas ya están puestas. */
+  .svc-reveal  { opacity: 1 !important; transform: none; transition: none; }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────── */

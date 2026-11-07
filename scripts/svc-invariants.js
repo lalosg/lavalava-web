@@ -86,6 +86,10 @@ else {
   if (Math.abs(ribbon.getBoundingClientRect().top - r(desc).bottom) > 1)
     fail.push('la cinta se despego de la descripcion: '+Math.round(ribbon.getBoundingClientRect().top-r(desc).bottom)+'px');
   if (getComputedStyle(ribbon).position === 'sticky') fail.push('la cinta volvio a ser sticky');
+  // La entrada de escritorio (.svc-reveal) tiene que ser INERTE por debajo de md: si
+  // se filtra, deja la cinta y las tarjetas en opacity 0 y pelea con la secuencia,
+  // que es la unica duena de la opacidad en movil.
+  if (+getComputedStyle(ribbon).opacity !== 1) fail.push('la entrada de escritorio se filtro a movil');
   const rp=ribbon.querySelector('p').getBoundingClientRect();
   if (rp.bottom > ribbon.getBoundingClientRect().bottom + 1) fail.push('el texto de la cinta no cabe');
 }

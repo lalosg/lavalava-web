@@ -167,6 +167,57 @@ export function ServicesShowcase({ t, images, footer }: Props) {
     }
   }, [services.length])
 
+  // Entrada de las tarjetas en escritorio. Efecto aparte y no dentro del anterior a
+  // propósito: aquel sale antes de tiempo justo en escritorio, que es donde éste tiene
+  // que trabajar. Son dos comportamientos con condiciones opuestas y mezclarlos ya
+  // costó un error una vez.
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+
+    const mqDesktop = window.matchMedia('(min-width: 768px)')
+    const mqReduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let observer: IntersectionObserver | null = null
+    const timers: ReturnType<typeof setTimeout>[] = []
+
+    const start = () => {
+      if (!mqDesktop.matches || mqReduced.matches || observer) return
+      observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return
+            const el = entry.target as HTMLElement
+            el.classList.add('is-visible')
+            // Suelta la pista al compositor cuando la transición ha terminado, para no
+            // dejar siete capas promovidas en una página larga.
+            timers.push(setTimeout(() => el.classList.add('is-settled'), 1400))
+            obs.unobserve(el)
+          })
+        },
+        // Como el resto de las entradas del sitio: dispara un poco antes del borde
+        // inferior, para que la fila esté puesta cuando la mirada llega.
+        { rootMargin: '0px 0px -10% 0px' },
+      )
+      track.querySelectorAll('.svc-reveal').forEach((el) => observer!.observe(el))
+    }
+
+    const stop = () => {
+      observer?.disconnect()
+      observer = null
+    }
+
+    start()
+    const onChange = () => { stop(); start() }
+    mqDesktop.addEventListener('change', onChange)
+    mqReduced.addEventListener('change', onChange)
+    return () => {
+      stop()
+      timers.forEach(clearTimeout)
+      mqDesktop.removeEventListener('change', onChange)
+      mqReduced.removeEventListener('change', onChange)
+    }
+  }, [])
+
   return (
     <div
       ref={trackRef}
@@ -190,11 +241,24 @@ export function ServicesShowcase({ t, images, footer }: Props) {
               key={item.title}
               ref={(el) => { cardsRef.current[i] = el }}
               // Stacked and faded on mobile; an ordinary grid cell from md.
+              // El retardo lo decide la COLUMNA (i % 3), no el índice: la primera fila
+              // entra de izquierda a derecha y la segunda repite el mismo barrido
+              // cuando entra en cuadro. Va en línea y no en JS para que salga ya en
+              // el HTML del servidor y no dependa de la hidratación.
+              style={{ '--svc-delay': `${(i % 3) * 90}ms` } as React.CSSProperties}
               className={cn(
-                'svc-card absolute inset-0 flex flex-col md:relative md:inset-auto md:opacity-100',
-                // Before hydration every card would otherwise be at full opacity and
-                // they would all show at once. The first is visible, the rest wait.
-                i === 0 ? 'opacity-100' : 'opacity-0 md:opacity-100',
+                'svc-card absolute inset-0 flex flex-col md:relative md:inset-auto',
+                // Inerte por debajo de md: la regla entera vive en una media query de
+                // escritorio, así que en móvil esta clase no existe y la secuencia
+                // sigue siendo la única dueña de la opacidad de las tarjetas.
+                'svc-reveal',
+                // Antes de la hidratación todas estarían a opacidad plena y se verían
+                // las seis a la vez: la primera se muestra y las demás esperan. Sin
+                // `md:opacity-100`, que Tailwind emite DESPUÉS de las reglas propias
+                // y por tanto le ganaba a `.svc-reveal`, dejando las tarjetas de
+                // escritorio visibles desde el principio. En escritorio la opacidad la
+                // gobierna ahora `.svc-reveal`, que tiene su propio respaldo sin JS.
+                i === 0 ? 'opacity-100' : 'opacity-0',
               )}
             >
               <div className="svc-media relative w-full flex-none aspect-[3/4] overflow-hidden md:aspect-[3/4]">
