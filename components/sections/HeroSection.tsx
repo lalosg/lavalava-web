@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { HeroParallax } from '@/components/motion/HeroParallax'
+import { HeroVideo } from '@/components/motion/HeroVideo'
 import { RevealText } from '@/components/motion/RevealText'
 // Static imports, not string paths: they let next/image generate a blurDataURL at build
 // time. Without it the hero area is flat cream until the full image decodes, which reads
@@ -54,6 +55,13 @@ export function HeroSection({ t, locale }: Props) {
         placeholder="blur"
         className="hero-image block md:hidden object-cover object-center"
         sizes="100vw"
+      />
+      {/* El vídeo va encima de las dos fotografías, dentro del mismo parallax. Las
+          fotografías no se van: son el póster: pintan el primer cuadro, miden el LCP y
+          se quedan como respaldo donde el vídeo no debe cargarse. */}
+      <HeroVideo
+        desktop="/videos/lavalava_hero_desktop.mp4"
+        mobile="/videos/lavalava_hero_mobile.mp4"
       />
       </HeroParallax>
 

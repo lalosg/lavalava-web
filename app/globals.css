@@ -300,6 +300,8 @@ button:hover > .arrow-slide {
    rather than unstyled. Both guards below defeat that; see also the <noscript>
    block in app/[locale]/layout.tsx, which covers browsers without `scripting`. */
 @media (scripting: none) {
+  /* Sin JS el vídeo nunca recibe `src`: se queda la fotografía y el elemento sobra. */
+  .hero-video { display: none; }
   .reveal,
   .reveal-stagger > * {
     opacity: 1;
@@ -370,6 +372,20 @@ button:hover > .arrow-slide {
   .svc-deck  { height: calc(100vw * 4 / 3 + 6.5rem); max-height: calc(100svh - 66px); }
   .svc-desc  { min-height: 4.25rem; max-height: 6.5rem; }
   .svc-title { font-size: clamp(1.5rem, 8.6vw, 2.25rem); }
+}
+
+/* ── Vídeo del hero ───────────────────────────────────────────────
+   Empieza invisible y se funde encima de la fotografía cuando ya está reproduciendo.
+   Esto NO contradice la regla de no animar opacidad sobre el pliegue: esa regla existe
+   porque un elemento en opacity 0 no cuenta como pintado para el LCP, y aquí el
+   elemento que pinta y mide es la fotografía, que está debajo y a opacidad plena desde
+   el primer cuadro. El vídeo llega después de `load`, cuando el LCP ya ocurrió. */
+.hero-video {
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
+}
+.hero-video.is-playing {
+  opacity: 1;
 }
 
 /* ── Entrada de las tarjetas en DESKTOP ─────────────────────────────────
