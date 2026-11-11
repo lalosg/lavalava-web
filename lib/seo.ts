@@ -34,7 +34,12 @@ export const BUSINESS = {
   ],
 }
 
-export const OG_IMAGE = `${SITE_URL}/og-image.jpg` // placeholder until real image in Step 7
+// 1200x630 exactos, que es lo que declaran las etiquetas de abajo, y 165 KB. El máster
+// de Lalo son 1733x907 y 1.04 MB: WhatsApp — que es el canal primario de este negocio —
+// descarta la miniatura de los enlaces cuando la imagen pasa de unos 300 KB, así que el
+// máster habría dado un enlace pelado justo donde más se comparte. Vive en `assets-src/`,
+// fuera de `public/`, para que no se sirva ni entre al repositorio.
+export const OG_IMAGE = `${SITE_URL}/og-image.jpg`
 
 /**
  * Per-page metadata builder.

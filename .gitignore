@@ -38,3 +38,6 @@ next-env.d.ts
 # Local image backups — kept on disk, never published (they sit inside public/,
 # so committing them would serve every original at a public URL).
 public/images_backup/
+
+# Másters de imagen: se quedan en local, el sitio sirve la versión optimizada
+assets-src/
