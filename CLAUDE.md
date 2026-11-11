@@ -59,6 +59,91 @@ forward. Editorial numbered section labels (01 — … 08 —).
 ## Build status (audited against real code, Nov 5 2026)
 Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 
+> **Session update — Nov 9-11 2026: the hero plays video, the OG image is real, and the
+> repo was audited end to end.**
+>
+> **THE HERO IS VIDEO NOW.** `components/motion/HeroVideo.tsx`, overlaid on the two
+> photographs inside `HeroParallax`. The photographs did not go away — **they are the
+> poster**: they paint the first frame, they are what LCP measures, and they remain the
+> hero wherever the video must not load. A `<video poster>` would have done this for one
+> image, but the hero is art directed and `poster` takes no `media` attribute.
+>
+> Rules this component encodes, all of them load-bearing:
+> - **Nothing is fetched until `load` has fired**, then on the first idle slot. The `src`
+>   is assigned in the client, so it never appears in the HTML and no preload scanner
+>   pulls it forward. Measured: the request starts at 102ms against `loadEventEnd` at
+>   82ms, and Lighthouse's byte weight for the page is unchanged.
+> - **One file is fetched, never two.** The breakpoint is read with `matchMedia` at the
+>   moment the source is chosen. Shipping two elements and letting CSS hide one is the
+>   mistake the two hero images had to be rescued from — `display:none` does not cancel a
+>   preload.
+> - **It does not load at all** under `prefers-reduced-motion`, under Save-Data, or on a
+>   connection reporting 2g/3g. The photograph stays, and it is a correct hero alone.
+> - **AV1 requires `canPlayType` === `probably`, never `maybe`.** `maybe` means the
+>   browser recognises the container but will not commit to the codec; trusting it leaves
+>   a black hero instead of falling back to H.264.
+> - The fade-in is a deliberate exception to the no-opacity-above-the-fold rule, and a
+>   safe one: the element that paints and measures is the photograph underneath, opaque
+>   from the first frame. The video arrives after LCP has already happened.
+>
+> **Shipping (10s, 24fps, no audio track at all — absent, not muted):**
+> ```
+> mobile  1080x1920  AV1 CRF 44   967 KB   VMAF 93.1
+> mobile  1080x1920  H.264 CRF 27 1489 KB  VMAF 92.2
+> desktop 1920x1080  AV1 CRF 44  1046 KB   VMAF 93.8
+> desktop 1920x1080  H.264 CRF 27 1455 KB  VMAF 92.4
+> ```
+>
+> **⚠️ VMAF: the default model is a TELEVISION at three picture heights.** Measuring a
+> phone hero with it is measuring the wrong thing — it scored a perfectly good encode at
+> 83 and made the bitrate look like a wall. The phone model is
+> `libvmaf=model='version=vmaf_v0.6.1\:enable_transform=true'`, and the same file scored
+> 94.9. On clean Kling footage the phone model **saturates at 100** and cannot
+> discriminate, so the standard model is the one to choose CRF with. Use both and know
+> which question each answers.
+>
+> **VP9 was proposed and is REJECTED, with numbers.** Against the same master: VP9 1386 KB
+> → 89.6, AV1 797 KB → 92.0, H.264 1154 KB → 90.1. Half the weight and a better picture
+> in AV1, and VP9 loses to H.264 as well. **AV1 + H.264, two files. Do not add a third.**
+>
+> **The source was the limit, never the encoding.** Lalo tried Draw Things + MiniMax +
+> Upscayl (124 PNGs, 3584x6144, 4.6GB) and it never matched Kling. The numbers say why:
+> the same CRF gives 1107 KB for 5.2s of the upscaled footage and 967 KB for **10s** of
+> Kling. Twice the duration at less weight, because the source is clean. Two of my own
+> hypotheses were wrong along the way and both were killed by measurement — it was not
+> grain from the upscale (a denoise moved the size 3%), it is **motion**: a breeze across
+> the whole frame changes every pixel every frame, and there is no trick for that.
+>
+> **⚠️ A PNG sequence must never be fed to ffmpeg with `-pattern_type glob`.** Lalo's
+> frames were named `0_`, `1_`, `10_` with no zero padding, so glob orders them 0, 1, 10,
+> 100, 101 … 11 and the clip comes out scrambled **in silence**. Build a numerically
+> ordered symlink sequence (`f_%04d`) and verify a sample before encoding.
+>
+> **Masters live in `assets-src/`, which is gitignored.** Four-plus GB of intermediates
+> were dropped into `public/` twice during this session. Anything in `public/` is served
+> publicly and goes into the Vercel build whether or not git tracks it.
+>
+> **The OG image is done.** Lalo supplied it; three things stood between the file and a
+> working preview. It was in `public/images/` while `lib/seo.ts` points at `/og-image.jpg`
+> — every share was a 404. It was 1733x907 while the tags declare 1200x630. And it was
+> 1.04 MB: **WhatsApp drops the thumbnail above roughly 300 KB**, and WhatsApp is this
+> business's primary channel. Now 1200x630 at 165 KB.
+>
+> **The posters are the exact frames fed to Kling as its first frame**, so the photograph
+> and the video's opening frame are the same picture and there is no jump when playback
+> starts. 1536x864 and 864x1536, JPEG q85.
+>
+> **Repo audit (Nov 11).** An import-resolution pass over all 66 modules found exactly one
+> orphan: `RevealImage`, the services grid's entrance before the pinned sequence replaced
+> it, which took ~25 lines of `.reveal-image` CSS with it. `nav.whatsapp` was the only one
+> of 37 second-level translation keys with no reader. All 14 npm dependencies are used, no
+> other CSS class is unreferenced, and `public/` is now **exactly the thirteen files the
+> site serves**. `public/images_backup/` moved to `assets-src/images-anteriores/` — it was
+> gitignored but Vercel would still have published it.
+>
+> Mobile 99/100/100/100 LCP 1.6s; desktop **100**/100/100/100 LCP 0.7s; CLS 0; shared
+> First Load JS unchanged at 87.3 kB.
+
 > **Session update — Nov 6 2026: the services sequence, finished — and the lesson that cost the day.**
 > Nine commits on `test/services-no-crop`, merged. This session took far too many
 > iterations and the reason is worth more than the code: **I validated against an emulated
@@ -580,9 +665,10 @@ both the fallback content and the seed data the POS session imports.
    schema'd. Turnaround times for cobertores, tenis and composturas are still unknown and
    the pages say "te lo confirmamos al recibirlo" rather than carry an invented figure —
    Lalo asked to leave this and review content details later.
-3. **Missing OG image** (`/og-image.jpg` referenced in `lib/seo.ts` but absent → broken
-   social cards) + the default create-next-app **favicon** (26 KB, fetched every load).
-   **Still the top open item.**
+3. ~~Missing OG image~~ — **DONE Nov 10 2026.** `/og-image.jpg`, 1200x630, 165 KB, with
+   the master in `assets-src/`. Still open: the **favicon** is the create-next-app default
+   (`app/favicon.ico`, 25,931 bytes exactly — verified, not guessed) and is fetched on
+   every page load. Blocked on the vector logo.
 4. **Instagram feed placeholder** — `INSTAGRAM_WIDGET_ID` undefined → six empty squares in
    prod. Needs a Behold.so account or an approved curated-grid fallback.
 4b. **The wordmark is live text, not the logo.** Header and footer render "LAVALAVA"
@@ -606,8 +692,9 @@ question, but not sourced from anything):
 ## Files still needed from Lalo
 - `public/images/delivery.jpg` — the pickup/delivery photo. `DeliverySection` still renders
   the striped "FOTO — recogida a domicilio" placeholder until it exists.
-- `public/images_backup/` currently sits inside `public/`, so it would be served at public
-  URLs. It is gitignored, but move it out of the repo when convenient.
+- ~~`public/images_backup/` sits inside `public/`~~ — **moved Nov 11 2026** to
+  `assets-src/images-anteriores/`. `public/` now holds exactly the thirteen files the
+  site serves; keep it that way.
 
 ## Production release checklist (lavalava.vip go-live)
 Status as of Sep 27 2026.
@@ -624,7 +711,7 @@ Status as of Sep 27 2026.
    only locally. Without the key, `fetchGoogleReviews()` returns `[]` — a silent downgrade.
 3. **Domain.** `SITE_URL` in `lib/seo.ts` is already `https://lavalava.vip`, feeding
    canonicals, hreflang, sitemap, robots and OG. Connect the domain; don't change SITE_URL.
-4. **OG image + favicon** — still missing / still the create-next-app default.
+4. ~~OG image~~ **DONE**; the **favicon** is still the create-next-app default.
 5. **301 the old Drupal site.** `lavalava.vip/content/inicio` is still indexed and its
    search snippet still advertises the OLD prices ($28 / $12 / $40 / $15). Since the
    relaunch raises prices, Google's cheapest answer for LAVALAVA pricing is currently the
@@ -752,14 +839,16 @@ hide content, which this site cannot afford.
 - The language switcher stays as text, not flags. Lalo verified aesop.com and
   loropiana.com both use text.
 
-**Hero direction, half-decided.** A hybrid was agreed in principle: a typographic
-opening, then the garment transforming — wrinkled to pressed — driven by scroll. The
-production specs were worked out and are the deliverable Lalo owes:
-- 3s at 30fps (~90 frames maps to ~100vh of scroll), no audio
-- **1920x1080** for landscape and **1080x2160** for portrait — 9:16 crops 18-20% of
-  the width on modern phones, 9:18 crops 7-9%
-- Subject inside the central 75% on both axes
-- Deliver the highest-quality master per format; encoding is a build-side decision
+**Hero direction — SETTLED and SHIPPED Nov 11 2026.** Not the scroll-scrubbed garment
+transformation that was sketched here; a plain looping clip from Kling, autoplaying over
+the photograph. 10s, 24fps, 1920x1080 and 1080x1920, AV1 with H.264 behind it. See the
+Nov 9-11 session note for the component's rules and the measurements behind the encode.
+
+**Settings that produced it, for when Lalo regenerates:** Kling 4.0 (not Flash), 1080p,
+ratio **16:9** and **9:16** — the earlier 2:3 came from feeding a 2:3 reference image and
+cost 31% of the width to the crop instead of 18%. The reference frames come from ChatGPT,
+which only outputs 1:1, 3:2 and 2:3, so they must be cropped to 1536x864 and 864x1536
+first. Use the SAME image as First frame and Last frame: that is what closes the loop.
 
 **One technique found late and worth starting from:** the 21st.dev parallax component
 is NOT video. It is three stacked WebP images, 188 KB total, each translated on Y at a
@@ -769,12 +858,47 @@ for generating **three depth-separated layers** rather than a transformation cli
 the effect needs no GSAP: the existing rAF in `HeroParallax` already does translateY
 per layer.
 
-**Where to start the next FED session.** Services is closed. In order of leverage the
-remaining design work is move 1 (break the structural repetition — nine sections with
-the same eyebrow+h2+content shape), move 2 (typographic contrast — one or two genuinely
-large moments), and the desktop services grid. Before touching any of it, read the
-⚠️ viewport rule in the Nov 6 session note and run `scripts/svc-invariants.js` once
-against the current build so a regression is visible immediately.
+## NEXT SESSION — start here (written Nov 11 2026)
+
+The hero and the services block are both closed. What is left to launch is mostly
+**assets and three things outside this repo**, not design work.
+
+**A. Two placeholders that make production look broken, and need no asset from anyone:**
+1. **Instagram.** `INSTAGRAM_WIDGET_ID` is `undefined`, so `InstagramFeed` renders **six
+   empty cream squares** with a faint glyph. It reads as a failed load. Agreed approach:
+   degrade with intent — keep the heading, drop the grid, link to @lavalava.vip. The
+   component already lights up on its own the day a Behold widget id exists.
+2. **Servicio a domicilio.** Two problems and only one is the missing photo:
+   `DeliverySection` is a **single `max-w-sm` column inside a 1152px container**, so on
+   desktop the right 60% is empty navy. It was clearly drawn as two columns with the
+   photograph on the right. Lay the grid out so only the file is missing.
+
+**B. Assets Lalo owes. He generates them — do NOT derive assets from what he has
+supplied.** Stated explicitly Nov 10 2026.
+| | size | format | unlocks |
+|---|---|---|---|
+| **Vector logo** | — | SVG, transparent, single colour | header + footer wordmarks, today live text |
+| Mark alone | vector + 180x180 | SVG + PNG | `app/icon.svg`, `app/apple-icon.png`. **The wave only** — at 16px the lockup is a smudge |
+| `delivery.jpg` | **1200x900** (4:3) | JPEG | drawn at 384px; 1200 covers DPR 3 |
+| Instagram grid, if no Behold | **6 x 1080x1080** | JPEG | the curated fallback |
+The vector logo unlocks three of these at once; it is the one to ask for first.
+
+**C. Lalo's, outside this repo — these are the real launch blockers:**
+1. Add `lavalava.vip` to the Places API key's referrer allowlist in Google Cloud Console.
+   Without it, live reviews die **silently** the moment the domain switches.
+2. `GOOGLE_PLACES_API_KEY` and `NEXT_PUBLIC_SITE_URL` into Vercel.
+3. 301 the old Drupal site. It is still indexed with the old prices, so today Google's
+   cheapest answer about LAVALAVA is Lalo's own old site — while the relaunch raises
+   prices.
+
+**D. Content needing his eye:** `/servicios` claims "aceptamos tarjeta y efectivo" (I
+wrote it; no source). `/ubicacion` says nothing about parking or landmarks on a page whose
+job is helping someone arrive. Turnaround times for cobertores, tenis and composturas.
+
+**If design work does resume**, the open moves are #1 (break the structural repetition)
+and #2 (typographic contrast) above. Before touching any full-screen layout, read the
+⚠️ viewport rule in the Nov 6 note and run `scripts/svc-invariants.js` against the
+current build first, so a regression shows immediately.
 
 **Working agreement earned the hard way, Nov 6 2026:**
 - When a request is **one change**, make **that change** and nothing else. Restructuring
