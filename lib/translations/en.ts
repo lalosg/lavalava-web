@@ -5,7 +5,6 @@ export const en: Translations = {
     services:  'Services',
     delivery:  'Pickup & Delivery',
     location:  'Location',
-    whatsapp:  'Message us',
     home:      'Home',
     openMenu:  'Open menu',
     closeMenu: 'Close menu',

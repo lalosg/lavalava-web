@@ -3,7 +3,6 @@ export const es = {
     services:  'Servicios',
     delivery:  'A domicilio',
     location:  'Ubicación',
-    whatsapp:  'Escríbenos',
     home:      'Inicio',
     openMenu:  'Abrir menú',
     closeMenu: 'Cerrar menú',
