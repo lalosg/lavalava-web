@@ -60,8 +60,11 @@ export function HeroSection({ t, locale }: Props) {
           fotografías no se van: son el póster: pintan el primer cuadro, miden el LCP y
           se quedan como respaldo donde el vídeo no debe cargarse. */}
       <HeroVideo
-        desktop="/videos/lavalava_hero_desktop.mp4"
-        mobile="/videos/lavalava_hero_mobile.mp4"
+        desktop={{ h264: '/videos/lavalava_hero_desktop.mp4' }}
+        mobile={{
+          av1: '/videos/lavalava_hero_mobile.av1.mp4',
+          h264: '/videos/lavalava_hero_mobile.h264.mp4',
+        }}
       />
       </HeroParallax>
 

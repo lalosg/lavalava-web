@@ -2,11 +2,33 @@
 
 import { useEffect, useRef } from 'react'
 
+/** Las codificaciones disponibles de un mismo plano, de la más eficiente a la más
+ *  compatible. Se descarga UNA. */
+interface Sources {
+  /** AV1 en MP4. Chrome, Edge, Firefox y Android; en Safari solo el hardware reciente. */
+  av1?: string
+  /** H.264. El universal, y por eso el último recurso. */
+  h264: string
+}
+
 interface Props {
-  /** Fuente para pantallas de 768px en adelante. */
-  desktop: string
-  /** Fuente para teléfonos. Se descarga UNA de las dos, nunca las dos. */
-  mobile: string
+  /** Fuentes para pantallas de 768px en adelante. */
+  desktop: Sources
+  /** Fuentes para teléfonos. */
+  mobile: Sources
+}
+
+/** Lo que hay que preguntarle al navegador para saber si sabe leer AV1 en MP4. */
+const AV1_MIME = 'video/mp4; codecs="av01.0.05M.08"'
+
+/**
+ * Se exige `probably`, no `maybe`. `maybe` significa que el navegador reconoce el
+ * contenedor pero no se compromete con el códec, y servir AV1 con esa respuesta deja
+ * un hero en negro en lugar de caer al H.264 que sí funciona.
+ */
+function pick(sources: Sources, el: HTMLVideoElement): string {
+  if (sources.av1 && el.canPlayType(AV1_MIME) === 'probably') return sources.av1
+  return sources.h264
 }
 
 /**
@@ -46,7 +68,8 @@ export function HeroVideo({ desktop, mobile }: Props) {
 
     const attach = () => {
       if (cancelled) return
-      el.src = window.matchMedia('(min-width: 768px)').matches ? desktop : mobile
+      const set = window.matchMedia('(min-width: 768px)').matches ? desktop : mobile
+      el.src = pick(set, el)
       el.load()
       // `play()` devuelve una promesa que el navegador rechaza si decide no permitir
       // la reproducción automática. No es un error que haya que gritar: significa que
