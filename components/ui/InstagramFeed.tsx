@@ -1,32 +1,15 @@
-'use client'
-
-import { useEffect } from 'react'
-
 interface InstagramFeedProps {
-  /**
-   * Behold.so widget ID — create a free account at behold.so,
-   * connect your @lavalava.vip Instagram, then paste the widget ID here.
-   * Leave undefined to show the placeholder grid.
-   */
-  widgetId?: string
   placeholderCount?: number
 }
 
-export function InstagramFeed({ widgetId, placeholderCount = 6 }: InstagramFeedProps) {
-  useEffect(() => {
-    if (!widgetId) return
-    if (document.querySelector('script[data-behold]')) return
-    const script = document.createElement('script')
-    script.src = 'https://w.behold.so/widget.js'
-    script.type = 'module'
-    script.setAttribute('data-behold', 'true')
-    document.head.appendChild(script)
-  }, [widgetId])
-
-  if (widgetId) {
-    return <div data-behold-id={widgetId} className="w-full" />
-  }
-
+/**
+ * Placeholder grid, shown until the live feed lands.
+ *
+ * The live feed is being built against the Instagram API with Instagram Login
+ * (graph.instagram.com, scope `instagram_business_basic`), fetched server-side
+ * and rendered with this site's own design system — no third-party widget.
+ */
+export function InstagramFeed({ placeholderCount = 6 }: InstagramFeedProps) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
       {Array.from({ length: placeholderCount }).map((_, i) => (

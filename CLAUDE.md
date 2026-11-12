@@ -585,7 +585,8 @@ Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
   schema, per-locale metadata, hreflang (es/en/x-default), canonical, OG,
   Twitter, sitemap, robots. Google reviews integration via Places
   (`lib/google-reviews.ts`), `GOOGLE_PLACES_API_KEY` in `.env.local`.
-- Instagram wired for Behold with graceful placeholder fallback.
+- Instagram section is built; the live feed is being wired directly against
+  Meta's API (no third-party widget — see Spec §6.2).
 
 Nothing from the plan was lost. Remaining = data correctness + sub-page
 build-out + assets (below).
@@ -669,8 +670,9 @@ both the fallback content and the seed data the POS session imports.
    the master in `assets-src/`. Still open: the **favicon** is the create-next-app default
    (`app/favicon.ico`, 25,931 bytes exactly — verified, not guessed) and is fetched on
    every page load. Blocked on the vector logo.
-4. **Instagram feed placeholder** — `INSTAGRAM_WIDGET_ID` undefined → six empty squares in
-   prod. Needs a Behold.so account or an approved curated-grid fallback.
+4. **Instagram feed placeholder** — `InstagramFeed` renders six empty squares in prod.
+   Being replaced by a live promo feed read straight from Meta's API; see Spec §6.2 and
+   the Nov 12 2026 note below. Third-party widgets were evaluated and rejected.
 4b. **The wordmark is live text, not the logo.** Header and footer render "LAVALAVA"
    in Canela. Lalo has the final logo and can supply any format; it should be the
    approved SVG, which is also what the type brief's §12 asks for.
@@ -725,7 +727,7 @@ Status as of Sep 27 2026.
 8. **Validate JSON-LD with Google's Rich Results Test** against the live URLs. Locally the
    full set parses: LocalBusiness, Service with 24 named areaServed, OfferCatalog with 24
    priced Offers, BreadcrumbList and per-page FAQPage.
-9. Instagram: `INSTAGRAM_WIDGET_ID` undefined → six empty squares in prod.
+9. Instagram: the placeholder still renders six empty squares in prod.
 
 **Post-launch**
 10. Verify GBP hours/NAP match the site exactly (consistency is an AEO signal).
@@ -864,10 +866,34 @@ The hero and the services block are both closed. What is left to launch is mostl
 **assets and three things outside this repo**, not design work.
 
 **A. Two placeholders that make production look broken, and need no asset from anyone:**
-1. **Instagram.** `INSTAGRAM_WIDGET_ID` is `undefined`, so `InstagramFeed` renders **six
-   empty cream squares** with a faint glyph. It reads as a failed load. Agreed approach:
-   degrade with intent — keep the heading, drop the grid, link to @lavalava.vip. The
-   component already lights up on its own the day a Behold widget id exists.
+1. **Instagram — REOPENED AND MUCH LARGER, Nov 12 2026.** What looked like a cosmetic
+   placeholder fix is an integration. Lalo's actual requirement: **promotions he posts to
+   Instagram must read on the site in near real time**, with visitors able to click
+   through, follow and like.
+   - **Behold was REMOVED from the codebase**, not configured. It resells the same Meta
+     API, cannot filter to promotions only, ships its own script and CSS into a page
+     measuring 99, and its free tier **updates once a day** — which fails the requirement
+     outright. Real-time starts at $30/mo for something we do for $0.
+   - **⚠️ Liking from the site is IMPOSSIBLE and this is not a code limitation.** Meta
+     exposes no like endpoint to any caller and there is no embeddable like button. Do not
+     re-litigate it. Interaction is a **handoff**: deep-link each post to its `permalink`
+     so the like lands on Instagram, where it actually grows the account. Counts are
+     read-only, and `like_count` vanishes from the payload if likes are hidden.
+   - **The promo contract is a hashtag.** A post is a promotion when its caption carries
+     `#promo`. Lalo controls it from his phone — no CMS, no deploy.
+   - **Transport:** Instagram API with Instagram Login, `graph.instagram.com`, scope
+     `instagram_business_basic`. The **Basic Display API was shut down Dec 4 2024**, so
+     every pre-2025 tutorial is useless, and the account must be **Professional**.
+   - **The 60-day token is the real operational risk.** It must be refreshed via
+     `/refresh_access_token` (token must be >24h old), and a refreshed token **cannot be
+     written back to an env var**. It belongs in the POS Supabase project with a scheduled
+     refresh. Env var is POC-only and must not ship.
+   - **POC scope agreed:** `lib/instagram.ts` plus `GET /api/instagram/health` returning
+     username, media_count and the latest caption. That one call proves the app, the
+     token, the scope and the host at once. No UI.
+   - **Blocked on Lalo:** confirm @lavalava.vip is Professional, create the Meta app, hand
+     over the token. **Unverified and to check before he spends time in the console:**
+     whether reading his own account needs App Review.
 2. **Servicio a domicilio.** Two problems and only one is the missing photo:
    `DeliverySection` is a **single `max-w-sm` column inside a 1152px container**, so on
    desktop the right 60% is empty navy. It was clearly drawn as two columns with the
@@ -880,7 +906,7 @@ supplied.** Stated explicitly Nov 10 2026.
 | **Vector logo** | — | SVG, transparent, single colour | header + footer wordmarks, today live text |
 | Mark alone | vector + 180x180 | SVG + PNG | `app/icon.svg`, `app/apple-icon.png`. **The wave only** — at 16px the lockup is a smudge |
 | `delivery.jpg` | **1200x900** (4:3) | JPEG | drawn at 384px; 1200 covers DPR 3 |
-| Instagram grid, if no Behold | **6 x 1080x1080** | JPEG | the curated fallback |
+| ~~Instagram grid~~ | — | — | **not needed** — the live feed replaces the curated grid |
 The vector logo unlocks three of these at once; it is the one to ask for first.
 
 **C. Lalo's, outside this repo — these are the real launch blockers:**

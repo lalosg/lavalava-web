@@ -7,12 +7,6 @@ interface Props {
   t: Translations
 }
 
-// TODO: Set INSTAGRAM_WIDGET_ID once Behold.so account is created
-// 1. Go to behold.so → create free account → connect @lavalava.vip
-// 2. Create a new widget → copy the Widget ID
-// 3. Set it here (or in an env var: process.env.NEXT_PUBLIC_BEHOLD_WIDGET_ID)
-const INSTAGRAM_WIDGET_ID: string | undefined = undefined
-
 export function InstagramSection({ t }: Props) {
   return (
     <section className="bg-bone py-20 section-px">
@@ -25,7 +19,7 @@ export function InstagramSection({ t }: Props) {
 
         <RevealOnScroll>
           <div className="mb-8">
-            <InstagramFeed widgetId={INSTAGRAM_WIDGET_ID} />
+            <InstagramFeed />
           </div>
         </RevealOnScroll>
 

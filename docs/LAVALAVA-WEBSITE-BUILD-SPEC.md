@@ -14,7 +14,7 @@ brand + SEO/AEO strategy. Read it completely before building. Build in stages
 > 19:30/15:30); (b) fix two i18n bugs (hardcoded `<html lang="es">` for both
 > locales; FAQ schema always Spanish); (c) build out the three sub-page spokes
 > (Section 4.1) — currently thin shells; (d) supply real assets (OG image,
-> favicon, Behold IG widget id). See CLAUDE.md "What's left" for the audited,
+> favicon). See CLAUDE.md "What's left" for the audited,
 > file-level punch-list. Nothing from this spec was lost.
 
 ---
@@ -252,15 +252,34 @@ proved it's the highest-leverage part.
 
 ### 6.2 Instagram — live feed embed
 - Requirement: a LIVE feed of @lavalava.vip in section 06.
-- **Honest note:** Instagram has no simple free official feed widget since the
-  Basic Display API changes. A live feed needs a **third-party widget service**
-  that handles auth/token refresh. Recommended lightweight options: **Behold.so**,
-  **LightWidget**, or **EmbedSocial** (freemium; pick one). These give an embed
-  snippet and manage the token.
-- **Performance:** lazy-load the widget (below the fold) — use a facade / load
-  on scroll so it doesn't block initial render or hurt LCP.
-- **Fallback (build this too):** a curated 6-image grid linking to the profile,
-  shown if the widget fails to load — so the section never appears broken.
+- **DECIDED Nov 12 2026: built directly against Meta's API, no third-party
+  widget service.** Third-party services (Behold, LightWidget, EmbedSocial) were
+  evaluated and rejected — they resell the same Meta API, cannot filter to
+  promotions only, inject their own script and CSS, and real-time refresh starts
+  at $30/mo. Behold's free tier updates **once a day**, which does not meet the
+  requirement.
+- **The requirement is sharper than "a live feed":** Lalo posts promotions to
+  Instagram and those promotions must read here in near real time. A post is a
+  promotion when its caption carries `#promo` — he controls the filter from his
+  phone, with no CMS and no deploy.
+- **Transport:** Instagram API with Instagram Login (`graph.instagram.com`, scope
+  `instagram_business_basic`). The Basic Display API was shut down Dec 4 2024 and
+  the account must be Professional. Fetched server-side with a revalidate window,
+  rendered with this site's own design system — so the promo captions are real
+  crawlable text, which the AEO priority requires and a widget cannot give.
+- **⚠️ Likes and comments CANNOT happen on this site.** Meta exposes no like
+  endpoint for any caller; there is no embeddable like button. Interaction is a
+  **handoff**: each post deep-links to its `permalink`, so the like lands on
+  Instagram where it counts for the account. Counts are displayed read-only, and
+  `like_count` is omitted from the payload entirely when the owner hides likes.
+- **Operational cost, not optional:** the long-lived token expires after 60 days
+  and must be refreshed (`/refresh_access_token`, token must be >24h old). A
+  refreshed token cannot be written back to an env var, so it is stored in the
+  POS Supabase project and refreshed by a scheduled job.
+- **Performance:** below the fold, server-rendered, zero third-party JS.
+- **Fallback:** when no promotion is published, or the fetch fails, the section
+  degrades with intent — heading, description and the follow link, with the grid
+  dropped entirely. It must never render empty squares.
 - Follow CTA → `https://instagram.com/lavalava.vip`.
 
 ### 6.3 Google Map — embedded interactive
