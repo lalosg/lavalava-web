@@ -59,6 +59,91 @@ forward. Editorial numbered section labels (01 — … 08 —).
 ## Build status (audited against real code, Nov 5 2026)
 Steps 1–5 DONE; build clean. Site is slightly AHEAD of earlier notes:
 
+> **Session update — Nov 12 2026: Instagram is CONNECTED. Behold is gone, the POC answers,
+> and the token never expires.**
+>
+> **The scope was never cosmetic.** What the handoff called "a placeholder that makes
+> production look broken" is an integration: Lalo posts promotions to Instagram and they
+> must read on the site in near real time, with visitors able to click through and follow.
+>
+> **⚠️ LIKING AND COMMENTING FROM THE SITE ARE IMPOSSIBLE.** Meta exposes no like endpoint
+> to any caller and there is no embeddable like button. This is not a limitation of our
+> code and it has no workaround. Interaction is a **handoff**: deep-link each post to its
+> `permalink` so the like lands on Instagram, where it actually grows the account. Counts
+> are read-only, and `like_count` is ABSENT from the payload — not zero — when the owner
+> hides likes. Do not re-litigate this.
+>
+> **Behold was removed from the codebase and from Spec §6.2, which had recommended it.**
+> It resells the same Meta API, cannot filter to promotions only, ships its own script and
+> CSS into a page measuring 99, and its free tier **updates once a day** — failing the
+> requirement outright. Real time starts at $30/mo for what we now do for $0. Three
+> mentions survive in the docs, deliberately, recording the rejection with its numbers so
+> the recommendation does not come back a third time.
+>
+> **⚠️ THE TRANSPORT IS NOT WHAT META'S DOCUMENTATION SAYS, and this is the session's real
+> lesson.** The docs describe "API setup with Instagram login" (`graph.instagram.com`,
+> scope `instagram_business_basic`, `/me/media`). **That path is unavailable on apps
+> created today** — new apps get *unified login*, which issues a System User token on
+> `graph.facebook.com` with scope `instagram_basic`, addressing the account by id. The
+> first implementation targeted the documented path and was wrong.
+>
+> It was caught because `/api/instagram/health` **probes both transports and reports which
+> answers** instead of trusting either the docs or my guess. Measured: facebook returns the
+> account; instagram returns `OAuthException code 190, "Cannot parse access token"`.
+> `INSTAGRAM_TRANSPORT` pins the winner and defaults to `facebook`. **When a vendor's
+> dashboard and its documentation disagree, probe — do not read.**
+>
+> **The token NEVER EXPIRES**, which deleted this integration's entire operational debt:
+> the 60-day refresh, the scheduled job and the Supabase persistence that earlier notes
+> specified. `refreshToken()` survives for the older transport only.
+>
+> **Permissions were trimmed from the template's six to the two Meta will not let go.**
+> Gone: `ads_management`, `ads_read`, `instagram_content_publish`,
+> `instagram_manage_comments`. Kept: `instagram_basic` (what we use) and
+> `instagram_manage_messages` (forced by the only Instagram use case on offer). The point
+> is blast radius — **a token that never expires and lives in a public production
+> environment must not be able to publish to the brand account or spend money.**
+>
+> **Two apps, not one.** Lalo is building a separate Instagram audit/management project in
+> the Claude app. `instagram_manage_insights` and `instagram_content_publish` belong to
+> THAT app's token, never to this one, for the same blast-radius reason plus separate rate
+> quotas and independent revocation. Insights was briefly added here and then removed once
+> that project was mentioned.
+>
+> **No App Review**, confirmed three times: the creation wizard reported "no requirements",
+> the config says permissions at Standard Access are only requested of people with roles on
+> the app, and step 4 states it is skippable for a developer building for their own
+> business. Standard Access covers an app built for a business you own.
+>
+> **Setup facts worth not rediscovering:** the app must be created from the **Administración
+> de contenido → "Administrar mensajes y contenido en Instagram"** use case; the oEmbed use
+> case beside it ("Insertar contenido… en otros sitios web") sounds right, is the wrong
+> API, and does need review. Meta blocks `insta`/`ig`/`fb` in app names. The IG account must
+> be added as **Evaluador de Instagram** under Roles → Más, and **the invitation must be
+> accepted from instagram.com/accounts/manage_access/** — the dashboard just says
+> "Pendiente" and never explains why nothing works. Webhooks are skipped; we poll.
+>
+> **Verified against the real account:** username `lavalava.vip`, 37 posts, 24 fetched,
+> like counts readable, and **zero media without a resolvable still frame** — which proves
+> the carousel/video handling on real data. A `CAROUSEL_ALBUM` carries no `media_url` of its
+> own and a `VIDEO`'s `media_url` is the mp4, so `stillFrame()` resolves from `children` or
+> `thumbnail_url`.
+>
+> **⚠️ THE ACCOUNT IS DORMANT: the most recent post is 2024-05-10.** Eighteen months. The
+> feature is built and correct, but it can only show what exists, and `promos.matched` is 0
+> because nothing carries the tag. This is the website leg waiting on the social leg of the
+> same relaunch. To exercise the circuit before new content exists, add `#promo` to any
+> existing caption; it appears within a minute.
+>
+> **Open and owed to Lalo, next session:** confirm `#promo` as the contract (or pick a
+> quieter tag), and confirm the no-promos fallback (proposal: heading plus profile link, no
+> grid, never empty squares). Then the grid itself. `next.config` will need
+> `*.cdninstagram.com` in `remotePatterns`, and those CDN URLs are signed and expire — fine
+> inside the revalidate window, a broken image if ever cached longer.
+>
+> `/api/instagram/health` is diagnostics and should be deleted once the feed ships.
+
+
 > **Session update — Nov 9-11 2026: the hero plays video, the OG image is real, and the
 > repo was audited end to end.**
 >
@@ -866,34 +951,20 @@ The hero and the services block are both closed. What is left to launch is mostl
 **assets and three things outside this repo**, not design work.
 
 **A. Two placeholders that make production look broken, and need no asset from anyone:**
-1. **Instagram — REOPENED AND MUCH LARGER, Nov 12 2026.** What looked like a cosmetic
-   placeholder fix is an integration. Lalo's actual requirement: **promotions he posts to
-   Instagram must read on the site in near real time**, with visitors able to click
-   through, follow and like.
-   - **Behold was REMOVED from the codebase**, not configured. It resells the same Meta
-     API, cannot filter to promotions only, ships its own script and CSS into a page
-     measuring 99, and its free tier **updates once a day** — which fails the requirement
-     outright. Real-time starts at $30/mo for something we do for $0.
-   - **⚠️ Liking from the site is IMPOSSIBLE and this is not a code limitation.** Meta
-     exposes no like endpoint to any caller and there is no embeddable like button. Do not
-     re-litigate it. Interaction is a **handoff**: deep-link each post to its `permalink`
-     so the like lands on Instagram, where it actually grows the account. Counts are
-     read-only, and `like_count` vanishes from the payload if likes are hidden.
-   - **The promo contract is a hashtag.** A post is a promotion when its caption carries
-     `#promo`. Lalo controls it from his phone — no CMS, no deploy.
-   - **Transport:** Instagram API with Instagram Login, `graph.instagram.com`, scope
-     `instagram_business_basic`. The **Basic Display API was shut down Dec 4 2024**, so
-     every pre-2025 tutorial is useless, and the account must be **Professional**.
-   - **The 60-day token is the real operational risk.** It must be refreshed via
-     `/refresh_access_token` (token must be >24h old), and a refreshed token **cannot be
-     written back to an env var**. It belongs in the POS Supabase project with a scheduled
-     refresh. Env var is POC-only and must not ship.
-   - **POC scope agreed:** `lib/instagram.ts` plus `GET /api/instagram/health` returning
-     username, media_count and the latest caption. That one call proves the app, the
-     token, the scope and the host at once. No UI.
-   - **Blocked on Lalo:** confirm @lavalava.vip is Professional, create the Meta app, hand
-     over the token. **Unverified and to check before he spends time in the console:**
-     whether reading his own account needs App Review.
+1. **Instagram — CONNECTED Nov 12 2026; what remains is the grid.** The integration
+   works end to end against the real account (see the Nov 12 session note for the
+   transport, the permissions and the setup traps). `lib/instagram.ts` reads it and
+   `/api/instagram/health` proves it. Still to do:
+   - **Two decisions that are Lalo's**, asked and not yet answered: keep `#promo` as the
+     contract or choose a quieter tag; and confirm the no-promos fallback (proposal:
+     heading plus profile link, no grid, never empty squares — it is not hypothetical,
+     there are zero promos today).
+   - Then build the grid: `*.cdninstagram.com` into `next.config` `remotePatterns`, posts
+     deep-linked to `permalink`, like counts read-only and **null-safe** (absent ≠ zero).
+   - **⚠️ The account has not posted since 2024-05-10.** The section can only show what
+     exists. This is the site waiting on the social leg of the relaunch, not a bug.
+   - Delete `/api/instagram/health` once the feed ships.
+
 2. **Servicio a domicilio.** Two problems and only one is the missing photo:
    `DeliverySection` is a **single `max-w-sm` column inside a 1152px container**, so on
    desktop the right 60% is empty navy. It was clearly drawn as two columns with the

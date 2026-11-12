@@ -262,20 +262,22 @@ proved it's the highest-leverage part.
   Instagram and those promotions must read here in near real time. A post is a
   promotion when its caption carries `#promo` — he controls the filter from his
   phone, with no CMS and no deploy.
-- **Transport:** Instagram API with Instagram Login (`graph.instagram.com`, scope
-  `instagram_business_basic`). The Basic Display API was shut down Dec 4 2024 and
-  the account must be Professional. Fetched server-side with a revalidate window,
-  rendered with this site's own design system — so the promo captions are real
-  crawlable text, which the AEO priority requires and a widget cannot give.
+- **Transport, SETTLED BY MEASUREMENT Nov 12 2026:** unified login on
+  `graph.facebook.com`, scope `instagram_basic`, addressing the account by id
+  (`17841464811332093`) rather than `/me`. NOT `graph.instagram.com` — see the
+  CLAUDE.md note; Meta's documentation describes a flow its new apps no longer
+  offer. The account must be Professional and public. Fetched server-side with a
+  revalidate window, rendered with this site's own design system — so the promo
+  captions are real crawlable text, which the AEO priority requires and a widget
+  cannot give.
 - **⚠️ Likes and comments CANNOT happen on this site.** Meta exposes no like
   endpoint for any caller; there is no embeddable like button. Interaction is a
   **handoff**: each post deep-links to its `permalink`, so the like lands on
   Instagram where it counts for the account. Counts are displayed read-only, and
   `like_count` is omitted from the payload entirely when the owner hides likes.
-- **Operational cost, not optional:** the long-lived token expires after 60 days
-  and must be refreshed (`/refresh_access_token`, token must be >24h old). A
-  refreshed token cannot be written back to an env var, so it is stored in the
-  POS Supabase project and refreshed by a scheduled job.
+- **No operational cost after all.** The unified-login System User token **never
+  expires**, which removed the 60-day refresh, the scheduled job and the Supabase
+  persistence that this section previously specified.
 - **Performance:** below the fold, server-rendered, zero third-party JS.
 - **Fallback:** when no promotion is published, or the fetch fails, the section
   degrades with intent — heading, description and the follow link, with the grid
