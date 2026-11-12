@@ -21,7 +21,39 @@
  * hard 400, while an unpinned call only risks drifting later.
  */
 
-const GRAPH = 'https://graph.instagram.com'
+/**
+ * Two transports exist and which one a token speaks depends on how the app was
+ * created. Apps made before the "unified login" rollout use Instagram Login
+ * (graph.instagram.com, scope instagram_business_basic, `/me/...`); apps made
+ * after it get a never-expiring System User token that speaks the Facebook
+ * graph (graph.facebook.com, scope instagram_basic, `/{ig-user-id}/...`).
+ *
+ * The probe at /api/instagram/health tries both and reports which answers, so
+ * this is settled by measurement rather than by reading a doc that lags the UI.
+ */
+export type Transport = 'instagram' | 'facebook'
+
+const HOSTS: Record<Transport, string> = {
+  instagram: 'https://graph.instagram.com',
+  facebook: 'https://graph.facebook.com',
+}
+
+/** Numeric Instagram Business Account id. Required by the facebook transport. */
+function userId(): string | undefined {
+  return process.env.INSTAGRAM_USER_ID
+}
+
+export function transport(): Transport {
+  return process.env.INSTAGRAM_TRANSPORT === 'instagram' ? 'instagram' : 'facebook'
+}
+
+/** `me` on the Instagram host, the account id on the Facebook one. */
+function selfPath(t: Transport): string {
+  if (t === 'instagram') return 'me'
+  const id = userId()
+  if (!id) throw new InstagramApiError('INSTAGRAM_USER_ID is not set (required by the facebook transport)', 0)
+  return id
+}
 
 /** A post counts as a promotion when its caption carries this tag. */
 export const PROMO_TAG = '#promo'
@@ -87,8 +119,9 @@ async function get<T>(
   path: string,
   params: Record<string, string>,
   revalidate: number,
+  t: Transport = transport(),
 ): Promise<T> {
-  const url = new URL(`${GRAPH}/${path}`)
+  const url = new URL(`${HOSTS[t]}/${path}`)
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v)
   url.searchParams.set('access_token', token())
 
@@ -107,11 +140,15 @@ async function get<T>(
   return body as T
 }
 
-export async function fetchAccount(revalidate = 3600): Promise<InstagramAccount> {
+export async function fetchAccount(
+  revalidate = 3600,
+  t: Transport = transport(),
+): Promise<InstagramAccount> {
   const data = await get<{ id: string; username: string; media_count?: number }>(
-    'me',
+    selfPath(t),
     { fields: 'id,username,media_count' },
     revalidate,
+    t,
   )
   return {
     id: data.id,
@@ -161,11 +198,16 @@ function normalize(m: RawMedia): InstagramPost {
 }
 
 /** Ten minutes is near enough to real time for a promotion and costs ~6 calls/hour. */
-export async function fetchMedia(limit = 12, revalidate = 600): Promise<InstagramPost[]> {
+export async function fetchMedia(
+  limit = 12,
+  revalidate = 600,
+  t: Transport = transport(),
+): Promise<InstagramPost[]> {
   const data = await get<{ data: RawMedia[] }>(
-    'me/media',
+    `${selfPath(t)}/media`,
     { fields: MEDIA_FIELDS, limit: String(limit) },
     revalidate,
+    t,
   )
   return (data.data ?? []).map(normalize)
 }
@@ -181,8 +223,9 @@ export async function fetchPromos(
   take = 6,
   scan = 24,
   revalidate = 600,
+  t: Transport = transport(),
 ): Promise<InstagramPost[]> {
-  const media = await fetchMedia(scan, revalidate)
+  const media = await fetchMedia(scan, revalidate, t)
   return media
     .filter((p) => p.caption.toLowerCase().includes(PROMO_TAG))
     .slice(0, take)
@@ -192,15 +235,20 @@ export async function fetchPromos(
  * Extends a long-lived token by 60 days. The token must already be >24h old and
  * unexpired; refreshing one younger than that silently returns it unchanged.
  *
+ * ⚠️ ONLY the `instagram` transport needs this. A unified-login System User
+ * token NEVER EXPIRES, which removes the refresh job, the persistence and the
+ * whole 60-day failure mode. Kept for the older transport only.
+ *
  * ⚠️ The new token CANNOT be written back to an env var — those are read-only at
- * runtime. Production must persist it (the POS Supabase project) and call this
- * from a scheduled job. Returning it is all this function does.
+ * runtime. If this is ever needed, persist it (the POS Supabase project) and
+ * call this from a scheduled job. Returning it is all this function does.
  */
 export async function refreshToken(): Promise<{ accessToken: string; expiresIn: number }> {
   const data = await get<{ access_token: string; expires_in: number }>(
     'refresh_access_token',
     { grant_type: 'ig_refresh_token' },
     0,
+    'instagram',
   )
   return { accessToken: data.access_token, expiresIn: data.expires_in }
 }
